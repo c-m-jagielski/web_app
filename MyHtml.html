@@ -6,11 +6,20 @@
 <script type="text/javascript" src = "Hello.js"></script>
 
 <style>
-.btn {
+.btn1 {
   border: 2px solid #e7e7e5;
   background-color: inherit;
-  padding: 14px 28px;
-  font-size: 16px;
+  padding: 10px 18px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn2 {
+  border: 2px solid #e7e7e5;
+  background-color: inherit;
+  padding: 10px 18px;
+  font-size: 12px;
   cursor: pointer;
   display: inline-block;
 }
@@ -29,7 +38,19 @@
 <body>
 <h2>Well Howdy!</h2>
 <p>Would you like to generate a number?</p>
-<button class="btn default">Generate a Number</button>
+<button class="btn1 default" id="myB1">Generate a Number</button>
+<p>Now, press below to Add 10 to it.</p>
+<button class="btn2 default" id="myB2">Add 10</button>
 <!--<script type="text/javascript"> alert(add(111, 222)); </script>-->
+
+<!-- For the first button -->
+<script>
+document.getElementById("myB1").onclick = genRand();
+</script>
+<!-- For the second button -->
+<script>
+document.getElementById("myB1").onclick = add10();
+</script>
+
 </body>
 </html>
