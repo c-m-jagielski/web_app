@@ -7,7 +7,7 @@ function add(a, b) {
 function add10(a) {
 	//TODO type checking
 	var bolo = a + 10;
-	alert(bolo);
+	alert(a + ' + 10 = ' + bolo);
 	return a + 10;
 }
 
@@ -15,7 +15,7 @@ function genRand() {
 	// Return a random number between 1 and 100
 	var myNum = Math.floor(Math.random() * 100 + 1);
 	alert("HI!");
-	alert(myNum);
+	//alert(myNum); //This doesn't work
 	return myNum;
 }
 
