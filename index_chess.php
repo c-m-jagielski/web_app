@@ -7,8 +7,6 @@ echo date('Y-m-d H:i:s');
 ?>
 
 <script type="text/javascript">
-
 //alert('Would you like to play chess?');
-var board1 = Chessboard('board1', 'start');
-
+//var board1 = Chessboard('board1', 'start');
 </script>
