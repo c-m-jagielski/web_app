@@ -3,8 +3,9 @@
 <head>
     <title>Local Chess Game!</title>
     <link rel="stylesheet" href="node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="lib/jquery/jquery-3.2.1.min.js"></script>
     <script src="node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.js"></script>
+    <!--<script type="text/javascript" src = "Algorithm.js"></script>-->
 </head>
 <body>
 
@@ -16,6 +17,7 @@
         var board1 = Chessboard('board1', 'start');
     </script>
     -->
+    <!---->
     <div id="board2" style="width: 400px"></div>
     <button id="startBtn">Start Position</button>
     <button id="clearBtn">Clear Board</button>
@@ -23,11 +25,18 @@
         var board2 = Chessboard('board2', {
           draggable: true,
           dropOffBoard: 'trash',
-          sparePieces: true
+          sparePieces: true,
+          moveSpeed: 'slow'
         })
         $('#startBtn').on('click', board2.start)
         $('#clearBtn').on('click', board2.clear)
     </script>
+    <!---->
+    <!--
+    <div id="customBoard" style="width: 400px"></div>
+    <label>Status:</label>
+    <div id="status"></div>
+    -->
 
     <p>Today is...</p>  <!-- the php will be after this...? -->
 </body>
