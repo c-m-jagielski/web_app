@@ -9,13 +9,13 @@
 
     <h1>Hello ... let's play chess!</h1>
 
-    <!--
+    <!-- Simple example #1
     <div id="board1" style="width: 400px"></div>
     <script>
         var board1 = Chessboard('board1', 'start');
     </script>
     -->
-    <!--
+    <!-- Simple example #2
     <div id="board2" style="width: 400px"></div>
     <button id="startBtn">Start Position</button>
     <button id="clearBtn">Clear Board</button>
@@ -30,7 +30,7 @@
         $('#clearBtn').on('click', board2.clear)
     </script>
     -->
-    <!---->
+    <!-- This calls my custom algorithm to play -->
     <div id="customBoard" style="width: 400px"></div>
     <label>Status:</label>
     <div id="status"></div>
@@ -40,6 +40,9 @@
     <script src="node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.js"></script>
     <script type="text/javascript" src = "Algorithm.js"></script>
 
-    <p>Today is...</p>  <!-- the php will be after this...? -->
+    <button onclick="do_start()">Start</button>
+    <button onclick="do_clear()">Clear</button>
+
+    <p>Today is...</p>  <!-- the php will be after this... -->
 </body>
 </html>

@@ -73,6 +73,13 @@ function updateStatus () {
   //$pgn.html(game.pgn())
 }
 
+function do_start () {
+  board.start()
+}
+function do_clear () {
+  board.clear()
+}
+
 var config = {
   draggable: true,
   position: 'start',
@@ -81,6 +88,5 @@ var config = {
   onSnapEnd: onSnapEnd
 }
 board = Chessboard("customBoard", config)
-//var blah = Chessboard('asdf', 'start')
 
 updateStatus()
