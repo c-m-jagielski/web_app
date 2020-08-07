@@ -34,7 +34,7 @@ function onDrop (source, target) {
 }
 
 // update the board position after the piece snap
-// for castling, en passant, pawn promotion
+// TODO for castling, en passant, pawn promotion
 function onSnapEnd () {
   //board.position(game.fen())
   return true
