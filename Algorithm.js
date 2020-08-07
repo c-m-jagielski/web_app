@@ -41,7 +41,7 @@ function onSnapEnd () {
 }
 
 function updateStatus () {
-  var status = '<...>'
+  var status = ''
 
   /*var moveColor = 'White'
   if (game.turn() === 'b') {
@@ -75,9 +75,11 @@ function updateStatus () {
 
 function do_start () {
   board.start()
+  $status.html("White to move first.")
 }
 function do_clear () {
   board.clear()
+  $status.html("Hit 'Start' to create a new game!")
 }
 
 var config = {
