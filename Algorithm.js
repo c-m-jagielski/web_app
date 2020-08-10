@@ -17,7 +17,7 @@ class ChessAI {
 
   is_check() {
     //TODO determine status
-    check = false;
+    var check = false;
     if (check) {
       alert('Check!');
     }
@@ -26,7 +26,7 @@ class ChessAI {
 
   is_checkmate() {
     //TODO determine status
-    checkmate = false;
+    var checkmate = false;
     if (checkmate) {
       alert('Checkmate!');
     }
@@ -35,7 +35,7 @@ class ChessAI {
 
   is_draw() {
     //TODO determine status
-    draw = false;
+    var draw = false;
     if (draw) {
       alert('Draw!');
     }
@@ -97,7 +97,7 @@ function onSnapEnd () {
 }
 
 function updateStatus () {
-  var status = ''
+  var status = "You're up!"
 
   var moveColor = 'White'
   /*if (game.turn() === 'b') {
@@ -105,12 +105,12 @@ function updateStatus () {
   }*/
 
   // Checkmate?
-  /*if (game.is_checkmate()) {
+  if (game.is_checkmate()) {
     status = 'Game over, ' + moveColor + ' is in checkmate.'
-  }*/
+  }
 
   // Draw?
-  /*else if (game.is_draw()) {
+  else if (game.is_draw()) {
     status = 'Game over, drawn position.'
   }
 
@@ -122,7 +122,7 @@ function updateStatus () {
     if (game.is_check()) {
       status += ', ' + moveColor + ' is in check.'
     }
-  }*/
+  }
 
   $status.html(status)
   //$fen.html(game.fen())
