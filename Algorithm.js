@@ -1,18 +1,36 @@
 // Allow 2 players to play chess
 // Reference: chessboardjs.com/examples
 
+class ChessAI {
+
+  fen = null;
+  pgn = null;
+
+  constructor() {
+    // Nothing yet. This could initialize settings, such as the type of game you want to play.
+  }
+
+  game_over() {
+    //TODO add logic for this
+    return false;
+  }
+}
+
 var board = null
-//var game = new Chess()
+var game = new ChessAI()
 var $status = $('#status')
 //var $fen = $('#fen')
 //var $pgn = $('#pgn')
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
-  /*if (game.game_over()) return false
+  if (game.game_over()) {
+    alert('Game over - no more moves allowed.');
+    return false
+  }
 
   // only pick up pieces for the side to move
-  if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+  /*if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
       (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
     return false
   }*/
