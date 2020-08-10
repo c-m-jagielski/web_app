@@ -14,6 +14,42 @@ class ChessAI {
     //TODO add logic for this
     return false;
   }
+
+  is_check() {
+    //TODO determine status
+    check = false;
+    if (check) {
+      alert('Check!');
+    }
+    return check;
+  }
+
+  is_checkmate() {
+    //TODO determine status
+    checkmate = false;
+    if (checkmate) {
+      alert('Checkmate!');
+    }
+    return checkmate;
+  }
+
+  is_draw() {
+    //TODO determine status
+    draw = false;
+    return draw;
+  }
+
+  move(a, b) {
+    //alert(a);
+    //alert(b);
+
+    //TODO Is this a valid move?
+
+    //TODO check if Pawn needs promotion (to Queen)
+
+    return true
+  }
+
 }
 
 var board = null
