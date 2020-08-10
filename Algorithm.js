@@ -36,6 +36,9 @@ class ChessAI {
   is_draw() {
     //TODO determine status
     draw = false;
+    if (draw) {
+      alert('Draw!');
+    }
     return draw;
   }
 
@@ -96,28 +99,28 @@ function onSnapEnd () {
 function updateStatus () {
   var status = ''
 
-  /*var moveColor = 'White'
-  if (game.turn() === 'b') {
+  var moveColor = 'White'
+  /*if (game.turn() === 'b') {
     moveColor = 'Black'
-  }
+  }*/
 
-  // checkmate?
-  if (game.in_checkmate()) {
+  // Checkmate?
+  /*if (game.is_checkmate()) {
     status = 'Game over, ' + moveColor + ' is in checkmate.'
+  }*/
+
+  // Draw?
+  /*else if (game.is_draw()) {
+    status = 'Game over, drawn position.'
   }
 
-  // draw?
-  else if (game.in_draw()) {
-    status = 'Game over, drawn position'
-  }
-
-  // game still on
+  // Otherwise we're still playing
   else {
     status = moveColor + ' to move'
 
     // check?
-    if (game.in_check()) {
-      status += ', ' + moveColor + ' is in check'
+    if (game.is_check()) {
+      status += ', ' + moveColor + ' is in check.'
     }
   }*/
 
