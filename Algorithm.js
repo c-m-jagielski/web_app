@@ -6,7 +6,20 @@ class ChessAI {
   fen = null;
   pgn = null;
   current_turn = 'w';
+  human = 'w';  // Keep track of the human user's color
   current_board = [];  // Keep track of where every piece is
+
+  PIECES = ['P', 'N', 'B', 'R', 'Q', 'K'];
+
+  //TODO update points based on relative positions of the pieces,
+  //     e.g. a pawn about to be promoted is worth much more
+  POINTS = {
+    'P': 1,
+    'N': 3,
+    'B': 3,
+    'R': 5,
+    'Q': 9,
+  };
 
   SQUARES = {
       a8:   0, b8:   1, c8:   2, d8:   3, e8:   4, f8:   5, g8:   6, h8:   7,
