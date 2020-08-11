@@ -26,7 +26,6 @@ class ChessAI {
   }
 
   is_checkmate() {
-    //TODO determine status
     var checkmate = false;
     if (this.is_check(true) && this.generate_moves().length === 0) {
       checkmate = true;
@@ -36,9 +35,8 @@ class ChessAI {
   }
 
   is_draw() {
-    //TODO determine status
     var draw = false;
-    if (draw) {
+    if (!this.is_check(true) && this.generate_moves().length === 0) {
       alert('Draw!');
     }
     return draw;
