@@ -7,7 +7,7 @@ class ChessAI {
   pgn = null;
   current_turn = 'w';
   human = 'w';  // Keep track of the human user's color
-  current_board = [];  // Keep track of where every piece is
+  current_board = {};  // Keep track of where every piece is
 
   PIECES = ['P', 'N', 'B', 'R', 'Q', 'K'];
 
@@ -34,6 +34,23 @@ class ChessAI {
 
   constructor() {
     // Nothing yet. This could initialize settings, such as the type of game you want to play.
+  }
+
+  start() {
+    this.current_board = {
+      a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
+      a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP',
+      a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: null,
+      a5: null, b5: null, c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
+      a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
+      a3: null, b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
+      a2: 'wP', b2: 'wP', c2: 'wP', d2: 'wP', e2: 'wP', f2: 'wP', g2: 'wP', h2: 'wP',
+      a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR'
+    };
+  }
+
+  clear() {
+    this.current_board = {};
   }
 
   game_over() {
@@ -191,10 +208,12 @@ function updateStatus () {
 
 function do_start () {
   board.start()
+  game.start()
   $status.html("White to move first.")
 }
 function do_clear () {
   board.clear()
+  game.clear()
   $status.html("Hit 'Start' to create a new game!")
 }
 
