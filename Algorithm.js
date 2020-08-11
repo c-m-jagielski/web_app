@@ -138,6 +138,12 @@ function do_clear () {
   $status.html("Hit 'Start' to create a new game!")
 }
 
+function set_orientation (orientation) {
+  if (orientation === 'white' || orientation === 'black') {
+    board.orientation(orientation)
+  }
+}
+
 var config = {
   draggable: true,
   position: 'start',
