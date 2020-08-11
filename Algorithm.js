@@ -5,6 +5,7 @@ class ChessAI {
 
   fen = null;
   pgn = null;
+  current_turn = 'w';
 
   constructor() {
     // Nothing yet. This could initialize settings, such as the type of game you want to play.
@@ -42,13 +43,27 @@ class ChessAI {
     return draw;
   }
 
+  turn() {
+    return this.current_turn;
+  }
+
+  update_turn() {
+    if (this.current_turn === 'w') {
+      this.current_turn = 'b';
+    } else {
+      this.current_turn = 'w';
+    }
+  }
+
   move(a, b) {
     //alert(a);
     //alert(b);
 
-    //TODO Is this a valid move?
+    //TODO Is this a valid move? (return false if not)
 
     //TODO check if Pawn needs promotion (to Queen)
+
+    this.update_turn()
 
     return true
   }
@@ -97,12 +112,12 @@ function onSnapEnd () {
 }
 
 function updateStatus () {
-  var status = "You're up!"
+  var status = ""
 
   var moveColor = 'White'
-  /*if (game.turn() === 'b') {
+  if (game.turn() === 'b') {
     moveColor = 'Black'
-  }*/
+  }
 
   // Checkmate?
   if (game.is_checkmate()) {
