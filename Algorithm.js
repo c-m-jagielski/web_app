@@ -7,7 +7,16 @@ class ChessAI {
   pgn = null;
   current_turn = 'w';
   human = 'w';  // Keep track of the human user's color
-  current_board = {};  // Keep track of where every piece is
+  DEFAULT_BOARD = {
+    a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
+    a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP',
+    a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: null,
+    a5: null, b5: null, c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
+    a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
+    a3: null, b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
+    a2: 'wP', b2: 'wP', c2: 'wP', d2: 'wP', e2: 'wP', f2: 'wP', g2: 'wP', h2: 'wP',
+    a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR'
+  };  // Keep track of where every piece is
 
   PIECES = ['P', 'N', 'B', 'R', 'Q', 'K'];
 
@@ -37,16 +46,7 @@ class ChessAI {
   }
 
   start() {
-    this.current_board = {
-      a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
-      a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP',
-      a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: null,
-      a5: null, b5: null, c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
-      a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
-      a3: null, b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
-      a2: 'wP', b2: 'wP', c2: 'wP', d2: 'wP', e2: 'wP', f2: 'wP', g2: 'wP', h2: 'wP',
-      a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR'
-    };
+    this.current_board = this.DEFAULT_BOARD;
   }
 
   clear() {
@@ -109,9 +109,15 @@ class ChessAI {
 
   move(this_move) {
     //alert(this_move.from);
+    //alert(this.current_board["a1"])
     //alert(this_move.to);
 
-    //TODO Is this a valid move? (return false if not)
+    //TODO Is this a valid move? (return null if not)
+    // First check if this move is for the correct color
+    if (this.current_turn !== this.current_board[this_move.from].charAt(0)) {
+      return null;
+    }
+
     // A valid move will be included in the moves generated
     var is_valid = false;
     var current_moves = this.generate_moves();
@@ -127,7 +133,7 @@ class ChessAI {
 
     this.update_turn()
 
-    return true //is_valid
+    return true; //is_valid
   }
 
 }
@@ -231,5 +237,6 @@ var config = {
   onSnapEnd: onSnapEnd
 }
 board = Chessboard("customBoard", config)
+do_start()
 
 updateStatus()
