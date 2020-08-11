@@ -16,10 +16,10 @@ class ChessAI {
     return false;
   }
 
-  is_check() {
+  is_check(quiet) {
     //TODO determine status
     var check = false;
-    if (check) {
+    if (check && !quiet) {
       alert('Check!');
     }
     return check;
@@ -28,7 +28,8 @@ class ChessAI {
   is_checkmate() {
     //TODO determine status
     var checkmate = false;
-    if (checkmate) {
+    if (this.is_check(true) && this.generate_moves().length === 0) {
+      checkmate = true;
       alert('Checkmate!');
     }
     return checkmate;
@@ -55,13 +56,19 @@ class ChessAI {
     }
   }
 
-  move(a, b) {
-    //alert(a);
-    //alert(b);
+  generate_moves() {
+    var allMoves = [{'from':'qq', 'to':'qqq'}]
+    return allMoves;
+  }
+
+  move(this_move) {
+    //alert(this_move.from);
+    //alert(this_move.to);
 
     //TODO Is this a valid move? (return false if not)
 
     //TODO check if Pawn needs promotion (to Queen)
+    //TODO check for castling
 
     this.update_turn()
 
@@ -134,7 +141,7 @@ function updateStatus () {
     status = moveColor + ' to move'
 
     // check?
-    if (game.is_check()) {
+    if (game.is_check(false)) {
       status += ', ' + moveColor + ' is in check.'
     }
   }
