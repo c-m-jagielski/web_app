@@ -47,6 +47,7 @@ class ChessAI {
 
   start() {
     this.current_board = this.DEFAULT_BOARD;
+    this.current_turn = 'w';
   }
 
   clear() {
@@ -89,11 +90,7 @@ class ChessAI {
   }
 
   update_turn() {
-    if (this.current_turn === 'w') {
-      this.current_turn = 'b';
-    } else {
-      this.current_turn = 'w';
-    }
+    this.current_turn = this.current_turn === 'w' ? 'b' : 'w';
   }
 
   generate_moves() {
@@ -137,6 +134,10 @@ class ChessAI {
   }
 
 }
+
+/*
+ * *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+ */
 
 var board = null
 var game = new ChessAI()
