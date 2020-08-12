@@ -106,12 +106,18 @@ class ChessAI {
   }
 
   move(this_move) {
-    //alert(this_move.from + " : " + this_move.to);
+    // Is this a valid move? (return null if not)
+
+    alert(this_move.from + " : " + this_move.to);
     //alert(this.current_board["a1"])
 
-    //TODO Is this a valid move? (return null if not)
     // First check if this move is for the correct color
     if (this.current_turn !== this.current_board[this_move.from].charAt(0)) {
+      return null;
+    }
+
+    // Check if the move was in-place, or off the board
+    if (this_move.from === this_move.to || this_move.to === 'offboard') {
       return null;
     }
 
