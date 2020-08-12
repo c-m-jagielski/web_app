@@ -106,9 +106,8 @@ class ChessAI {
   }
 
   move(this_move) {
-    //alert(this_move.from);
+    //alert(this_move.from + " : " + this_move.to);
     //alert(this.current_board["a1"])
-    //alert(this_move.to);
 
     //TODO Is this a valid move? (return null if not)
     // First check if this move is for the correct color
@@ -119,12 +118,12 @@ class ChessAI {
     // A valid move will be included in the moves generated
     var is_valid = false;
     var current_moves = this.generate_moves();
-    /*for (a_move in current_moves) { //this is not proper JS
-      if (a_move === this_move) {
+    for (var a_move in current_moves) {
+      if (a_move.from === this_move.from && a_move.to === this_move.to) {
         is_valid = true;
         break;
       }
-    }*/
+    }
 
     //TODO check if Pawn needs promotion (to Queen)
     //TODO check for castling
