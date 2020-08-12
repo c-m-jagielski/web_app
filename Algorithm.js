@@ -5,6 +5,7 @@ class ChessAI {
 
   fen = null;
   pgn = null;
+  game_on = true;
   current_turn = 'w';
   human = 'w';  // Keep track of the human user's color
   DEFAULT_BOARD = {
@@ -55,8 +56,7 @@ class ChessAI {
   }
 
   game_over() {
-    //TODO add logic for this
-    return false;
+    return this.game_on;
   }
 
   is_check(quiet) {
@@ -74,6 +74,7 @@ class ChessAI {
       checkmate = true;
       alert('Checkmate!');
     }
+    this.game_on = checkmate;
     return checkmate;
   }
 
