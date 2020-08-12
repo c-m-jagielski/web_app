@@ -128,9 +128,16 @@ class ChessAI {
     //TODO check if Pawn needs promotion (to Queen)
     //TODO check for castling
 
-    this.update_turn()
+    if (true) { //if (is_valid)
+      // Change the color
+      this.update_turn()
 
-    return true; //is_valid
+      // Update the board
+      this.current_board[this_move.to] = this.current_board[this_move.from];
+      this.current_board[this_move.from] = null;
+    }
+
+    return true; //is_valid;
   }
 
 }
