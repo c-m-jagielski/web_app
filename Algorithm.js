@@ -110,12 +110,12 @@ class ChessAI {
     this.current_turn = this.current_turn === this.WHITE ? this.BLACK : this.WHITE;
   }
 
-  generate_moves() {
-    function outOfBounds(new_spot) {
-      return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) > 8) ? true : false;
-    }
+  outOfBounds(new_spot) {
+    return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) > 8) ? true : false;
+  }
 
-    var allMoves = [{'from':'qq', 'to':'qqq'}];
+  generate_moves() {
+    var allMoves = [];
 
     for (var spot in this.SQUARES) {
       if (!this.SQUARES.hasOwnProperty(spot)) {
@@ -135,12 +135,12 @@ class ChessAI {
         color = this.BLACK;
       }
       // Only generate moves for the current turn
-      if (this.current_turn != color) {
+      if (color == this.current_turn) {
         continue;
       }
 
       // Numeric index [0:119] for this spot
-      var value = this.SQUARES.spot;
+      var value = this.SQUARES[spot];
 
       // Is it a pawn?
       /*if (piece.search(this.PAWN) > 0) {
@@ -152,26 +152,27 @@ class ChessAI {
           multiplier = -1;
         }
 
-        for (mvmt in allowed_aray) {
+        for (var mvmt of allowed_aray) {
           var new_value = mvmt*multiplier + value;
           if (this.outOfBounds(new_value)) continue;
 
-
+         allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
       // Is it a King?
-      else if (piece.search(this.KING) > 0) {
+      else */
+      if (piece.search(this.KING) > 0) {
         // Allowed moves are +- 1, 15 16, 17
-        for (mvmt in [1, -1, 15, -15, 16, -16, 17, -17]) {
+        for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
           var new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
 
-          allMoves.push({"from":spot, "to":this.SQUARES2[new_value]})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
           // TODO Do not allow the King to place itself into Check
         }
-      }*/
+      }
     }
 
     return allMoves;
@@ -196,7 +197,7 @@ class ChessAI {
     // A valid move will be included in the moves generated
     var is_valid = false;
     var current_moves = this.generate_moves();
-    for (var a_move in current_moves) {
+    for (var a_move of current_moves) {
       if (a_move.from === this_move.from && a_move.to === this_move.to) {
         is_valid = true;
         break;
@@ -204,7 +205,7 @@ class ChessAI {
     }
     //TODO remove this HACK once generate_moves() actually works...
     // *************
-    is_valid = true;
+    //is_valid = true;
     // *************
 
     // If this move is *not* valid, return null
