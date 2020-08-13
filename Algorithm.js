@@ -106,9 +106,7 @@ class ChessAI {
   }
 
   move(this_move) {
-    // Is this a valid move? (return null if not)
-
-    alert(this_move.from + " : " + this_move.to);
+    //alert(this_move.from + " : " + this_move.to);
     //alert(this.current_board["a1"])
 
     // First check if this move is for the correct color
@@ -130,20 +128,27 @@ class ChessAI {
         break;
       }
     }
+    //TODO remove this HACK once generate_moves() actually works...
+    // *************
+    is_valid = true;
+    // *************
+
+    // If this move is *not* valid, return null
+    if (is_valid === false) {
+      return null;
+    }
 
     //TODO check if Pawn needs promotion (to Queen)
     //TODO check for castling
 
-    if (true) { //if (is_valid)
-      // Change the color
-      this.update_turn()
+    // Change the color
+    this.update_turn()
 
-      // Update the board
-      this.current_board[this_move.to] = this.current_board[this_move.from];
-      this.current_board[this_move.from] = null;
-    }
+    // Update the board
+    this.current_board[this_move.to] = this.current_board[this_move.from];
+    this.current_board[this_move.from] = null;
 
-    return true; //is_valid;
+    return true;
   }
 
 }
