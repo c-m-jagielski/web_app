@@ -73,9 +73,9 @@ class ChessAI {
     return check;
   }
 
-  is_checkmate() {
+  is_checkmate(moves_left) {
     var checkmate = false;
-    if (this.is_check(true) && this.generate_moves().length === 0) {
+    if (this.is_check(true) && moves_left === 0) {
       checkmate = true;
       alert('Checkmate!');
     }
@@ -83,9 +83,9 @@ class ChessAI {
     return checkmate;
   }
 
-  is_draw() {
+  is_draw(moves_left) {
     var draw = false;
-    if (!this.is_check(true) && this.generate_moves().length === 0) {
+    if (!this.is_check(true) && moves_left === 0) {
       alert('Draw!');
     }
     return draw;
@@ -238,13 +238,16 @@ function updateStatus () {
     moveColor = 'Black'
   }
 
+  var blah = game.generate_moves();
+  var moves_left = blah.length;
+
   // Checkmate?
-  if (game.is_checkmate()) {
+  if (game.is_checkmate(moves_left)) {
     status = 'Game over, ' + moveColor + ' is in checkmate.'
   }
 
   // Draw?
-  else if (game.is_draw()) {
+  else if (game.is_draw(moves_left)) {
     status = 'Game over, drawn position.'
   }
 
