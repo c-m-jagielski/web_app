@@ -3,6 +3,9 @@
 
 class ChessAI {
 
+  WHITE = 'w';
+  BLACK = 'b';
+
   fen = null;
   pgn = null;
   game_on = true;
@@ -19,6 +22,8 @@ class ChessAI {
     a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR'
   };  // Keep track of where every piece is
 
+  PAWN = 'P';
+  QUEEN = 'Q';
   PIECES = ['P', 'N', 'B', 'R', 'Q', 'K'];
 
   //TODO update points based on relative positions of the pieces,
@@ -48,7 +53,7 @@ class ChessAI {
 
   start() {
     this.current_board = this.DEFAULT_BOARD;
-    this.current_turn = 'w';
+    this.current_turn = this.WHITE;
   }
 
   clear() {
@@ -91,7 +96,7 @@ class ChessAI {
   }
 
   update_turn() {
-    this.current_turn = this.current_turn === 'w' ? 'b' : 'w';
+    this.current_turn = this.current_turn === this.WHITE ? this.BLACK : this.WHITE;
   }
 
   generate_moves() {
@@ -107,10 +112,12 @@ class ChessAI {
 
   move(this_move) {
     //alert(this_move.from + " : " + this_move.to);
-    //alert(this.current_board["a1"])
+    //alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
+
+    var color_moved = this.current_board[this_move.from].charAt(0);
 
     // First check if this move is for the correct color
-    if (this.current_turn !== this.current_board[this_move.from].charAt(0)) {
+    if (this.current_turn !== color_moved) {
       return null;
     }
 
@@ -138,8 +145,24 @@ class ChessAI {
       return null;
     }
 
-    //TODO check if Pawn needs promotion (to Queen)
-    //TODO check for castling
+    // Check if Pawn needs promotion (assume to Queen)
+    var promotion = this.QUEEN;  //TODO Allow the user to choose the promotion piece
+    var do_promotion = null;
+    if (this.current_board[this_move.from].charAt(1) === this.PAWN) {
+      // White pawn promotion
+      if (this_move.to.charAt(1) === '8' && color_moved === this.WHITE) {
+        //alert('White Pawn Promotion!');
+        do_promotion = true;
+      }
+
+      // Black pawn promotion
+      else if (this_move.to.charAt(1) === '1' && color_moved === this.BLACK) {
+        //alert('Black Pawn Promotion!');
+        do_promotion = true;
+      }
+    }
+
+    //TODO Check for castling
 
     // Change the color
     this.update_turn()
@@ -147,6 +170,15 @@ class ChessAI {
     // Update the board
     this.current_board[this_move.to] = this.current_board[this_move.from];
     this.current_board[this_move.from] = null;
+
+    // Handle a potential pawn promotion
+    if (do_promotion) {
+      // Change the board
+      this.current_board[this_move.to] = color_moved + promotion;
+      //alert('doing a promotion: ' + color_moved + promotion);
+
+      //TODO change the img used
+    }
 
     return true;
   }
