@@ -81,6 +81,11 @@ class ChessAI {
 
   is_check(quiet) {
     //TODO determine status - if any possible move of the opponent can take your King
+
+    // First generate your opponent's possible moves
+    // Get the location of your King
+    // Do any allowed moves END on your King?
+
     var check = false;
     if (check && !quiet) {
       alert('Check!');
