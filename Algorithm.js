@@ -24,6 +24,9 @@ class ChessAI {
   };  // Keep track of where every piece is
 
   PAWN = 'P';
+  KNIGHT = 'N';
+  BISHOP = 'B';
+  ROOK = 'R';
   QUEEN = 'Q';
   KING = 'K';
   PIECES = ['P', 'N', 'B', 'R', 'Q', 'K'];
@@ -132,11 +135,12 @@ class ChessAI {
 
       // Color for this piece
       var color = this.WHITE;
-      if (piece.search(this.BLACK)) {
+      if (piece.search(this.WHITE) === -1) {
         color = this.BLACK;
       }
+
       // Only generate moves for the current turn
-      if (color == this.current_turn) {
+      if (color !== this.current_turn) {
         continue;
       }
 
@@ -144,16 +148,15 @@ class ChessAI {
       var value = this.SQUARES[spot];
 
       // Is it a pawn?
-      /*if (piece.search(this.PAWN) > 0) {
+      if (piece.search(this.PAWN) > 0) {
         // Allowed moves for BLACK are + 15, 16, 17, 32
         // Allowed moves for WHITE are - 15, 16, 17, 32
-        var allowed_array = [15, 16, 17, 32];
         var multiplier = 1;
         if (color === this.WHITE) {
           multiplier = -1;
         }
 
-        for (var mvmt of allowed_aray) {
+        for (var mvmt of [15, 16, 17, 32]) {
           var new_value = mvmt*multiplier + value;
           if (this.outOfBounds(new_value)) continue;
 
@@ -161,9 +164,28 @@ class ChessAI {
         }
       }
 
+      // Is it a Knight?
+      else if (piece.search(this.KNIGHT) > 0) {
+        continue;
+      }
+
+      // Is it a Bishop?
+      else if (piece.search(this.BISHOP) > 0) {
+        continue;
+      }
+
+      // Is it a Rook?
+      else if (piece.search(this.ROOK) > 0) {
+        continue;
+      }
+
+      // Is it a Queen?
+      else if (piece.search(this.QUEEN) > 0) {
+        continue;
+      }
+
       // Is it a King?
-      else */
-      if (piece.search(this.KING) > 0) {
+      else if (piece.search(this.KING) > 0) {
         // Allowed moves are +- 1, 15 16, 17
         for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
           var new_value = mvmt + value;
@@ -196,7 +218,7 @@ class ChessAI {
     }
 
     // Do not allow a move onto your own piece
-    if (this.current_board[this_move.to].charAt(0) === color_moved) {
+    if (this.current_board[this_move.to] !== null && this.current_board[this_move.to].charAt(0) === color_moved) {
       return null;
     }
 
