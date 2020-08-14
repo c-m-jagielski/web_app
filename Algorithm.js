@@ -8,6 +8,7 @@ class ChessAI {
 
   fen = null;
   pgn = null;
+  move_count = 0;
   game_on = true;
   current_turn = 'w';
   human = 'w';  // Keep track of the human user's color
@@ -194,6 +195,11 @@ class ChessAI {
       return null;
     }
 
+    // Do not allow a move onto your own piece
+    if (this.current_board[this_move.to].charAt(0) === color_moved) {
+      return null;
+    }
+
     // A valid move will be included in the moves generated
     var is_valid = false;
     var current_moves = this.generate_moves();
@@ -234,6 +240,9 @@ class ChessAI {
 
     // Change the color
     this.update_turn()
+
+    // +1 for this move
+    this.move_count = this.move_count + 1;
 
     // Update the board
     this.current_board[this_move.to] = this.current_board[this_move.from];
