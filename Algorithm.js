@@ -72,7 +72,7 @@ class ChessAI {
 
   start() {
     this.current_board = this.deepCopy(this.DEFAULT_BOARD);
-    this.current_turn = this.WHITE;
+    this.current_turn = this.deepCopy(this.WHITE);
   }
 
   clear() {
@@ -212,7 +212,7 @@ class ChessAI {
 
   move(this_move) {
     //alert(this_move.from + " : " + this_move.to);
-    alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
+    //alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
 
     var color_moved = this.current_board[this_move.from].charAt(0);
 
