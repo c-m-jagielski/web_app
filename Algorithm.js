@@ -165,7 +165,14 @@ class ChessAI {
           multiplier = -1;
         }
 
-        for (var mvmt of [15, 16, 17, 32]) {
+        var allowed_array = [15, 16, 17];
+        if (color === this.WHITE && this.SQUARES2[value].search('2') !== -1) {
+          allowed_array.push(32);
+        } else if (color === this.BLACK && this.SQUARES2[value].search('7') !== -1) {
+          allowed_array.push(32);
+        }
+
+        for (var mvmt of allowed_array) {
           var new_value = mvmt*multiplier + value;
           if (this.outOfBounds(new_value)) continue;
 
