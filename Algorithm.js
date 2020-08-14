@@ -165,11 +165,19 @@ class ChessAI {
           multiplier = -1;
         }
 
-        var allowed_array = [15, 16, 17];
+        var allowed_array = [15, 17];
+
+        // Only allow +2 move if in opening positions
         if (color === this.WHITE && this.SQUARES2[value].search('2') !== -1) {
           allowed_array.push(32);
         } else if (color === this.BLACK && this.SQUARES2[value].search('7') !== -1) {
           allowed_array.push(32);
+        }
+
+        // Only allow forward move if unoccupied
+        var tmp = 16*multiplier + value;
+        if (this.current_board[this.SQUARES2[tmp]] === null) {
+          allowed_array.push(16);
         }
 
         for (var mvmt of allowed_array) {
