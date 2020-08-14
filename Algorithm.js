@@ -66,8 +66,12 @@ class ChessAI {
     // Nothing yet. This could initialize settings, such as the type of game you want to play.
   }
 
+  deepCopy (thing) {
+    return JSON.parse(JSON.stringify(thing))
+  }
+
   start() {
-    this.current_board = this.DEFAULT_BOARD;
+    this.current_board = this.deepCopy(this.DEFAULT_BOARD);
     this.current_turn = this.WHITE;
   }
 
@@ -208,7 +212,7 @@ class ChessAI {
 
   move(this_move) {
     //alert(this_move.from + " : " + this_move.to);
-    //alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
+    alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
 
     var color_moved = this.current_board[this_move.from].charAt(0);
 
