@@ -368,54 +368,42 @@ class ChessAI {
     return true;
   }
 
-    fen() {
-        return;
-        /*
-        var empty = 0;
-        var fen = '';
+  fen() {
+    return;
 
-        for (var i = SQUARES.a8; i <= SQUARES.h1; i++) {
-            if (board[i] == null) {
-                empty++;
-            } else {
-                if (empty > 0) {
-                    fen += empty;
-                    empty = 0;
-                }
-                var color = board[i].color;
-                var piece = board[i].type;
+    var empty = 0;
+    var new_fen = '';
 
-                fen += (color === WHITE) ?
-                    piece.toUpperCase() : piece.toLowerCase();
-            }
-
-            if ((i + 1) & 0x88) {
-                if (empty > 0) {
-                    fen += empty;
-                }
-
-                if (i !== SQUARES.h1) {
-                    fen += '/';
-                }
-
+    for (var i = this.SQUARES.a8; i <= this.SQUARES.h1; i++) {
+        if (this.board[i] == null) {
+            empty++;
+        } else {
+            if (empty > 0) {
+                new_fen += empty;
                 empty = 0;
-                i += 8;
             }
+            var color = this.board[i].color;
+            var piece = this.board[i].type;
+
+            new_fen += (color === WHITE) ?
+                piece.toUpperCase() : piece.toLowerCase();
         }
 
-        var cflags = '';
-        if (castling[WHITE] & BITS.KSIDE_CASTLE) { cflags += 'K'; }
-        if (castling[WHITE] & BITS.QSIDE_CASTLE) { cflags += 'Q'; }
-        if (castling[BLACK] & BITS.KSIDE_CASTLE) { cflags += 'k'; }
-        if (castling[BLACK] & BITS.QSIDE_CASTLE) { cflags += 'q'; }
+        if ((i + 1) & 0x88) {
+            if (empty > 0) {
+                new_fen += empty;
+            }
 
-        // do we have an empty castling flag?
-        cflags = cflags || '-';
-        var epflags = (ep_square === EMPTY) ? '-' : algebraic(ep_square);
+            if (i !== this.SQUARES.h1) {
+                new_fen += '/';
+            }
 
-        return [fen, turn, cflags, epflags, half_moves, move_number].join(' ');
-        */
+            empty = 0;
+            i += 8;
+        }
     }
+    return new_fen;
+  }
 }
 
 /*
