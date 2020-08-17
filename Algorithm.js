@@ -323,10 +323,6 @@ class ChessAI {
         break;
       }
     }
-    //TODO remove this HACK once generate_moves() actually works...
-    // *************
-    //is_valid = true;
-    // *************
 
     // If this move is *not* valid, return null
     if (is_valid === false) {
@@ -394,10 +390,10 @@ function onDragStart (source, piece, position, orientation) {
   }
 
   // only pick up pieces for the side to move
-  /*if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+  if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
       (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
     return false
-  }*/
+  }
   return true
 }
 
