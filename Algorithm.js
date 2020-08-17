@@ -198,8 +198,9 @@ class ChessAI {
       else if (piece.search(this.KNIGHT) > 0) {
         var allowed_array = [-33, -31, -18, -14, 14, 18, 31, 33];
 
+        var new_value;
         for (var mvmt of allowed_array) {
-          var new_value = mvmt + value;
+          new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
           allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
@@ -212,9 +213,10 @@ class ChessAI {
                              [17, 34, 51, 68, 85, 102, 119],
                              [-17, -34, -51, -68, -85, -102, -119]];
 
+        var new_value;
         for (var array of allowed_array) {
           for (var mvmt of array) {
-            var new_value = mvmt + value;
+            new_value = mvmt + value;
             if (this.outOfBounds(new_value)) continue;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
@@ -233,9 +235,10 @@ class ChessAI {
                              [16, 32, 48, 64, 80, 96, 112],
                              [-16, -32, -48, -64, -80, -96, -112]];
 
+        var new_value;
         for (var array of allowed_array) {
           for (var mvmt of array) {
-            var new_value = mvmt + value;
+            new_value = mvmt + value;
             if (this.outOfBounds(new_value)) continue;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
@@ -258,9 +261,10 @@ class ChessAI {
                              [16, 32, 48, 64, 80, 96, 112],
                              [-16, -32, -48, -64, -80, -96, -112]];
 
+        var new_value;
         for (var array of allowed_array) {
           for (var mvmt of array) {
-            var new_value = mvmt + value;
+            new_value = mvmt + value;
             if (this.outOfBounds(new_value)) continue;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
