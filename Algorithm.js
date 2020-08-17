@@ -6,7 +6,6 @@ class ChessAI {
   WHITE = 'w';
   BLACK = 'b';
 
-  fen = null;
   pgn = null;
   move_count = 0;
   game_on = true;
@@ -366,10 +365,57 @@ class ChessAI {
 
       //TODO change the img used
     }
-
     return true;
   }
 
+    fen() {
+        return;
+        /*
+        var empty = 0;
+        var fen = '';
+
+        for (var i = SQUARES.a8; i <= SQUARES.h1; i++) {
+            if (board[i] == null) {
+                empty++;
+            } else {
+                if (empty > 0) {
+                    fen += empty;
+                    empty = 0;
+                }
+                var color = board[i].color;
+                var piece = board[i].type;
+
+                fen += (color === WHITE) ?
+                    piece.toUpperCase() : piece.toLowerCase();
+            }
+
+            if ((i + 1) & 0x88) {
+                if (empty > 0) {
+                    fen += empty;
+                }
+
+                if (i !== SQUARES.h1) {
+                    fen += '/';
+                }
+
+                empty = 0;
+                i += 8;
+            }
+        }
+
+        var cflags = '';
+        if (castling[WHITE] & BITS.KSIDE_CASTLE) { cflags += 'K'; }
+        if (castling[WHITE] & BITS.QSIDE_CASTLE) { cflags += 'Q'; }
+        if (castling[BLACK] & BITS.KSIDE_CASTLE) { cflags += 'k'; }
+        if (castling[BLACK] & BITS.QSIDE_CASTLE) { cflags += 'q'; }
+
+        // do we have an empty castling flag?
+        cflags = cflags || '-';
+        var epflags = (ep_square === EMPTY) ? '-' : algebraic(ep_square);
+
+        return [fen, turn, cflags, epflags, half_moves, move_number].join(' ');
+        */
+    }
 }
 
 /*
@@ -379,7 +425,7 @@ class ChessAI {
 var board = null
 var game = new ChessAI()
 var $status = $('#status')
-//var $fen = $('#fen')
+var $fen = $('#fen')
 //var $pgn = $('#pgn')
 
 function computerMove(difficulty) {
@@ -397,7 +443,7 @@ function computerMove(difficulty) {
     return
   }
 
-  //var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   //game.move(possibleMoves[randomIdx])
   //board.position(game.fen())
 }
@@ -473,7 +519,7 @@ function updateStatus () {
   }
 
   $status.html(status)
-  //$fen.html(game.fen())
+  $fen.html(game.fen())
   //$pgn.html(game.pgn())
 }
 
