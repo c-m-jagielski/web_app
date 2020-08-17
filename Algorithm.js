@@ -382,6 +382,26 @@ var $status = $('#status')
 //var $fen = $('#fen')
 //var $pgn = $('#pgn')
 
+function computerMove(difficulty) {
+  /*
+   * difficulty
+   *    0 = Random
+   *    1 = Prioritize taking pieces; deprioritize moving the King
+   *    2 = TBD
+   */
+  var possibleMoves = game.generate_moves()
+
+  // Game over
+  if (possibleMoves.length === 0) {
+    //TODO make sure this is handled & displayed to the user somehow
+    return
+  }
+
+  //var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  //game.move(possibleMoves[randomIdx])
+  //board.position(game.fen())
+}
+
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
   if (game.game_over()) {
@@ -408,6 +428,10 @@ function onDrop (source, target) {
   if (move === null) return 'snapback'
 
   updateStatus()
+
+  // Computer's turn...
+  //TODO are we playing with the computer or 2 users?
+  window.setTimeout(computerMove(0), 250);
 }
 
 // update the board position after the piece snap
