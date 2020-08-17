@@ -190,22 +190,34 @@ class ChessAI {
 
       // Is it a Knight?
       else if (piece.search(this.KNIGHT) > 0) {
-        continue;
+        for (var ii=0; ii<120; ii++) {
+          if(ii % 16 > 8) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        }
       }
 
       // Is it a Bishop?
       else if (piece.search(this.BISHOP) > 0) {
-        continue;
+        for (var ii=0; ii<120; ii++) {
+          if(ii % 16 > 8) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        }
       }
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        continue;
+        for (var ii=0; ii<120; ii++) {
+          if(ii % 16 > 8) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        }
       }
 
       // Is it a Queen?
       else if (piece.search(this.QUEEN) > 0) {
-        continue;
+        for (var ii=0; ii<120; ii++) {
+          if(ii % 16 > 8) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        }
       }
 
       // Is it a King?
