@@ -221,17 +221,33 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        for (var ii=0; ii<120; ii++) {
-          if(ii % 16 > 8) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        var allowed_array = [1, 2, 3, 4, 5, 6, 7,
+                            -1, -2, -3, -4, -5, -6, -7,
+                             16, 32, 48, 64, 80, 96, 112, 
+                            -16, -32, -48, -64, -80, -96, -112];
+
+        for (var mvmt of allowed_array) {
+          var new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
       // Is it a Queen?
       else if (piece.search(this.QUEEN) > 0) {
-        for (var ii=0; ii<120; ii++) {
-          if(ii % 16 > 8) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        var allowed_array = [15, 30, 45, 60, 75, 90, 105,
+                            -15, -30, -45, -60, -75, -90, -105,
+                             17, 34, 51, 68, 85, 102, 119, 
+                            -17, -34, -51, -68, -85, -102, -119,
+                             1, 2, 3, 4, 5, 6, 7,
+                            -1, -2, -3, -4, -5, -6, -7,
+                             16, 32, 48, 64, 80, 96, 112, 
+                            -16, -32, -48, -64, -80, -96, -112];
+
+        for (var mvmt of allowed_array) {
+          var new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
