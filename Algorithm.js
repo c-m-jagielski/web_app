@@ -369,23 +369,24 @@ class ChessAI {
   }
 
   fen() {
-    return;
+    // Forsyth-Edwards Notation
+    // Returns a string of the current board
 
     var empty = 0;
     var new_fen = '';
 
     for (var i = this.SQUARES.a8; i <= this.SQUARES.h1; i++) {
-        if (this.board[i] == null) {
+        if (this.current_board[i] == null) {
             empty++;
         } else {
             if (empty > 0) {
                 new_fen += empty;
                 empty = 0;
             }
-            var color = this.board[i].color;
-            var piece = this.board[i].type;
+            var color = this.current_board[i].charAt(0);
+            var piece = this.current_board[i].charAt(1);
 
-            new_fen += (color === WHITE) ?
+            new_fen += (color === this.WHITE) ?
                 piece.toUpperCase() : piece.toLowerCase();
         }
 
@@ -402,6 +403,7 @@ class ChessAI {
             i += 8;
         }
     }
+    alert("fen: " + new_fen); //debug only
     return new_fen;
   }
 }
@@ -432,6 +434,7 @@ function computerMove(difficulty) {
   }
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  var blah = game.fen();
   //game.move(possibleMoves[randomIdx])
   //board.position(game.fen())
 }
