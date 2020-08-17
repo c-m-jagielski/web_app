@@ -207,9 +207,15 @@ class ChessAI {
 
       // Is it a Bishop?
       else if (piece.search(this.BISHOP) > 0) {
-        for (var ii=0; ii<120; ii++) {
-          if(ii % 16 > 8) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        var allowed_array = [15, 30, 45, 60, 75, 90, 105,
+                            -15, -30, -45, -60, -75, -90, -105,
+                             17, 34, 51, 68, 85, 102, 119, 
+                            -17, -34, -51, -68, -85, -102, -119];
+
+        for (var mvmt of allowed_array) {
+          var new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
