@@ -165,7 +165,7 @@ class ChessAI {
           multiplier = -1;
         }
 
-        var allowed_array = [15, 17];
+        var allowed_array = [];
 
         // Only allow forward move if unoccupied
         var forward_allowed = false;
@@ -178,6 +178,13 @@ class ChessAI {
           } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
             allowed_array.push(32);
           }
+        }
+        // Only allow diagonal move if taking a piece
+        if (this.current_board[this.SQUARES2[15*multiplier + value]] !== null) {
+          allowed_array.push(15);
+        }
+        if (this.current_board[this.SQUARES2[17*multiplier + value]] !== null) {
+          allowed_array.push(17);
         }
 
         for (var mvmt of allowed_array) {
