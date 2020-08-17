@@ -190,16 +190,18 @@ class ChessAI {
         for (var mvmt of allowed_array) {
           var new_value = mvmt*multiplier + value;
           if (this.outOfBounds(new_value)) continue;
-
-         allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
       // Is it a Knight?
       else if (piece.search(this.KNIGHT) > 0) {
-        for (var ii=0; ii<120; ii++) {
-          if(ii % 16 > 8) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[ii]})
+        var allowed_array = [-33, -31, -18, -14, 14, 18, 31, 33];
+
+        for (var mvmt of allowed_array) {
+          var new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
         }
       }
 
