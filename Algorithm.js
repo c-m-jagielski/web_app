@@ -421,6 +421,8 @@ var $status = $('#status')
 function randomMove(possibleMoves) {
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
+  var newMove = possibleMoves[randomIdx].from + ":" + possibleMoves[randomIdx].to
+  return newMove
 }
 
 function computerMove(difficulty) {
@@ -430,31 +432,43 @@ function computerMove(difficulty) {
    *    1 = Prioritize taking pieces; deprioritize moving the King
    *    2 = TBD
    */
+  returnString = null;
+
   var possibleMoves = game.generate_moves()
 
   // Game over
   if (possibleMoves.length === 0) {
     //TODO make sure this is handled & displayed to the user somehow
-    return
+    returnString = 'Warning! No possible computer moves';
+    return returnString
   }
+
+  var moveIdx = -1;
 
   switch(difficulty) {
     case 0:
-      randomMove(possibleMoves);
+      moveIdx = randomMove(possibleMoves);
+      break;
     case 1:
       //TODO
-      break;
+      returnString = "Error: this difficult not yet implemented";
+      return returnString;
     case 2:
       //TODO
-      break;
+      returnString = "Error: this difficult not yet implemented";
+      return returnString;
     default:
       randomMove();
+      break;
   }
 
   // Update the UI
   board.position(game.fen())
 
   updateStatus()
+
+  returnString = "#="+possibleMoves.length+"  "+moveIdx;
+  return returnString;
 }
 
 function onDragStart (source, piece, position, orientation) {
@@ -486,13 +500,15 @@ function onDrop (source, target) {
 
   // Computer's turn...
   //TODO are we playing with the computer or 2 users?
-  window.setTimeout(computerMove(0), 250);
+  var responseString = null;
+  window.setTimeout(responseString = computerMove(0), 1000);
+  if(responseString) alert(responseString);
 }
 
-// update the board position after the piece snap
+// Update the board position after the piece snap
 // TODO for castling, en passant, pawn promotion
 function onSnapEnd () {
-  //board.position(game.fen())
+  board.position(game.fen())
   return true
 }
 
