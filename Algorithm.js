@@ -216,7 +216,7 @@ class ChessAI {
         for (var array of allowed_array) {
           for (var mvmt of array) {
             new_value = mvmt + value;
-            if (this.outOfBounds(new_value)) continue;
+            if (this.outOfBounds(new_value)) break;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
             // Stop once you find a piece here, can't "jump over" it
@@ -238,7 +238,7 @@ class ChessAI {
         for (var array of allowed_array) {
           for (var mvmt of array) {
             new_value = mvmt + value;
-            if (this.outOfBounds(new_value)) continue;
+            if (this.outOfBounds(new_value)) break;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
             // Stop once you find a piece here, can't "jump over" it
@@ -264,7 +264,7 @@ class ChessAI {
         for (var array of allowed_array) {
           for (var mvmt of array) {
             new_value = mvmt + value;
-            if (this.outOfBounds(new_value)) continue;
+            if (this.outOfBounds(new_value)) break;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
             // Stop once you find a piece here, can't "jump over" it
