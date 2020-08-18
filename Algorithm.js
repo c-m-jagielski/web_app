@@ -418,6 +418,11 @@ var $status = $('#status')
 //var $fen = $('#fen')
 //var $pgn = $('#pgn')
 
+function randomMove(possibleMoves) {
+  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  game.move(possibleMoves[randomIdx])
+}
+
 function computerMove(difficulty) {
   /*
    * difficulty
@@ -433,9 +438,23 @@ function computerMove(difficulty) {
     return
   }
 
-  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-  //game.move(possibleMoves[randomIdx])
+  switch(difficulty) {
+    case 0:
+      randomMove(possibleMoves);
+    case 1:
+      //TODO
+      break;
+    case 2:
+      //TODO
+      break;
+    default:
+      randomMove();
+  }
+
+  // Update the UI
   board.position(game.fen())
+
+  updateStatus()
 }
 
 function onDragStart (source, piece, position, orientation) {
