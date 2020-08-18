@@ -528,13 +528,13 @@ function onDrop (source, target) {
   //TODO are we playing with the computer or 2 users?
   var responseString = null;
   window.setTimeout(responseString = computerMove(0), 250);
-  if(responseString) alert(responseString);
+  //if(responseString) alert(responseString);
 }
 
 // Update the board position after the piece snap
 // TODO for castling, en passant, pawn promotion
 function onSnapEnd () {
-  board.position(game.fen())
+  //board.position(game.fen())
   return true
 }
 
