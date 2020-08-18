@@ -123,7 +123,7 @@ class ChessAI {
   }
 
   outOfBounds(new_spot) {
-    return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) > 8) ? true : false;
+    return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
   }
 
   generate_moves() {
@@ -229,6 +229,7 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
+        //alert(color+value)
         var allowed_array = [[1, 2, 3, 4, 5, 6, 7],
                              [-1, -2, -3, -4, -5, -6, -7],
                              [16, 32, 48, 64, 80, 96, 112],
@@ -236,13 +237,19 @@ class ChessAI {
 
         var new_value;
         for (var array of allowed_array) {
+          //if (color===this.BLACK) {alert("starting new Black Rook array...");}
           for (var mvmt of array) {
             new_value = mvmt + value;
+            //if (color===this.BLACK) {alert("new_value = "+new_value);}
             if (this.outOfBounds(new_value)) break;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
+              //alert(mvmt+":  "+color+"  "+this.current_board[this.SQUARES2[new_value]].charAt(0))
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
+                allMoves.pop();
+              }
               break;
             }
           }
@@ -282,7 +289,7 @@ class ChessAI {
           var new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
 
-          // If there's a piece here, it must be a different color
+          // If there's a piece here, it must be a different color for the King to move there
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
             if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
           }
