@@ -16,3 +16,8 @@ The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web pag
 * No AI (yet!)
 
 If you find more please let me know.
+
+# To-do list
+* Add unit tests
+* Incorporate database on host to store game historgy
+* Better AI than just random moves
