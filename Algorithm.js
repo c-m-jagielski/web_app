@@ -178,12 +178,16 @@ class ChessAI {
             allowed_array.push(32);
           }
         }
-        // Only allow diagonal move if taking a piece
-        if (this.current_board[this.SQUARES2[15*multiplier + value]] !== null) {
-          allowed_array.push(15);
-        }
-        if (this.current_board[this.SQUARES2[17*multiplier + value]] !== null) {
-          allowed_array.push(17);
+
+        // Only allow diagonal move if taking a piece of a different color
+        for (var mvmt of [15, 17]) {
+          var new_value = mvmt*multiplier + value;
+          var blah = this.current_board[this.SQUARES2[new_value]];
+          if (blah !== null && typeof blah !== "undefined") {
+            if (color !== blah.charAt(0)) {
+              allowed_array.push(mvmt);
+            }
+          }
         }
 
         for (var mvmt of allowed_array) {
