@@ -282,6 +282,11 @@ class ChessAI {
           var new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
 
+          // If there's a piece here, it must be a different color
+          if (this.current_board[this.SQUARES2[new_value]] !== null) {
+            if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
+          }
+
           allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
           // TODO Do not allow the King to place itself into Check
@@ -501,7 +506,7 @@ function onDrop (source, target) {
   // Computer's turn...
   //TODO are we playing with the computer or 2 users?
   var responseString = null;
-  window.setTimeout(responseString = computerMove(0), 1000);
+  window.setTimeout(responseString = computerMove(0), 250);
   if(responseString) alert(responseString);
 }
 
