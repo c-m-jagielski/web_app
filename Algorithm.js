@@ -202,6 +202,13 @@ class ChessAI {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
           allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+
+          // Don't let Knight land on it's own color
+          if (this.current_board[this.SQUARES2[new_value]] !== null) {
+            if (color !== this.current_board[this.SQUARES2[new_value]].charAt(0)) {
+              allMoves.pop()
+            }
+          }
         }
       }
 
@@ -221,6 +228,9 @@ class ChessAI {
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
+                allMoves.pop();
+              }
               break;
             }
           }
@@ -237,16 +247,13 @@ class ChessAI {
 
         var new_value;
         for (var array of allowed_array) {
-          //if (color===this.BLACK) {alert("starting new Black Rook array...");}
           for (var mvmt of array) {
             new_value = mvmt + value;
-            //if (color===this.BLACK) {alert("new_value = "+new_value);}
             if (this.outOfBounds(new_value)) break;
             allMoves.push({from:spot, to:this.SQUARES2[new_value]})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
-              //alert(mvmt+":  "+color+"  "+this.current_board[this.SQUARES2[new_value]].charAt(0))
               if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
                 allMoves.pop();
               }
@@ -276,6 +283,9 @@ class ChessAI {
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
+                allMoves.pop();
+              }
               break;
             }
           }
