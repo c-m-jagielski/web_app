@@ -376,15 +376,15 @@ class ChessAI {
     var new_fen = '';
 
     for (var i = this.SQUARES.a8; i <= this.SQUARES.h1; i++) {
-        if (this.current_board[i] == null) {
+        if (this.current_board[this.SQUARES2[i]] == null) {
             empty++;
         } else {
             if (empty > 0) {
                 new_fen += empty;
                 empty = 0;
             }
-            var color = this.current_board[i].charAt(0);
-            var piece = this.current_board[i].charAt(1);
+            var color = this.current_board[this.SQUARES2[i]].charAt(0);
+            var piece = this.current_board[this.SQUARES2[i]].charAt(1);
 
             new_fen += (color === this.WHITE) ?
                 piece.toUpperCase() : piece.toLowerCase();
