@@ -403,7 +403,7 @@ class ChessAI {
             i += 8;
         }
     }
-    alert("fen: " + new_fen); //debug only
+    //alert("fen: " + new_fen); //debug only
     return new_fen;
   }
 }
@@ -415,7 +415,7 @@ class ChessAI {
 var board = null
 var game = new ChessAI()
 var $status = $('#status')
-var $fen = $('#fen')
+//var $fen = $('#fen')
 //var $pgn = $('#pgn')
 
 function computerMove(difficulty) {
@@ -434,9 +434,8 @@ function computerMove(difficulty) {
   }
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-  var blah = game.fen();
   //game.move(possibleMoves[randomIdx])
-  //board.position(game.fen())
+  board.position(game.fen())
 }
 
 function onDragStart (source, piece, position, orientation) {
@@ -455,13 +454,13 @@ function onDragStart (source, piece, position, orientation) {
 }
 
 function onDrop (source, target) {
-  // see if the move is legal
+  // See if the move is legal
   var move = game.move({
     from: source,
     to: target
   })
 
-  // illegal move
+  // Illegal move
   if (move === null) return 'snapback'
 
   updateStatus()
@@ -510,7 +509,7 @@ function updateStatus () {
   }
 
   $status.html(status)
-  $fen.html(game.fen())
+  //$fen.html(game.fen())
   //$pgn.html(game.pgn())
 }
 
