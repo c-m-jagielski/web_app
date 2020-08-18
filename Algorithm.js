@@ -443,19 +443,19 @@ function computerMove(difficulty) {
     return returnString
   }
 
-  var moveIdx = -1;
+  var compyMove = "N/A";
 
   switch(difficulty) {
     case 0:
-      moveIdx = randomMove(possibleMoves);
+      compyMove = randomMove(possibleMoves);
       break;
     case 1:
       //TODO
-      returnString = "Error: this difficult not yet implemented";
+      returnString = "Error: difficult '1' not yet implemented";
       return returnString;
     case 2:
       //TODO
-      returnString = "Error: this difficult not yet implemented";
+      returnString = "Error: difficult '2' not yet implemented";
       return returnString;
     default:
       randomMove();
@@ -467,7 +467,7 @@ function computerMove(difficulty) {
 
   updateStatus()
 
-  returnString = "#="+possibleMoves.length+"  "+moveIdx;
+  returnString = "#="+possibleMoves.length+"  "+compyMove;
   return returnString;
 }
 
