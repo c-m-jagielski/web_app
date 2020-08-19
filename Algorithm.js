@@ -96,9 +96,22 @@ class ChessAI {
     return check;
   }
 
-  is_checkmate(moves_left) {
+  is_checkmate_or_draw() {
+    var check = false; //is_check(num_moves_left);
+
+    var all_moves = this.generate_moves();
+    var num_moves_left = all_moves.length;
+
+    if(this.is_checkmate(num_moves_left, check)) {return "checkmate"}
+    if(this.is_draw(num_moves_left, check)) {return "draw"}
+    if(check) {return "check"}
+
+    return ""
+  }
+
+  is_checkmate(moves_left, check) {
     var checkmate = false;
-    if (this.is_check(true) && moves_left === 0) {
+    if (check && moves_left === 0) {
       checkmate = true;
       alert('Checkmate!');
     }
@@ -106,9 +119,9 @@ class ChessAI {
     return checkmate;
   }
 
-  is_draw(moves_left) {
+  is_draw(moves_left, check) {
     var draw = false;
-    if (!this.is_check(true) && moves_left === 0) {
+    if (!check && moves_left === 0) {
       alert('Draw!');
     }
     return draw;
@@ -546,27 +559,21 @@ function updateStatus () {
     moveColor = 'Black'
   }
 
-  var blah = game.generate_moves();
-  var moves_left = blah.length;
-
-  // Checkmate?
-  if (game.is_checkmate(moves_left)) {
-    status = 'Game over, ' + moveColor + ' is in checkmate.'
-  }
-
-  // Draw?
-  else if (game.is_draw(moves_left)) {
-    status = 'Game over, drawn position.'
-  }
-
-  // Otherwise we're still playing
-  else {
-    status = moveColor + ' to move'
-
-    // check?
-    if (game.is_check(false)) {
-      status += ', ' + moveColor + ' is in check.'
-    }
+  // Checkmate or Draw?
+  var checkmate_or_draw = game.is_checkmate_or_draw();
+  switch(checkmate_or_draw) {
+    case "checkmate":
+      status = 'Game over, ' + moveColor + ' is in checkmate.';
+      break;
+    case "draw":
+      status = 'Game over, drawn position.';
+      break;
+    case "check":
+      status = moveColor + ' to move, ' + moveColor + ' is in check.';
+      break;
+    default:
+      status = moveColor + ' to move';
+      break;
   }
 
   $status.html(status)
