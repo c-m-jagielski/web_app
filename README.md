@@ -12,8 +12,8 @@ The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web pag
 
 # Known bugs
 * No castling
-* Does not promote pawns correctly
-* No AI (yet!)
+* Does not always promote pawns
+* AI is incredibly buggy, 'Check' is backwards, etc.
 
 If you find more please let me know.
 
