@@ -205,15 +205,16 @@ class ChessAI {
         var allowed_array = [];
 
         // Only allow forward move if unoccupied
-        var forward_allowed = false;
         if (this.current_board[this.SQUARES2[16*multiplier + value]] === null) {
           allowed_array.push(16);
 
-          // Only allow +2 move if in opening positions
-          if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-            allowed_array.push(32);
-          } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-            allowed_array.push(32);
+          // Only allow +2 move if in opening positions (and that spot is unoccupied)
+          if (this.current_board[this.SQUARES2[32*multiplier + value]] === null) {
+            if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
+              allowed_array.push(32);
+            } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
+              allowed_array.push(32);
+            }
           }
         }
 
