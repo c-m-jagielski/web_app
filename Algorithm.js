@@ -114,7 +114,7 @@ class ChessAI {
     // Do any allowed moves END on your King?
     for (var potentialMove of all_moves) {
       if (potentialMove.to === king_location) {
-        alert('Check!');
+        alert('Check! ' + potentialMove.from + ":" + potentialMove.to);
         return true;
       }
     }
@@ -581,8 +581,10 @@ function updateStatus () {
   var status = ""
 
   var moveColor = 'White'
+  var checkColor = 'Black'
   if (game.turn() === 'b') {
     moveColor = 'Black'
+    checkColor = 'White'
   }
 
   // Checkmate or Draw?
@@ -595,7 +597,7 @@ function updateStatus () {
       status = 'Game over, drawn position.';
       break;
     case "check":
-      status = moveColor + ' to move, ' + moveColor + ' is in check.';
+      status = moveColor + ' to move, ' + checkColor + ' is in check.';
       break;
     default:
       status = moveColor + ' to move';
