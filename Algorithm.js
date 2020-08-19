@@ -78,6 +78,10 @@ class ChessAI {
     this.current_board = {};
   }
 
+  set_orientation(orientation) {
+    this.human = orientation;
+  }
+
   game_over() {
     return this.game_is_over;
   }
@@ -622,6 +626,7 @@ function do_clear () {
 }
 
 function set_orientation (orientation) {
+  game.set_orientation(orientation)
   if (orientation === 'white' || orientation === 'black') {
     board.orientation(orientation)
   }
