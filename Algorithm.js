@@ -604,7 +604,8 @@ function updateStatus () {
       break;
   }
 
-  $status.html(status)
+  var display = "Status: ";
+  $status.html(display.bold() + status)
   //$fen.html(game.fen())
   //$pgn.html(game.pgn())
 }
