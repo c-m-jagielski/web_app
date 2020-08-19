@@ -82,25 +82,50 @@ class ChessAI {
     return this.game_is_over;
   }
 
-  is_check(quiet) {
-    //TODO determine status - if any possible move of the opponent can take your King
-
-    // First generate your opponent's possible moves
+  is_check(all_moves) {
     // Get the location of your King
-    // Do any allowed moves END on your King?
+    var king_location = null;
+    for(var spot in this.SQUARES) {
+      // Check if there's something in this spot
+      var piece = this.current_board[spot];
+      if (piece === null) {
+        continue;
+      }
 
-    var check = false;
-    if (check && !quiet) {
-      alert('Check!');
+      if (piece.search(this.KING) > 0) {
+        // What color is this King?
+        var color = this.WHITE;
+        if (piece.search(this.WHITE) === -1) {
+          color = this.BLACK;
+        }
+        // Only check moves against the other color
+        if (color === this.current_turn) {
+          continue;
+        }
+
+        king_location = spot;
+        //alert(color + " king_location = " + king_location)
+        break;
+      }
     }
-    return check;
+
+    if (king_location === null) {return false}
+
+    // Do any allowed moves END on your King?
+    for (var potentialMove of all_moves) {
+      if (potentialMove.to === king_location) {
+        alert('Check!');
+        return true;
+      }
+    }
+    return false;
   }
 
   is_checkmate_or_draw() {
-    var check = false; //is_check(num_moves_left);
-
     var all_moves = this.generate_moves();
     var num_moves_left = all_moves.length;
+
+    var check = this.is_check(all_moves);
 
     if(this.is_checkmate(num_moves_left, check)) {return "checkmate"}
     if(this.is_draw(num_moves_left, check)) {return "draw"}
