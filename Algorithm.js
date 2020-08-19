@@ -248,7 +248,7 @@ class ChessAI {
 
           // Don't let Knight land on it's own color
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
-            if (color !== this.current_board[this.SQUARES2[new_value]].charAt(0)) {
+            if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
               allMoves.pop()
             }
           }
