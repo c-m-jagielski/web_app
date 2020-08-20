@@ -194,6 +194,13 @@ class ChessAI {
     this.current_turn = this.current_turn === this.WHITE ? this.BLACK : this.WHITE;
   }
 
+  resetCheckFlag() {
+    // This function should be called after the computer generates its possible moves,
+    // in order to prevent issues during other attempts to generate possible moves.
+    if (this.human === this.WHITE) {this.b_check_data.flag = false;}
+    else {this.w_check_data.flag = false;}
+  }
+
   outOfBounds(new_spot) {
     return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
   }
@@ -394,7 +401,6 @@ class ChessAI {
       var checkMoves = [];
       var check_from = (for_this_color === this.WHITE) ? this.w_check_data.from : this.b_check_data.from;
       var check_to = (for_this_color === this.WHITE) ? this.w_check_data.to : this.b_check_data.to;
-      var allowed_tos = [check_from];
 
       for (var m of allMoves) {
         // First, allow any move that takes out the opponent's pressure piece
@@ -405,8 +411,11 @@ class ChessAI {
         else if (m.from === check_to) { checkMoves.push(m); }
       }
 
-      // Lasty, calculate any other spots between the to:from, *unless* the From is a Knight or Pawn
-      if ((this.current_board[check_from].search(this.KNIGHT) === -1) || (this.current_board[check_from].search(this.PAWN) === -1)) {
+      // Lasty, calculate any other spots between the to:from, *unless* the From is a Knight or Pawn, or the From is adjacent to the King
+      var fromPiece = this.current_board[check_from];
+      var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
+      var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
+      if ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1) || adjacentValues.includes(delta)) {
         for (var m of allMoves) {
           // Intercept a Bishop
 
@@ -419,6 +428,9 @@ class ChessAI {
       }
 
       // TODO Do not keep any move that places our own King into Check
+      var s = "";
+      for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+"], ";}
+      alert('In check, moves allowed = ' + s);
       return checkMoves;
     }
 
@@ -569,6 +581,9 @@ function computerMove(difficulty) {
   returnString = null;
 
   var possibleMoves = game.generate_moves(null)
+
+  // Now that the compy has generated all of its possible moves, reset its Check flag
+  game.resetCheckFlag()
 
   // Game over
   if (possibleMoves.length === 0) {
