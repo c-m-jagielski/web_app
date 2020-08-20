@@ -162,8 +162,8 @@ class ChessAI {
     if(this.is_checkmate(num_moves_left_me, check_me)) {return {res:"checkmate", who:me}}
     if(this.is_checkmate(num_moves_left_them, check_them)) {return {res:"checkmate", who:them}}
     if(this.is_draw(num_moves_left_them, check_them)) {return {res:"draw", who:null}}
-    if(check_me) {return {res:"check", who:me}}
-    if(check_them) {return {res:"check", who:them}}
+    if(check_me.flag) {return {res:"check", who:me}}
+    if(check_them.flag) {return {res:"check", who:them}}
 
     return {res:"", who:null}
   }
