@@ -88,7 +88,7 @@ class ChessAI {
     return this.game_is_over;
   }
 
-  is_check(all_moves_me, them) {
+  is_check(all_moves_me, them, do_alert) {
     // Take all your moves, and the color of your opponent. Have you put them in Check?
     // Examples:
     //    var check_me = this.is_check(all_moves_them, me); // am I in check?
@@ -125,7 +125,7 @@ class ChessAI {
     // Do any of my allowed moves END on their King?
     for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
-        alert('Check! ' + potentialMove.from + ":" + potentialMove.to);
+        if (do_alert) {alert('Check! ' + potentialMove.from + ":" + potentialMove.to);}
         return true;
       }
     }
@@ -142,22 +142,25 @@ class ChessAI {
 
     var all_moves_me = this.generate_moves(me);
     var all_moves_them = this.generate_moves(them);
-    /*var s = "";
-    for(var blah of all_moves) {
-      s = s + "["+blah.from+":"+blah.to+"],";
-    }
-    alert(s)*/
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
 
-    var check_me = this.is_check(all_moves_them, me); // am I in check?
-    var check_them = this.is_check(all_moves_me, them); // are THEY in check?
-    alert(me + " Check Status (me/them) = " + check_me +":"+ check_them)
+    var check_me = this.is_check(all_moves_them, me, false); // am I in check?
+    var check_them = this.is_check(all_moves_me, them, true); // are THEY in check?
+    //alert(me + " Check Status (me/them) = " + check_me +":"+ check_them)
+    if (me === this.WHITE) {
+      this.w_check_flag = check_me;
+      this.b_check_flag = check_them;
+    } else {
+      this.w_check_flag = check_them;
+      this.b_check_flag = check_me;
+    }
 
-    var check = false;
-    if(this.is_checkmate(num_moves_left_me, check)) {return "checkmate"}
-    if(this.is_draw(num_moves_left_me, check)) {return "draw"}
-    if(check) {return "check"}
+    if(this.is_checkmate(num_moves_left_me, check_me)) {return {"checkmate":me}}
+    if(this.is_checkmate(num_moves_left_them, check_them)) {return {"checkmate":them}}
+    if(this.is_draw(num_moves_left_them, check_them)) {return "draw"}
+    if(check_me) {return {"check":me}}
+    if(check_them) {return {"check":them}}
 
     return ""
   }
