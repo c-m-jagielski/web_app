@@ -10,8 +10,8 @@ class ChessAI {
   move_count = 0;
   game_is_over = false;
   current_turn = 'w';
-  w_check_flag = false;  // Set 'true' when WHITE is in Check
-  b_check_flag = false;  // Set 'true' when BLACK is in Check
+  w_check_data = {};  // Set flag:'true' when WHITE is in Check
+  b_check_data = {};  // Set flag:'true' when BLACK is in Check
   human = 'w';  // Keep track of the human user's color
   DEFAULT_BOARD = {
     a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
@@ -94,6 +94,8 @@ class ChessAI {
     //    var check_me = this.is_check(all_moves_them, me); // am I in check?
     //    var check_them = this.is_check(all_moves_me, them); // are THEY in check?
 
+    var default_check = {flag: false, from:"", to:""}
+
     // Get the location of your King
     var king_location = null;
     for(var spot in this.SQUARES) {
@@ -120,16 +122,18 @@ class ChessAI {
       }
     }
 
-    if (king_location === null) {return false}
+    // This should never happen, I'm only doing this as an error check
+    if (king_location === null) {return default_check}
 
     // Do any of my allowed moves END on their King?
+    // TODO it could be possible to have *multiple* moves put them in Check, we need to capture them all
     for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
         if (do_alert) {alert('Check! ' + potentialMove.from + ":" + potentialMove.to);}
-        return true;
+        return {flag:true, to:potentialMove.to, from:potentialMove.from}
       }
     }
-    return false;
+    return default_check;
   }
 
   is_checkmate_or_draw() {
@@ -147,13 +151,12 @@ class ChessAI {
 
     var check_me = this.is_check(all_moves_them, me, false); // am I in check?
     var check_them = this.is_check(all_moves_me, them, true); // are THEY in check?
-    //alert(me + " Check Status (me/them) = " + check_me +":"+ check_them)
     if (me === this.WHITE) {
-      this.w_check_flag = check_me;
-      this.b_check_flag = check_them;
+      this.w_check_data = check_me;
+      this.b_check_data = check_them;
     } else {
-      this.w_check_flag = check_them;
-      this.b_check_flag = check_me;
+      this.w_check_data = check_them;
+      this.b_check_data = check_me;
     }
 
     if(this.is_checkmate(num_moves_left_me, check_me)) {return {"checkmate":me}}
@@ -220,11 +223,6 @@ class ChessAI {
       }
 
       // Only generate moves for the correct turn
-      /*if (current_team && (color !== this.current_turn)) {
-        continue;
-      } else if (!current_team && (color === this.current_turn)) {
-        continue;
-      }*/
       if (color !== for_this_color) {
         continue;
       }
@@ -387,12 +385,44 @@ class ChessAI {
           }
 
           allMoves.push({from:spot, to:this.SQUARES2[new_value]})
-
-          // TODO Do not allow the King to place itself into Check
         }
       }
     }
 
+    // If I am in check, only keep the moves that protect me
+    if ((this.w_check_data.flag && (for_this_color === this.WHITE)) || (this.b_check_data.flag && (for_this_color === this.BLACK))) {
+      var checkMoves = [];
+      var check_from = (for_this_color === this.WHITE) ? this.w_check_data.from : this.b_check_data.from;
+      var check_to = (for_this_color === this.WHITE) ? this.w_check_data.to : this.b_check_data.to;
+      var allowed_tos = [check_from];
+
+      for (var m of allMoves) {
+        // First, allow any move that takes out the opponent's pressure piece
+        // TODO rank these moves higher than defensive "running away" moves
+        if (m.to === check_from) { checkMoves.push(m); }
+
+        // Next, allow any move of the King *out* of the bad spot
+        else if (m.from === check_to) { checkMoves.push(m); }
+      }
+
+      // Lasty, calculate any other spots between the to:from, *unless* the From is a Knight or Pawn
+      if ((this.current_board[check_from].search(this.KNIGHT) === -1) || (this.current_board[check_from].search(this.PAWN) === -1)) {
+        for (var m of allMoves) {
+          // Intercept a Bishop
+
+          // Intercept a Rook
+
+          // Intercept a Queen
+
+          continue;
+        }
+      }
+
+      // TODO Do not keep any move that places our own King into Check
+      return checkMoves;
+    }
+
+    // TODO Do not keep any move that places our own King into Check
     return allMoves;
   }
 
