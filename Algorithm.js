@@ -159,13 +159,13 @@ class ChessAI {
       this.b_check_data = check_me;
     }
 
-    if(this.is_checkmate(num_moves_left_me, check_me)) {return {"checkmate":me}}
-    if(this.is_checkmate(num_moves_left_them, check_them)) {return {"checkmate":them}}
-    if(this.is_draw(num_moves_left_them, check_them)) {return "draw"}
-    if(check_me) {return {"check":me}}
-    if(check_them) {return {"check":them}}
+    if(this.is_checkmate(num_moves_left_me, check_me)) {return {res:"checkmate", who:me}}
+    if(this.is_checkmate(num_moves_left_them, check_them)) {return {res:"checkmate", who:them}}
+    if(this.is_draw(num_moves_left_them, check_them)) {return {res:"draw", who:null}}
+    if(check_me) {return {res:"check", who:me}}
+    if(check_them) {return {res:"check", who:them}}
 
-    return ""
+    return {res:"", who:null}
   }
 
   is_checkmate(moves_left, check) {
@@ -672,16 +672,18 @@ function updateStatus () {
   }
 
   // Checkmate or Draw?
-  var checkmate_or_draw = game.is_checkmate_or_draw();
-  switch(checkmate_or_draw) {
+  var moveResult = game.is_checkmate_or_draw();
+  var display = "White";
+  if (moveResult.who !== null && moveResult.who === this.BLACK) display = "Black";
+  switch(moveResult.res) {
     case "checkmate":
-      status = 'Game over, ' + moveColor + ' is in checkmate.';
+      status = 'Game over, ' + display + ' is in checkmate.';
       break;
     case "draw":
       status = 'Game over, drawn position.';
       break;
     case "check":
-      status = moveColor + ' to move, ' + moveColor + ' is in check.';
+      status = moveColor + ' to move, ' + display + ' is in check.';
       break;
     default:
       status = moveColor + ' to move';
