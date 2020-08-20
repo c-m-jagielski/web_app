@@ -10,6 +10,8 @@ class ChessAI {
   move_count = 0;
   game_is_over = false;
   current_turn = 'w';
+  w_check_flag = false;  // Set 'true' when WHITE is in Check
+  b_check_flag = false;  // Set 'true' when BLACK is in Check
   human = 'w';  // Keep track of the human user's color
   DEFAULT_BOARD = {
     a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
@@ -86,7 +88,12 @@ class ChessAI {
     return this.game_is_over;
   }
 
-  is_check(all_moves) {
+  is_check(all_moves_me, them) {
+    // Take all your moves, and the color of your opponent. Have you put them in Check?
+    // Examples:
+    //    var check_me = this.is_check(all_moves_them, me); // am I in check?
+    //    var check_them = this.is_check(all_moves_me, them); // are THEY in check?
+
     // Get the location of your King
     var king_location = null;
     for(var spot in this.SQUARES) {
@@ -103,7 +110,7 @@ class ChessAI {
           color = this.BLACK;
         }
         // Only check moves against the other color
-        if (color === this.current_turn) {
+        if (color !== them) {
           continue;
         }
 
@@ -115,8 +122,8 @@ class ChessAI {
 
     if (king_location === null) {return false}
 
-    // Do any allowed moves END on your King?
-    for (var potentialMove of all_moves) {
+    // Do any of my allowed moves END on their King?
+    for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
         alert('Check! ' + potentialMove.from + ":" + potentialMove.to);
         return true;
@@ -126,13 +133,30 @@ class ChessAI {
   }
 
   is_checkmate_or_draw() {
-    var all_moves = this.generate_moves();
-    var num_moves_left = all_moves.length;
+    var me = this.WHITE;
+    var them = this.BLACK;
+    if (this.current_turn === this.BLACK) {
+      me = this.BLACK;
+      them = this.WHITE;
+    }
 
-    var check = this.is_check(all_moves);
+    var all_moves_me = this.generate_moves(me);
+    var all_moves_them = this.generate_moves(them);
+    /*var s = "";
+    for(var blah of all_moves) {
+      s = s + "["+blah.from+":"+blah.to+"],";
+    }
+    alert(s)*/
+    var num_moves_left_me = all_moves_me.length;
+    var num_moves_left_them = all_moves_them.length;
 
-    if(this.is_checkmate(num_moves_left, check)) {return "checkmate"}
-    if(this.is_draw(num_moves_left, check)) {return "draw"}
+    var check_me = this.is_check(all_moves_them, me); // am I in check?
+    var check_them = this.is_check(all_moves_me, them); // are THEY in check?
+    alert(me + " Check Status (me/them) = " + check_me +":"+ check_them)
+
+    var check = false;
+    if(this.is_checkmate(num_moves_left_me, check)) {return "checkmate"}
+    if(this.is_draw(num_moves_left_me, check)) {return "draw"}
     if(check) {return "check"}
 
     return ""
@@ -168,7 +192,10 @@ class ChessAI {
     return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
   }
 
-  generate_moves() {
+  generate_moves(for_this_color) {
+    // for_this_color: optionally we can generate moves for a specific color, default to the current turn if null
+    if (for_this_color === null) {for_this_color = this.current_turn}
+
     var allMoves = [];
 
     for (var spot in this.SQUARES) {
@@ -189,8 +216,13 @@ class ChessAI {
         color = this.BLACK;
       }
 
-      // Only generate moves for the current turn
-      if (color !== this.current_turn) {
+      // Only generate moves for the correct turn
+      /*if (current_team && (color !== this.current_turn)) {
+        continue;
+      } else if (!current_team && (color === this.current_turn)) {
+        continue;
+      }*/
+      if (color !== for_this_color) {
         continue;
       }
 
@@ -384,7 +416,7 @@ class ChessAI {
 
     // A valid move will be included in the moves generated
     var is_valid = false;
-    var current_moves = this.generate_moves();
+    var current_moves = this.generate_moves(null);
     for (var a_move of current_moves) {
       if (a_move.from === this_move.from && a_move.to === this_move.to) {
         is_valid = true;
@@ -503,7 +535,7 @@ function computerMove(difficulty) {
    */
   returnString = null;
 
-  var possibleMoves = game.generate_moves()
+  var possibleMoves = game.generate_moves(null)
 
   // Game over
   if (possibleMoves.length === 0) {
@@ -527,7 +559,7 @@ function computerMove(difficulty) {
       returnString = "Error: difficult '2' not yet implemented";
       return returnString;
     default:
-      randomMove();
+      compyMove = randomMove(possibleMoves);
       break;
   }
 
@@ -601,13 +633,14 @@ function updateStatus () {
       status = 'Game over, drawn position.';
       break;
     case "check":
-      status = moveColor + ' to move, ' + checkColor + ' is in check.';
+      status = moveColor + ' to move, ' + moveColor + ' is in check.';
       break;
     default:
       status = moveColor + ' to move';
       break;
   }
 
+  //alert('Updating status for ' + moveColor + ': ' + status)
   var display = "Status: ";
   $status.html(display.bold() + status)
   //$fen.html(game.fen())
