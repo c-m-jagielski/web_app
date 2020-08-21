@@ -417,107 +417,104 @@ class ChessAI {
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
       if (((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
         alert("calculating intercept moves now...");
-        for (var m of allMoves) {
-          // Intercept a Bishop
-          if (fromPiece.search(this.BISHOP) > 0) {
-            //TODO
-            continue;
-          }
+        var potentials = [];
 
-          // Intercept a Rook
-          if (fromPiece.search(this.ROOK) > 0) {
-            var potentials = [];
-            if (delta < -15) {
-              // approaching from top down
-              for (var i of [-16, -32, -48, -64, -80, -96]) {
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                potentials.push(n);
-              }
-            } else if (delta < 0) {
-              // approaching from the left
-              for (var i of [-1, -2, -3, -4, -5, -6]) {
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                potentials.push(n);
-              }
-            } else if (delta < 8) {
-              // approaching from the right
-              for (var i of [1, 2, 3, 4, 5, 6]) {
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                potentials.push(n);
-              }
-            } else if (delta > 16) {
-              // approaching from bottom up
-              for (var i of [16, 32, 48, 64, 80, 96]) {
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                potentials.push(n);
-              }
-            } else {continue;} //alert("This isn't possible!")
-            alert('! ' + potentials)
+        // Intercept a Bishop
+        if (fromPiece.search(this.BISHOP) > 0) {
+          //TODO
+        }
 
-            for (var p of potentials) {
-              var new_potential = this.SQUARES2[p];
-              for (var m of allMoves) {
-                if (m.to === new_potential) { checkMoves.push(m); }
-              }
+        // Intercept a Rook
+        else if (fromPiece.search(this.ROOK) > 0) {
+          if (delta < -15) {
+            // approaching from top down
+            for (var i of [-16, -32, -48, -64, -80, -96]) {
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
             }
-          }
-
-          // Intercept a Queen
-          if (fromPiece.search(this.QUEEN) > 0) {
-            var potentials = [];
-            //alert ('Queen! d='+delta)
-            if (delta < -15) {
-              // approaching from top down
-              for (var i of [-16, -32, -48, -64, -80, -96]) {
-                alert("i="+i+"    "+this.SQUARES[check_from])
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                //alert("now adding: " + n)
-                potentials.push(n);
-              }
-            } else if (delta < 0) {
-              // approaching from the left
-              for (var i of [-1, -2, -3, -4, -5, -6]) {
-                alert("i="+i+"    "+this.SQUARES[check_from])
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                //alert("now adding: " + n)
-                potentials.push(n);
-              }
-            } else if (delta < 8) {
-              // approaching from the right
-              for (var i of [1, 2, 3, 4, 5, 6]) {
-                alert("i="+i+"    "+this.SQUARES[check_from])
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                //alert("now adding: " + n)
-                potentials.push(n);
-              }
-            } else if (delta > 16) {
-              // approaching from bottom up
-              for (var i of [16, 32, 48, 64, 80, 96]) {
-                alert("i="+i+"    "+this.SQUARES[check_from])
-                var n = this.SQUARES[check_from] - i;
-                if (n === this.SQUARES[check_to]) break;
-                //alert("now adding: " + n)
-                potentials.push(n);
-              }
-            } //else {alert("This isn't possible!");}
-            alert('! ' + potentials)
-
-            for (var p of potentials) {
-              var new_potential = this.SQUARES2[p];
-              for (var m of allMoves) {
-                if (m.to === new_potential) { checkMoves.push(m); }
-              }
+          } else if (delta < 0) {
+            // approaching from the left
+            for (var i of [-1, -2, -3, -4, -5, -6]) {
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
             }
+          } else if (delta < 8) {
+            // approaching from the right
+            for (var i of [1, 2, 3, 4, 5, 6]) {
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta > 16) {
+            // approaching from bottom up
+            for (var i of [16, 32, 48, 64, 80, 96]) {
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } // else { alert("This isn't possible!"); }
+          alert('! ' + potentials)
 
+          for (var p of potentials) {
+            var new_potential = this.SQUARES2[p];
+            for (var m of allMoves) {
+              if (m.to === new_potential) { checkMoves.push(m); }
+            }
           }
         }
+
+        // Intercept a Queen
+        /*else if (fromPiece.search(this.QUEEN) > 0) {
+          //alert ('Queen! d='+delta)
+          if (delta < -15) {
+            // approaching from top down
+            for (var i of [-16, -32, -48, -64, -80, -96]) {
+              alert("i="+i+"    "+this.SQUARES[check_from])
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              //alert("now adding: " + n)
+              potentials.push(n);
+            }
+          } else if (delta < 0) {
+            // approaching from the left
+            for (var i of [-1, -2, -3, -4, -5, -6]) {
+              alert("i="+i+"    "+this.SQUARES[check_from])
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              //alert("now adding: " + n)
+              potentials.push(n);
+            }
+          } else if (delta < 8) {
+            // approaching from the right
+            for (var i of [1, 2, 3, 4, 5, 6]) {
+              alert("i="+i+"    "+this.SQUARES[check_from])
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              //alert("now adding: " + n)
+              potentials.push(n);
+            }
+          } else if (delta > 16) {
+            // approaching from bottom up
+            for (var i of [16, 32, 48, 64, 80, 96]) {
+              alert("i="+i+"    "+this.SQUARES[check_from])
+              var n = this.SQUARES[check_from] - i;
+              if (n === this.SQUARES[check_to]) break;
+              //alert("now adding: " + n)
+              potentials.push(n);
+            }
+          } //else {alert("This isn't possible!");}
+          alert('Queen potentials! ' + potentials)
+        }*/
+
+        /*for (var p of potentials) {
+          var new_potential = this.SQUARES2[p];
+          for (var m of allMoves) {
+            if (m.to === new_potential) { checkMoves.push(m); }
+          }
+        }
+        alert('done pushing all potentials')*/
       }
 
       // TODO Do not keep any move that places our own King into Check
