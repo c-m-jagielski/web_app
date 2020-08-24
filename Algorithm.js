@@ -160,9 +160,11 @@ class ChessAI {
     if (me === this.WHITE) {
       this.w_check_data = check_me;
       this.b_check_data = check_them;
+      console.log('Check status for W/B: ' + check_me.flag + '/' + check_them.flag)
     } else {
       this.w_check_data = check_them;
       this.b_check_data = check_me;
+      console.log('Check status for W/B: ' + check_them.flag + '/' + check_me.flag)
     }
 
     if(this.is_checkmate(num_moves_left_me, check_me)) {return {res:"checkmate", who:me}}
@@ -214,6 +216,7 @@ class ChessAI {
   generate_moves(for_this_color) {
     // for_this_color: optionally we can generate moves for a specific color, default to the current turn if null
     if (for_this_color === null) {for_this_color = this.current_turn}
+    console.log("Now generating moves for color " + for_this_color)
 
     var allMoves = [];
 
@@ -407,6 +410,7 @@ class ChessAI {
       var checkMoves = [];
       var check_from = (for_this_color === this.WHITE) ? this.w_check_data.from : this.b_check_data.from;
       var check_to = (for_this_color === this.WHITE) ? this.w_check_data.to : this.b_check_data.to;
+      console.log("We're in check... from " + check_from + " to " + check_to);
 
       for (var m of allMoves) {
         // First, allow any move that takes out the opponent's pressure piece
@@ -417,12 +421,12 @@ class ChessAI {
         else if (m.from === check_to) { checkMoves.push(m); }
       }
 
-      // Lasty, calculate any other spots between the to:from, *unless* the From is a Knight or Pawn, or the From is adjacent to the King
+      // Lasty, calculate any other spots between the from:to, *unless* the From is a Knight or Pawn, or the From is adjacent to the King
       var fromPiece = this.current_board[check_from];
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
-      if (((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
-        //alert("calculating intercept moves now...");
+      if (fromPiece !== null && ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
+        console.log("Calculating intercept moves now...");
         var potentials = [];
 
         // Intercept a Bishop
@@ -460,8 +464,8 @@ class ChessAI {
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
-          } // else { alert("This isn't possible!"); }
-          alert('! ' + potentials)
+          } else { console.log("This isn't possible!"); }
+          console.log('! ' + potentials)
 
           for (var p of potentials) {
             var new_potential = this.SQUARES2[p];
@@ -510,8 +514,8 @@ class ChessAI {
               //alert("now adding: " + n)
               potentials.push(n);
             }
-          } //else {alert("This isn't possible!");}
-          alert('Queen potentials! ' + potentials)
+          } else {console.log("This isn't possible!");}
+          console.log('Queen potentials! ' + potentials)
         }*/
 
         /*for (var p of potentials) {
@@ -520,13 +524,13 @@ class ChessAI {
             if (m.to === new_potential) { checkMoves.push(m); }
           }
         }
-        alert('done pushing all potentials')*/
+        console.log('done pushing all potentials')*/
       }
 
       // TODO Do not keep any move that places our own King into Check
       var s = "";
       for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+"], ";}
-      //alert('In check, moves allowed = ' + s);
+      console.log('In check, moves allowed = ' + s);
       return checkMoves;
     }
 
@@ -535,7 +539,7 @@ class ChessAI {
   }
 
   move(this_move) {
-    //alert(this_move.from + " : " + this_move.to);
+    console.log("Manual move   " + this_move.from + " : " + this_move.to);
     //alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
 
     var color_moved = this.current_board[this_move.from].charAt(0);
@@ -769,17 +773,18 @@ function updateStatus () {
 
   // Checkmate or Draw?
   var moveResult = game.is_checkmate_or_draw();
-  var display = "White";
   if (moveResult.who !== null && moveResult.who === this.BLACK) display = "Black";
   switch(moveResult.res) {
     case "checkmate":
+      console.log('Checkmate status achieved')
       status = 'Game over, ' + display + ' is in checkmate.';
       break;
     case "draw":
+      console.log('Draw status achieved')
       status = 'Game over, drawn position.';
       break;
     case "check":
-      status = moveColor + ' to move, ' + display + ' is in check.';
+      status = moveColor + ' to move, ' + checkColor + ' is in check.';
       break;
     default:
       status = moveColor + ' to move';
