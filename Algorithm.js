@@ -96,8 +96,8 @@ class ChessAI {
   is_check(all_moves_me, them, do_alert) {
     // Take all your moves, and the color of your opponent. Have you put them in Check?
     // Examples:
-    //    var check_me = this.is_check(all_moves_them, me); // am I in check?
-    //    var check_them = this.is_check(all_moves_me, them); // are THEY in check?
+    //    var check_me = this.is_check(all_moves_them, me, false); // am I in check?
+    //    var check_them = this.is_check(all_moves_me, them, true); // are THEY in check?
 
     var default_check = {flag: false, from:"", to:""}
 
@@ -154,7 +154,7 @@ class ChessAI {
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
 
-    var check_me = this.is_check(all_moves_them, me, false); // am I in check?
+    var check_me = this.is_check(all_moves_them, me, true); // am I in check?
     var check_them = this.is_check(all_moves_me, them, true); // are THEY in check?
     if (me === this.WHITE) {
       this.w_check_data = check_me;
@@ -421,7 +421,7 @@ class ChessAI {
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
       if (((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
-        alert("calculating intercept moves now...");
+        //alert("calculating intercept moves now...");
         var potentials = [];
 
         // Intercept a Bishop
@@ -525,7 +525,7 @@ class ChessAI {
       // TODO Do not keep any move that places our own King into Check
       var s = "";
       for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+"], ";}
-      alert('In check, moves allowed = ' + s);
+      //alert('In check, moves allowed = ' + s);
       return checkMoves;
     }
 
