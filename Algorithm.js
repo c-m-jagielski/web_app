@@ -798,6 +798,32 @@ function do_clear () {
   $status.html("Hit 'Start' to create a new game!")
 }
 
+function do_debug1 () {
+  var posi = {
+    d6: 'bK',
+    d4: 'wP',
+    e4: 'wK'
+  };
+  var config2 = {
+    draggable: true,
+    position: posi,
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+  }
+  board = Chessboard("customBoard", config2)
+
+  game.start()
+  $status.html("This is debug #1...")
+}
+
+function do_debug2 () {
+  alert('Debug #2 is not available yet')
+  /*board = Chessboard("customBoard", config3)
+  game.start()
+  $status.html("This is debug #2...")*/
+}
+
 function set_orientation (orientation) {
   game.set_orientation(orientation)
   if (orientation === 'white' || orientation === 'black') {
