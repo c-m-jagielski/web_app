@@ -464,7 +464,7 @@ class ChessAI {
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
-          } else { console.log("This isn't possible!"); }
+          } else { console.error("This isn't possible!"); }
           console.log('! ' + potentials)
 
           for (var p of potentials) {
@@ -514,7 +514,7 @@ class ChessAI {
               //alert("now adding: " + n)
               potentials.push(n);
             }
-          } else {console.log("This isn't possible!");}
+          } else {console.error("This isn't possible!");}
           console.log('Queen potentials! ' + potentials)
         }*/
 
@@ -750,8 +750,9 @@ function onDrop (source, target) {
   // Computer's turn...
   //TODO are we playing with the computer or 2 users?
   var responseString = null;
-  window.setTimeout(responseString = computerMove(0), 250);
-  if(responseString) console.log('Response String: ' + responseString);
+  //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
+  responseString = computerMove(0);
+  if(responseString) console.warn('Computer Response String: ' + responseString);
 }
 
 // Update the board position after the piece snap

@@ -12,7 +12,6 @@ The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web pag
 
 # Known bugs
 * No castling
-* Does not always promote pawns
 * AI is buggy, sometimes crashes/hangs on a turn
 * Checkmate doesn't work
 * AI doesn't move to get out of Check
@@ -21,5 +20,6 @@ If you find more please let me know.
 
 # To-do list
 * Add unit tests
+* Fix all bugs!
 * Incorporate database on host to store game historgy
 * Better AI than just random moves
