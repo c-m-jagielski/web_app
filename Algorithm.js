@@ -769,10 +769,8 @@ function updateStatus () {
   var status = ""
 
   var moveColor = 'White'
-  var checkColor = 'Black'
   if (game.turn() === 'b') {
     moveColor = 'Black'
-    checkColor = 'White'
   }
 
   // Checkmate or Draw?
@@ -788,6 +786,10 @@ function updateStatus () {
       status = 'Game over, drawn position.';
       break;
     case "check":
+      var checkColor = 'White'
+      if (moveResult.who === this.BLACK) {
+        checkColor = 'Black'
+      }
       status = moveColor + ' to move, ' + checkColor + ' is in check.';
       break;
     default:
@@ -795,7 +797,7 @@ function updateStatus () {
       break;
   }
 
-  console.info('Updating status for ' + moveColor + ': ' + status)
+  console.log('Updating status for ' + moveColor + ': ' + status)
   var display = "Status: ";
   $status.html(display.bold() + status)
   //$fen.html(game.fen())
