@@ -87,6 +87,7 @@ class ChessAI {
   }
 
   set_orientation(orientation) {
+    console.log('Now setting orientation to: ' + orientation)
     this.human = orientation;
   }
 
@@ -749,7 +750,7 @@ function onDrop (source, target) {
   updateStatus()
 
   // Computer's turn...
-  if (this.compy_plays) {
+  if (game.compy_plays) {
     var responseString = null;
     //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
     responseString = computerMove(0);
@@ -794,7 +795,7 @@ function updateStatus () {
       break;
   }
 
-  //alert('Updating status for ' + moveColor + ': ' + status)
+  console.info('Updating status for ' + moveColor + ': ' + status)
   var display = "Status: ";
   $status.html(display.bold() + status)
   //$fen.html(game.fen())
