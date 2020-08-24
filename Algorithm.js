@@ -154,6 +154,7 @@ class ChessAI {
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
 
+    //TODO update these 'quiet' flags ...
     var check_me = this.is_check(all_moves_them, me, true); // am I in check?
     var check_them = this.is_check(all_moves_me, them, true); // are THEY in check?
     if (me === this.WHITE) {
@@ -746,7 +747,7 @@ function onDrop (source, target) {
   //TODO are we playing with the computer or 2 users?
   var responseString = null;
   window.setTimeout(responseString = computerMove(0), 250);
-  //if(responseString) alert(responseString);
+  if(responseString) console.log('Response String: ' + responseString);
 }
 
 // Update the board position after the piece snap
@@ -793,17 +794,20 @@ function updateStatus () {
 }
 
 function do_start () {
+  console.log('User clicked Start')
   board.start()
   game.start()
   $status.html("White to move first.")
 }
 function do_clear () {
+  console.log('User clicked Clear')
   board.clear()
   game.clear()
   $status.html("Hit 'Start' to create a new game!")
 }
 
 function do_debug1 () {
+  console.log('User clicked Debug1')
   var posi = {
     d3: 'wQ',
     e7: 'bK',
