@@ -13,6 +13,7 @@ class ChessAI {
   w_check_data = {};  // Set flag:'true' when WHITE is in Check
   b_check_data = {};  // Set flag:'true' when BLACK is in Check
   human = 'w';  // Keep track of the human user's color
+  compy_plays = true; // By default you're playing the computer
   DEFAULT_BOARD = {
     a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
     a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP',
@@ -748,11 +749,12 @@ function onDrop (source, target) {
   updateStatus()
 
   // Computer's turn...
-  //TODO are we playing with the computer or 2 users?
-  var responseString = null;
-  //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
-  responseString = computerMove(0);
-  if(responseString) console.warn('Computer Response String: ' + responseString);
+  if (this.compy_plays) {
+    var responseString = null;
+    //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
+    responseString = computerMove(0);
+    if(responseString) console.warn('Computer Response String: ' + responseString);
+  }
 }
 
 // Update the board position after the piece snap
@@ -800,8 +802,15 @@ function updateStatus () {
 }
 
 function do_start () {
-  console.log('User clicked Start')
+  console.log('User clicked Start vs Computer')
   board.start()
+  game.start()
+  $status.html("White to move first. Good luck player 1!")
+}
+function do_user_start () {
+  console.log('User clicked Start vs User')
+  board.start()
+  game.compy_plays = false;
   game.start()
   $status.html("White to move first.")
 }
