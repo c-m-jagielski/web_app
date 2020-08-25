@@ -124,7 +124,7 @@ class ChessAI {
         }
 
         king_location = spot;
-        //alert(color + " king_location = " + king_location)
+        //console.log(color + " king_location = " + king_location)
         break;
       }
     }
@@ -137,6 +137,7 @@ class ChessAI {
     for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
         if (do_alert) {alert('Check! ' + potentialMove.from + ":" + potentialMove.to);}
+        console.log('Check! ' + potentialMove.from + ":" + potentialMove.to);
         return {flag:true, to:potentialMove.to, from:potentialMove.from}
       }
     }
@@ -155,6 +156,8 @@ class ChessAI {
     var all_moves_them = this.generate_moves(them);
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
+    console.log('me = ' + me + '; them = ' + them);
+    console.log('# moves left me/them = ' + num_moves_left_me + "/" + num_moves_left_them);
 
     //TODO update these 'quiet' flags ...
     var check_me = this.is_check(all_moves_them, me, true); // am I in check?
@@ -162,11 +165,11 @@ class ChessAI {
     if (me === this.WHITE) {
       this.w_check_data = check_me;
       this.b_check_data = check_them;
-      console.log('Check status for W/B: ' + check_me.flag + '/' + check_them.flag)
+      console.log('Check status (#1) for W/B: ' + check_me.flag + '/' + check_them.flag);
     } else {
       this.w_check_data = check_them;
       this.b_check_data = check_me;
-      console.log('Check status for W/B: ' + check_them.flag + '/' + check_me.flag)
+      console.log('Check status (#2) for W/B: ' + check_them.flag + '/' + check_me.flag);
     }
 
     if(this.is_checkmate(num_moves_left_me, check_me)) {return {res:"checkmate", who:me}}
@@ -786,9 +789,10 @@ function updateStatus () {
       status = 'Game over, drawn position.';
       break;
     case "check":
-      var checkColor = 'White'
-      if (moveResult.who === this.BLACK) {
-        checkColor = 'Black'
+      var checkColor = 'White';
+      console.log('Check: ' + moveResult.res + " " + moveResult.who)
+      if (moveResult.who === game.BLACK) {
+        checkColor = 'Black';
       }
       status = moveColor + ' to move, ' + checkColor + ' is in check.';
       break;
