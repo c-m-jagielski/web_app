@@ -156,8 +156,7 @@ class ChessAI {
     var all_moves_them = this.generate_moves(them);
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
-    console.log('me = ' + me + '; them = ' + them);
-    console.log('# moves left me/them = ' + num_moves_left_me + "/" + num_moves_left_them);
+    console.log('# moves left me/them (' + me + '/' + them + ') = ' + num_moves_left_me + "/" + num_moves_left_them);
 
     //TODO update these 'quiet' flags ...
     var check_me = this.is_check(all_moves_them, me, true); // am I in check?
@@ -654,7 +653,7 @@ class ChessAI {
             i += 8;
         }
     }
-    //alert("fen: " + new_fen); //debug only
+    console.log("fen: " + new_fen);
     return new_fen;
   }
 }
@@ -751,6 +750,7 @@ function onDrop (source, target) {
   if (move === null) return 'snapback'
 
   updateStatus()
+  console.log('Human just moved: ' + source + ":" target)
 
   // Computer's turn...
   if (game.compy_plays) {
