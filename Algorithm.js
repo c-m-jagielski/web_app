@@ -433,7 +433,7 @@ class ChessAI {
       var fromPiece = this.current_board[check_from];
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
-      console.log("fromPiece = " + fromPiece + " delta="+delta)
+      console.log("Check  fromPiece = " + fromPiece + " delta="+delta)
       if (fromPiece !== null && ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
         console.log("Calculating intercept moves now...");
         var potentials = [];
@@ -449,6 +449,7 @@ class ChessAI {
             // approaching from top down
             for (var i of [-16, -32, -48, -64, -80, -96]) {
               var n = this.SQUARES[check_from] - i;
+              console.log("1 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -456,6 +457,7 @@ class ChessAI {
             // approaching from the left
             for (var i of [-1, -2, -3, -4, -5, -6]) {
               var n = this.SQUARES[check_from] - i;
+              console.log("2 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -463,6 +465,7 @@ class ChessAI {
             // approaching from the right
             for (var i of [1, 2, 3, 4, 5, 6]) {
               var n = this.SQUARES[check_from] - i;
+              console.log("3 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -470,6 +473,7 @@ class ChessAI {
             // approaching from bottom up
             for (var i of [16, 32, 48, 64, 80, 96]) {
               var n = this.SQUARES[check_from] - i;
+              console.log("4 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
