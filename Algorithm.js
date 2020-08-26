@@ -119,9 +119,7 @@ class ChessAI {
           color = this.BLACK;
         }
         // Only check moves against the other color
-        if (color !== them) {
-          continue;
-        }
+        if (color !== them) { continue; }
 
         king_location = spot;
         //console.log(color + " king_location = " + king_location)
@@ -289,7 +287,7 @@ class ChessAI {
         for (var mvmt of allowed_array) {
           var new_value = mvmt*multiplier + value;
           if (this.outOfBounds(new_value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
         }
       }
 
@@ -301,7 +299,7 @@ class ChessAI {
         for (var mvmt of allowed_array) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
 
           // Don't let Knight land on it's own color
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -324,7 +322,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -350,7 +348,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -379,7 +377,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -404,7 +402,7 @@ class ChessAI {
             if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
           }
 
-          allMoves.push({from:spot, to:this.SQUARES2[new_value]})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
         }
       }
     }
@@ -419,16 +417,23 @@ class ChessAI {
       for (var m of allMoves) {
         // First, allow any move that takes out the opponent's pressure piece
         // TODO rank these moves higher than defensive "running away" moves
-        if (m.to === check_from) { checkMoves.push(m); }
+        if (m.to === check_from) {
+          m.score = 10;
+          checkMoves.push(m);
+        }
 
         // Next, allow any move of the King *out* of the bad spot
-        else if (m.from === check_to) { checkMoves.push(m); }
+        else if (m.from === check_to) {
+          m.score = 8;
+          checkMoves.push(m);
+        }
       }
 
       // Lasty, calculate any other spots between the from:to, *unless* the From is a Knight or Pawn, or the From is adjacent to the King
       var fromPiece = this.current_board[check_from];
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
+      console.log("fromPiece = " + fromPiece + " delta="+delta)
       if (fromPiece !== null && ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
         console.log("Calculating intercept moves now...");
         var potentials = [];
@@ -470,11 +475,20 @@ class ChessAI {
             }
           } else { console.error("This isn't possible!"); }
           console.log('! ' + potentials)
+        }
 
-          for (var p of potentials) {
-            var new_potential = this.SQUARES2[p];
-            for (var m of allMoves) {
-              if (m.to === new_potential) { checkMoves.push(m); }
+        // Now include the potentials
+        for (var p of potentials) {
+          var new_potential = this.SQUARES2[p];
+          console.log('new_potential = ' + new_potential);
+          for (var m of allMoves) {
+            // Don't let the King intercept itself
+            if (this.current_board[m.from].search(this.KING) > 0) continue;
+
+            if (m.to === new_potential) {
+              m.score = 9;
+              checkMoves.push(m);
+              console.log('potential move: ' + m.from + ":" + m.to + ";" + m.score)
             }
           }
         }
@@ -762,7 +776,6 @@ function onDrop (source, target) {
 }
 
 // Update the board position after the piece snap
-// TODO for castling, en passant, pawn promotion
 function onSnapEnd () {
   board.position(game.fen())
   return true
