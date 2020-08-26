@@ -444,7 +444,7 @@ class ChessAI {
               // Bishop is above and to the right
               for (var i of [-15, -30, -45, -60, -75, -90, -115]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("5 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                //console.log("5 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -452,7 +452,7 @@ class ChessAI {
               // Bishop is above and to the left
               for (var i of [-17, -34, -51, -68, -85, -102, -119]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                //console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -463,7 +463,7 @@ class ChessAI {
               // Bishop is below and to the left
               for (var i of [15, 30, 45, 60, 75, 90, 115]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("7 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                //console.log("7 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -471,7 +471,7 @@ class ChessAI {
               // Bishop is below and to the right
               for (var i of [17, 34, 51, 68, 85, 102, 119]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("8 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                //console.log("8 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -486,7 +486,7 @@ class ChessAI {
             // approaching from top down
             for (var i of [-16, -32, -48, -64, -80, -96]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("1 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("1 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -494,7 +494,7 @@ class ChessAI {
             // approaching from the left
             for (var i of [-1, -2, -3, -4, -5, -6]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("2 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("2 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -502,7 +502,7 @@ class ChessAI {
             // approaching from the right
             for (var i of [1, 2, 3, 4, 5, 6]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("3 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("3 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -510,7 +510,7 @@ class ChessAI {
             // approaching from bottom up
             for (var i of [16, 32, 48, 64, 80, 96]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("4 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("4 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -528,7 +528,7 @@ class ChessAI {
               var mult = 1;
               if (delta > 0) mult=-1;
               var n = this.SQUARES[check_from] - mult*i;
-              console.log("5) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("5) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -538,7 +538,7 @@ class ChessAI {
               var mult = 1;
               if (delta > 0) mult=-1;
               var n = this.SQUARES[check_from] - mult*i;
-              console.log("6) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              //console.log("6) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -546,7 +546,7 @@ class ChessAI {
             // approaching from top down
             for (var i of [-16, -32, -48, -64, -80, -96]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("1) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              //console.log("1) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -554,7 +554,7 @@ class ChessAI {
             // approaching from the left
             for (var i of [-1, -2, -3, -4, -5, -6]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("2) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              //console.log("2) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -562,7 +562,7 @@ class ChessAI {
             // approaching from the right
             for (var i of [1, 2, 3, 4, 5, 6]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("3) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              //console.log("3) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -570,7 +570,7 @@ class ChessAI {
             // approaching from bottom up
             for (var i of [16, 32, 48, 64, 80, 96]) {
               var n = this.SQUARES[check_from] - i;
-              console.log("4) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              //console.log("4) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
@@ -595,7 +595,7 @@ class ChessAI {
             }
           }
         }
-        console.log('Done pushing all potentials.')
+        //console.log('Done pushing all potentials.')
       }
 
       // TODO Do not keep any move that places our own King into Check
