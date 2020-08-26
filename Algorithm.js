@@ -416,7 +416,6 @@ class ChessAI {
 
       for (var m of allMoves) {
         // First, allow any move that takes out the opponent's pressure piece
-        // TODO rank these moves higher than defensive "running away" moves
         if (m.to === check_from) {
           m.score = 10;
           checkMoves.push(m);
@@ -441,15 +440,30 @@ class ChessAI {
         // Intercept a Bishop
         if (fromPiece.search(this.BISHOP) > 0) {
           if(delta < 0) {
-            // Bishop is above the King
-            console.log('<0');
+            if(delta % 15 === 0) {
+              // Bishop is above and to the ?
+              for (var i of [-15, -30, -45, -60, -75, -90, -115]) {
+                var n = this.SQUARES[check_from] - i;
+                console.log("5 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                if (n === this.SQUARES[check_to]) break;
+                potentials.push(n);
+              }
+            } else {
+              // Bishop is above and to the ?
+              for (var i of [-17, -34, -51, -68, -85, -102, -119]) {
+                var n = this.SQUARES[check_from] - i;
+                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                if (n === this.SQUARES[check_to]) break;
+                potentials.push(n);
+              }
+            }
           }
           else {
             if(delta % 15 === 0) {
               // Bishop is below and to the left
               for (var i of [15, 30, 45, 60, 75, 90, 115]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                console.log("7 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -457,7 +471,7 @@ class ChessAI {
               // Bishop is below and to the right
               for (var i of [17, 34, 51, 68, 85, 102, 119]) {
                 var n = this.SQUARES[check_from] - i;
-                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                console.log("8 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
                 if (n === this.SQUARES[check_to]) break;
                 potentials.push(n);
               }
@@ -862,9 +876,9 @@ function do_clear () {
 function do_debug1 () {
   console.log('User clicked Debug1')
   var posi = {
-    b2: 'wB',
+    a7: 'wB',
     d3: 'wQ',
-    e7: 'bK',
+    e5: 'bK',
     e3: 'wK'
   };
   var config2 = {
@@ -878,12 +892,12 @@ function do_debug1 () {
 
   var debug_board = {
     a8: null, b8: null, c8: null, d8: null, e8: null, f8: null, g8: null, h8: null,
-    a7: null, b7: null, c7: null, d7: null, e7: 'bK', f7: null, g7: null, h7: null,
+    a7: 'wB', b7: null, c7: null, d7: null, e7: null, f7: null, g7: null, h7: null,
     a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: null,
-    a5: null, b5: null, c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
+    a5: null, b5: null, c5: null, d5: null, e5: 'bK', f5: null, g5: null, h5: null,
     a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
     a3: null, b3: null, c3: null, d3: 'wQ', e3: 'wK', f3: null, g3: null, h3: null,
-    a2: null, b2: 'wB', c2: null, d2: null, e2: null, f2: null, g2: null, h2: null,
+    a2: null, b2: null, c2: null, d2: null, e2: null, f2: null, g2: null, h2: null,
     a1: null, b1: null, c1: null, d1: null, e1: null, f1: null, g1: null, h1: null
   };
 
