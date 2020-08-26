@@ -441,7 +441,7 @@ class ChessAI {
         if (fromPiece.search(this.BISHOP) > 0) {
           if(delta < 0) {
             if(delta % 15 === 0) {
-              // Bishop is above and to the ?
+              // Bishop is above and to the right
               for (var i of [-15, -30, -45, -60, -75, -90, -115]) {
                 var n = this.SQUARES[check_from] - i;
                 console.log("5 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
@@ -449,7 +449,7 @@ class ChessAI {
                 potentials.push(n);
               }
             } else {
-              // Bishop is above and to the ?
+              // Bishop is above and to the left
               for (var i of [-17, -34, -51, -68, -85, -102, -119]) {
                 var n = this.SQUARES[check_from] - i;
                 console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
@@ -477,7 +477,6 @@ class ChessAI {
               }
             }
           }
-
           console.log('Bishop potentials: ' + potentials)
         }
 
@@ -520,9 +519,30 @@ class ChessAI {
         }
 
         // Intercept a Queen
-        /*else if (fromPiece.search(this.QUEEN) > 0) {
+        else if (fromPiece.search(this.QUEEN) > 0) {
           console.log('Intercepting the Queen! delta='+delta)
-          if (delta < -15) {
+
+          if (delta % 15 === 0) {
+            // Queen is angled above and to the right
+            for (var i of [-15, -30, -45, -60, -75, -90, -115]) {
+              var mult = 1;
+              if (delta > 0) mult=-1;
+              var n = this.SQUARES[check_from] - mult*i;
+              console.log("5) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta % 17 === 0){
+            // Queen is angled above and to the left
+            for (var i of [-17, -34, -51, -68, -85, -102, -119]) {
+              var mult = 1;
+              if (delta > 0) mult=-1;
+              var n = this.SQUARES[check_from] - mult*i;
+              console.log("6) i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta < -15) {
             // approaching from top down
             for (var i of [-16, -32, -48, -64, -80, -96]) {
               var n = this.SQUARES[check_from] - i;
@@ -556,7 +576,7 @@ class ChessAI {
             }
           } else {console.error("[Queen] This isn't possible!");}
           console.log('Queen potentials: ' + potentials)
-        }*/
+        }
 
         // Now include the potentials
         for (var p of potentials) {
