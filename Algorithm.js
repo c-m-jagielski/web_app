@@ -433,14 +433,37 @@ class ChessAI {
       var fromPiece = this.current_board[check_from];
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
-      console.log("Check  fromPiece = " + fromPiece + " delta="+delta)
+      console.log("Check;  fromPiece=" + fromPiece + " delta="+delta)
       if (fromPiece !== null && ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
         console.log("Calculating intercept moves now...");
         var potentials = [];
 
         // Intercept a Bishop
         if (fromPiece.search(this.BISHOP) > 0) {
-          //TODO
+          if(delta < 0) {
+            // Bishop is above the King
+            console.log('<0');
+          }
+          else {
+            if(delta % 15 === 0) {
+              // Bishop is below and to the left
+              for (var i of [15, 30, 45, 60, 75, 90, 115]) {
+                var n = this.SQUARES[check_from] - i;
+                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                if (n === this.SQUARES[check_to]) break;
+                potentials.push(n);
+              }
+            } else {
+              // Bishop is below and to the right
+              for (var i of [17, 34, 51, 68, 85, 102, 119]) {
+                var n = this.SQUARES[check_from] - i;
+                console.log("6 i="+i+"    "+this.SQUARES[check_from]+"    n="+n)
+                if (n === this.SQUARES[check_to]) break;
+                potentials.push(n);
+              }
+            }
+          }
+
           console.log('Bishop potentials: ' + potentials)
         }
 
@@ -553,8 +576,7 @@ class ChessAI {
   }
 
   move(this_move) {
-    console.log("Manual move   " + this_move.from + " : " + this_move.to);
-    //alert(this.current_board[this_move.from] + " : " + this.current_board[this_move.to])
+    console.log("Attempted move   " + this_move.from + " : " + this_move.to);
 
     var color_moved = this.current_board[this_move.from].charAt(0);
 
@@ -840,6 +862,7 @@ function do_clear () {
 function do_debug1 () {
   console.log('User clicked Debug1')
   var posi = {
+    b2: 'wB',
     d3: 'wQ',
     e7: 'bK',
     e3: 'wK'
@@ -860,7 +883,7 @@ function do_debug1 () {
     a5: null, b5: null, c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
     a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
     a3: null, b3: null, c3: null, d3: 'wQ', e3: 'wK', f3: null, g3: null, h3: null,
-    a2: null, b2: null, c2: null, d2: null, e2: null, f2: null, g2: null, h2: null,
+    a2: null, b2: 'wB', c2: null, d2: null, e2: null, f2: null, g2: null, h2: null,
     a1: null, b1: null, c1: null, d1: null, e1: null, f1: null, g1: null, h1: null
   };
 
