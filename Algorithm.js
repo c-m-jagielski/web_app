@@ -441,6 +441,7 @@ class ChessAI {
         // Intercept a Bishop
         if (fromPiece.search(this.BISHOP) > 0) {
           //TODO
+          console.log('Bishop potentials: ' + potentials)
         }
 
         // Intercept a Rook
@@ -477,12 +478,53 @@ class ChessAI {
               if (n === this.SQUARES[check_to]) break;
               potentials.push(n);
             }
-          } else { console.error("This isn't possible!"); }
-          console.log('! ' + potentials)
+          } else { console.error("[Rook] This isn't possible!"); }
+          console.log('Rook potentials: ' + potentials)
         }
+
+        // Intercept a Queen
+        /*else if (fromPiece.search(this.QUEEN) > 0) {
+          console.log('Intercepting the Queen! delta='+delta)
+          if (delta < -15) {
+            // approaching from top down
+            for (var i of [-16, -32, -48, -64, -80, -96]) {
+              var n = this.SQUARES[check_from] - i;
+              console.log("1) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta < 0) {
+            // approaching from the left
+            for (var i of [-1, -2, -3, -4, -5, -6]) {
+              var n = this.SQUARES[check_from] - i;
+              console.log("2) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta < 8) {
+            // approaching from the right
+            for (var i of [1, 2, 3, 4, 5, 6]) {
+              var n = this.SQUARES[check_from] - i;
+              console.log("3) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else if (delta > 16) {
+            // approaching from bottom up
+            for (var i of [16, 32, 48, 64, 80, 96]) {
+              var n = this.SQUARES[check_from] - i;
+              console.log("4) i="+i+"    "+this.SQUARES[check_from]+" n="+n)
+              if (n === this.SQUARES[check_to]) break;
+              potentials.push(n);
+            }
+          } else {console.error("[Queen] This isn't possible!");}
+          console.log('Queen potentials: ' + potentials)
+        }*/
 
         // Now include the potentials
         for (var p of potentials) {
+          if (this.outOfBounds(p)) continue;
+
           var new_potential = this.SQUARES2[p];
           console.log('new_potential = ' + new_potential);
           for (var m of allMoves) {
@@ -496,57 +538,7 @@ class ChessAI {
             }
           }
         }
-
-        // Intercept a Queen
-        /*else if (fromPiece.search(this.QUEEN) > 0) {
-          //alert ('Queen! d='+delta)
-          if (delta < -15) {
-            // approaching from top down
-            for (var i of [-16, -32, -48, -64, -80, -96]) {
-              alert("i="+i+"    "+this.SQUARES[check_from])
-              var n = this.SQUARES[check_from] - i;
-              if (n === this.SQUARES[check_to]) break;
-              //alert("now adding: " + n)
-              potentials.push(n);
-            }
-          } else if (delta < 0) {
-            // approaching from the left
-            for (var i of [-1, -2, -3, -4, -5, -6]) {
-              alert("i="+i+"    "+this.SQUARES[check_from])
-              var n = this.SQUARES[check_from] - i;
-              if (n === this.SQUARES[check_to]) break;
-              //alert("now adding: " + n)
-              potentials.push(n);
-            }
-          } else if (delta < 8) {
-            // approaching from the right
-            for (var i of [1, 2, 3, 4, 5, 6]) {
-              alert("i="+i+"    "+this.SQUARES[check_from])
-              var n = this.SQUARES[check_from] - i;
-              if (n === this.SQUARES[check_to]) break;
-              //alert("now adding: " + n)
-              potentials.push(n);
-            }
-          } else if (delta > 16) {
-            // approaching from bottom up
-            for (var i of [16, 32, 48, 64, 80, 96]) {
-              alert("i="+i+"    "+this.SQUARES[check_from])
-              var n = this.SQUARES[check_from] - i;
-              if (n === this.SQUARES[check_to]) break;
-              //alert("now adding: " + n)
-              potentials.push(n);
-            }
-          } else {console.error("This isn't possible!");}
-          console.log('Queen potentials! ' + potentials)
-        }*/
-
-        /*for (var p of potentials) {
-          var new_potential = this.SQUARES2[p];
-          for (var m of allMoves) {
-            if (m.to === new_potential) { checkMoves.push(m); }
-          }
-        }
-        console.log('done pushing all potentials')*/
+        console.log('Done pushing all potentials.')
       }
 
       // TODO Do not keep any move that places our own King into Check
