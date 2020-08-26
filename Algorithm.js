@@ -750,7 +750,7 @@ function onDrop (source, target) {
   if (move === null) return 'snapback'
 
   updateStatus()
-  console.log('Human just moved: ' + source + ":" target)
+  console.log('Human just moved: ' + source + ":" + target)
 
   // Computer's turn...
   if (game.compy_plays) {
