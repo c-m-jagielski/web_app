@@ -226,39 +226,28 @@ class ChessAI {
     var allMoves = [];
 
     for (var spot in this.SQUARES) {
-      if (!this.SQUARES.hasOwnProperty(spot)) {
-        // Filter out the built-in key-value pairs that have meta information
-        continue;
-      }
+      // Filter out the built-in key-value pairs that have meta information
+      if (!this.SQUARES.hasOwnProperty(spot)) continue;
 
       // Check if there's something in this spot
       var piece = this.current_board[spot];
-      if (piece === null) {
-        continue;
-      }
+      if (piece === null) continue;
 
       // Color for this piece
       var color = this.WHITE;
-      if (piece.search(this.WHITE) === -1) {
-        color = this.BLACK;
-      }
+      if (piece.search(this.WHITE) === -1) color = this.BLACK;
 
       // Only generate moves for the correct turn
-      if (color !== for_this_color) {
-        continue;
-      }
+      if (color !== for_this_color) continue;
 
       // Numeric index [0:119] for this spot
       var value = this.SQUARES[spot];
 
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
-        // Allowed moves for BLACK are + 15, 16, 17, 32
-        // Allowed moves for WHITE are - 15, 16, 17, 32
+        // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
         var multiplier = 1;
-        if (color === this.WHITE) {
-          multiplier = -1;
-        }
+        if (color === this.WHITE) multiplier = -1;
 
         var allowed_array = [];
 
@@ -278,19 +267,15 @@ class ChessAI {
 
         // Only allow diagonal move if taking a piece of a different color
         for (var mvmt of [15, 17]) {
-          var new_value = mvmt*multiplier + value;
-          var blah = this.current_board[this.SQUARES2[new_value]];
+          var blah = this.current_board[this.SQUARES2[mvmt*multiplier + value]];
           if (blah !== null && typeof blah !== "undefined") {
-            if (color !== blah.charAt(0)) {
-              allowed_array.push(mvmt);
-            }
+            if (color !== blah.charAt(0)) allowed_array.push(mvmt);
           }
         }
 
         for (var mvmt of allowed_array) {
-          var new_value = mvmt*multiplier + value;
-          if (this.outOfBounds(new_value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+          if (this.outOfBounds(mvmt*multiplier + value)) continue;
+          allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:1})
         }
       }
 
@@ -306,9 +291,7 @@ class ChessAI {
 
           // Don't let Knight land on it's own color
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
-            if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
-              allMoves.pop()
-            }
+            if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {allMoves.pop();}
           }
         }
       }
@@ -329,9 +312,7 @@ class ChessAI {
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
-              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
-                allMoves.pop();
-              }
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {allMoves.pop();}
               break;
             }
           }
@@ -340,7 +321,6 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        //alert(color+value)
         var allowed_array = [[1, 2, 3, 4, 5, 6, 7],
                              [-1, -2, -3, -4, -5, -6, -7],
                              [16, 32, 48, 64, 80, 96, 112],
@@ -355,9 +335,7 @@ class ChessAI {
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
-              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
-                allMoves.pop();
-              }
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {allMoves.pop();}
               break;
             }
           }
@@ -384,9 +362,7 @@ class ChessAI {
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
-              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {
-                allMoves.pop();
-              }
+              if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) {allMoves.pop();}
               break;
             }
           }
@@ -411,9 +387,7 @@ class ChessAI {
     }
 
     // Optionally bypass keeping Check moves
-    if (bypass_check_filter) {
-      return allMoves;
-    }
+    if (bypass_check_filter) {return allMoves;}
 
     // If I am in check, only keep the moves that protect me
     if ((this.w_check_data.flag && (for_this_color === this.WHITE)) || (this.b_check_data.flag && (for_this_color === this.BLACK))) {
