@@ -15,6 +15,7 @@ The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web pag
 * Checkmate doesn't work
 * AI doesn't correctly move to get out of Check
 * AI might put itself into Check with its move
+* Does not work in Safari (I've been testing with Chrome)
 
 If you find more please let me know.
 
