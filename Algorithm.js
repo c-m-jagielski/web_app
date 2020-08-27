@@ -727,9 +727,10 @@ var $status = $('#status')
 //var $pgn = $('#pgn')
 
 function randomMove(possibleMoves) {
+  console.log('Now choosing a random valid move.');
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
-  var newMove = possibleMoves[randomIdx].from + ":" + possibleMoves[randomIdx].to
+  var newMove = possibleMoves[randomIdx].from + ":" + possibleMoves[randomIdx].to + ";" + possibleMoves[randomIdx].score
   return newMove
 }
 
@@ -802,7 +803,7 @@ function computerMove(difficulty) {
 
   updateStatus()
 
-  returnString = "#="+possibleMoves.length+"  "+compyMove.from + ":" + compyMove.to + ";" + compyMove.score;
+  returnString = "#="+possibleMoves.length+"  "+compyMove;
   return returnString;
 }
 
