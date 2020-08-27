@@ -749,6 +749,31 @@ function randomMove(possibleMoves) {
   return newMove
 }
 
+function rankMoves(possibleMoves) {
+  // Get the move with the highest score, unless all are weighted low (then choose random)
+  var bestMove = null;
+  var bestScore = -1;
+  var compyMove = null;
+
+  for (var m of possibleMoves) {
+    //console.log('move... ' + m.from + ":" + m.to + ";" + m.score)
+    if (m.score >= bestScore) {
+      bestMove = m;
+      bestScore = m.score;
+    }
+  }
+
+  if ((bestMove === null) || (bestScore === 1)) {
+    // Just choose random if none are any better than the rest
+    compyMove = randomMove(possibleMoves);
+  } else {
+    compyMove = bestMove;
+    game.move(bestMove);
+  }
+
+  return compyMove;
+}
+
 function computerMove(difficulty) {
   /*
    * difficulty
@@ -777,23 +802,7 @@ function computerMove(difficulty) {
       compyMove = randomMove(possibleMoves);
       break;
     case 1:
-      // Get the move with the highest score
-      var bestMove = null;
-      var bestScore = -1;
-      for (var m of possibleMoves) {
-        console.log('move... ' + m.from + ":" + m.to + ";" + m.score)
-        if (m.score >= bestScore) {
-          bestMove = m;
-          bestScore = m.score;
-        }
-      }
-      if ((bestMove === null) || (bestScore === 1)) {
-        // Just choose random if none are any better than the rest
-        compyMove = randomMove(possibleMoves);
-      } else {
-        compyMove = bestMove;
-        game.move(bestMove);
-      }
+      compyMove = rankMoves(possibleMoves);
       break;
     case 2:
       //TODO
