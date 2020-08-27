@@ -64,6 +64,27 @@ class ChessAI {
       112: 'a1', 113: 'b1', 114: 'c1', 115: 'd1', 116: 'e1', 117: 'f1', 118: 'g1', 119: 'h1'
   };
 
+  knightArray = [-33, -31, -18, -14, 14, 18, 31, 33];
+
+  bishopArray = [[15, 30, 45, 60, 75, 90, 105],
+                 [-15, -30, -45, -60, -75, -90, -105],
+                 [17, 34, 51, 68, 85, 102, 119],
+                 [-17, -34, -51, -68, -85, -102, -119]];
+
+  rookArray = [[1, 2, 3, 4, 5, 6, 7],
+               [-1, -2, -3, -4, -5, -6, -7],
+               [16, 32, 48, 64, 80, 96, 112],
+               [-16, -32, -48, -64, -80, -96, -112]];
+
+  queenArray = [[15, 30, 45, 60, 75, 90, 105],
+                [-15, -30, -45, -60, -75, -90, -105],
+                [17, 34, 51, 68, 85, 102, 119],
+                [-17, -34, -51, -68, -85, -102, -119],
+                [1, 2, 3, 4, 5, 6, 7],
+                [-1, -2, -3, -4, -5, -6, -7],
+                [16, 32, 48, 64, 80, 96, 112],
+                [-16, -32, -48, -64, -80, -96, -112]];
+
   constructor() {
     // Nothing yet. This could initialize settings, such as the type of game you want to play.
   }
@@ -281,10 +302,8 @@ class ChessAI {
 
       // Is it a Knight?
       else if (piece.search(this.KNIGHT) > 0) {
-        var allowed_array = [-33, -31, -18, -14, 14, 18, 31, 33];
-
         var new_value;
-        for (var mvmt of allowed_array) {
+        for (var mvmt of this.knightArray) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
           allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
@@ -298,13 +317,8 @@ class ChessAI {
 
       // Is it a Bishop?
       else if (piece.search(this.BISHOP) > 0) {
-        var allowed_array = [[15, 30, 45, 60, 75, 90, 105],
-                             [-15, -30, -45, -60, -75, -90, -105],
-                             [17, 34, 51, 68, 85, 102, 119],
-                             [-17, -34, -51, -68, -85, -102, -119]];
-
         var new_value;
-        for (var array of allowed_array) {
+        for (var array of this.bishopArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
@@ -321,13 +335,8 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        var allowed_array = [[1, 2, 3, 4, 5, 6, 7],
-                             [-1, -2, -3, -4, -5, -6, -7],
-                             [16, 32, 48, 64, 80, 96, 112],
-                             [-16, -32, -48, -64, -80, -96, -112]];
-
         var new_value;
-        for (var array of allowed_array) {
+        for (var array of this.rookArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
@@ -344,17 +353,8 @@ class ChessAI {
 
       // Is it a Queen?
       else if (piece.search(this.QUEEN) > 0) {
-        var allowed_array = [[15, 30, 45, 60, 75, 90, 105],
-                             [-15, -30, -45, -60, -75, -90, -105],
-                             [17, 34, 51, 68, 85, 102, 119],
-                             [-17, -34, -51, -68, -85, -102, -119],
-                             [1, 2, 3, 4, 5, 6, 7],
-                             [-1, -2, -3, -4, -5, -6, -7],
-                             [16, 32, 48, 64, 80, 96, 112],
-                             [-16, -32, -48, -64, -80, -96, -112]];
-
         var new_value;
-        for (var array of allowed_array) {
+        for (var array of this.queenArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
