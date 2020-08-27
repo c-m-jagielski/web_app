@@ -777,9 +777,24 @@ function computerMove(difficulty) {
       compyMove = randomMove(possibleMoves);
       break;
     case 1:
-      //TODO
-      returnString = "Error: difficult '1' not yet implemented";
-      return returnString;
+      // Get the move with the highest score
+      var bestMove = null;
+      var bestScore = -1;
+      for (var m of possibleMoves) {
+        console.log('move... ' + m.from + ":" + m.to + ";" + m.score)
+        if (m.score >= bestScore) {
+          bestMove = m;
+          bestScore = m.score;
+        }
+      }
+      if ((bestMove === null) || (bestScore === 1)) {
+        // Just choose random if none are any better than the rest
+        compyMove = randomMove(possibleMoves);
+      } else {
+        compyMove = bestMove;
+        game.move(bestMove);
+      }
+      break;
     case 2:
       //TODO
       returnString = "Error: difficult '2' not yet implemented";
@@ -794,7 +809,7 @@ function computerMove(difficulty) {
 
   updateStatus()
 
-  returnString = "#="+possibleMoves.length+"  "+compyMove;
+  returnString = "#="+possibleMoves.length+"  "+compyMove.from + ":" + compyMove.to + ";" + compyMove.score;
   return returnString;
 }
 
@@ -830,7 +845,7 @@ function onDrop (source, target) {
   if (game.compy_plays) {
     var responseString = null;
     //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
-    responseString = computerMove(0);
+    responseString = computerMove(1);
     if(responseString) console.warn('Computer Response String: ' + responseString);
   }
 }
