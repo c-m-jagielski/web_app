@@ -150,8 +150,8 @@ class ChessAI {
       them = this.WHITE;
     }
 
-    var all_moves_me = this.generate_moves(me);
-    var all_moves_them = this.generate_moves(them);
+    var all_moves_me = this.generate_moves(me, null);
+    var all_moves_them = this.generate_moves(them, null);
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
     console.log('# moves left me/them (' + me + '/' + them + ') = ' + num_moves_left_me + "/" + num_moves_left_them);
@@ -215,10 +215,13 @@ class ChessAI {
     return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
   }
 
-  generate_moves(for_this_color) {
+  generate_moves(for_this_color, bypass_check_filter) {
     // for_this_color: optionally we can generate moves for a specific color, default to the current turn if null
+    // bypass_check_filter: optionally we can bypass filtering our moves based on if we're in check or not
+
     if (for_this_color === null) {for_this_color = this.current_turn}
-    console.log("Now generating moves for color " + for_this_color)
+    if (bypass_check_filter === null) {bypass_check_filter = false}
+    console.log("Now generating moves for color " + for_this_color + "; bypass_check_filter=" + bypass_check_filter)
 
     var allMoves = [];
 
@@ -405,6 +408,11 @@ class ChessAI {
           allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
         }
       }
+    }
+
+    // Optionally bypass keeping Check moves
+    if (bypass_check_filter) {
+      return allMoves;
     }
 
     // If I am in check, only keep the moves that protect me
@@ -631,7 +639,7 @@ class ChessAI {
 
     // A valid move will be included in the moves generated
     var is_valid = false;
-    var current_moves = this.generate_moves(null);
+    var current_moves = this.generate_moves(null, null);
     for (var a_move of current_moves) {
       if (a_move.from === this_move.from && a_move.to === this_move.to) {
         is_valid = true;
@@ -750,7 +758,7 @@ function computerMove(difficulty) {
    */
   returnString = null;
 
-  var possibleMoves = game.generate_moves(null)
+  var possibleMoves = game.generate_moves(null, null)
 
   // Now that the compy has generated all of its possible moves, reset its Check flag
   game.resetCheckFlag()
