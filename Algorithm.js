@@ -580,15 +580,25 @@ class ChessAI {
         //console.log('Done pushing all potentials.')
       }
 
-      // TODO Do not keep any move that places our own King into Check
+      // Do not keep any move that places our own King into Check
       var s = "";
-      for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+"], ";}
+      for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+";"+q.score+"], ";}
       console.log('In check, moves allowed = ' + s);
-      return checkMoves;
+      return this.scrubMoves(allMoves);
     }
 
-    // TODO Do not keep any move that places our own King into Check
-    return allMoves;
+    // Do not keep any move that places our own King into Check
+    return this.scrubMoves(allMoves);
+  }
+
+  scrubMoves(allMoves) {
+    // Scrub these potential moves to see if we're putting ourself into check ... if so, that isn't allowed
+
+    //TODO
+    var okMoves = [];
+    okMoves = allMoves;
+
+    return okMoves
   }
 
   move(this_move) {
