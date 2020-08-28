@@ -294,9 +294,11 @@ class ChessAI {
           }
         }
 
+        var pawnScore;
         for (var mvmt of allowed_array) {
           if (this.outOfBounds(mvmt*multiplier + value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:1})
+          pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
+          allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
         }
       }
 
@@ -398,13 +400,13 @@ class ChessAI {
       for (var m of allMoves) {
         // First, allow any move that takes out the opponent's pressure piece
         if (m.to === check_from) {
-          m.score = 10;
+          m.score = 20;
           checkMoves.push(m);
         }
 
         // Next, allow any move of the King *out* of the bad spot
         else if (m.from === check_to) {
-          m.score = 8;
+          m.score = 18;
           checkMoves.push(m);
         }
       }
@@ -570,7 +572,7 @@ class ChessAI {
             if (this.current_board[m.from].search(this.KING) > 0) continue;
 
             if (m.to === new_potential) {
-              m.score = 9;
+              m.score = 19;
               checkMoves.push(m);
               console.log('potential move: ' + m.from + ":" + m.to + ";" + m.score)
             }
