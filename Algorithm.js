@@ -753,7 +753,7 @@ function rankMoves(possibleMoves) {
     // Just choose random if none are any better than the rest
     compyMove = randomMove(possibleMoves);
   } else {
-    compyMove = bestMove;
+    compyMove = bestMove.from + ":" + bestMove.to + ";" + bestMove.score;
     game.move(bestMove);
   }
 
