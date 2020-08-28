@@ -380,8 +380,7 @@ class ChessAI {
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
             if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
           }
-
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:0.5})
         }
       }
     }
@@ -741,7 +740,7 @@ function rankMoves(possibleMoves) {
   var compyMove = null;
 
   for (var m of possibleMoves) {
-    //console.log('move... ' + m.from + ":" + m.to + ";" + m.score)
+    //console.log('possible move... ' + m.from + ":" + m.to + ";" + m.score)
     if (m.score >= bestScore) {
       bestMove = m;
       bestScore = m.score;
