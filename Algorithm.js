@@ -968,3 +968,6 @@ board = Chessboard("customBoard", config)
 do_start()
 
 updateStatus()
+
+// Exporting variables and functions
+//export { board };
