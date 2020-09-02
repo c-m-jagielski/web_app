@@ -643,13 +643,13 @@ class ChessAI {
     if (this.current_board[this_move.from].charAt(1) === this.PAWN) {
       // White pawn promotion
       if (this_move.to.charAt(1) === '8' && color_moved === this.WHITE) {
-        //alert('White Pawn Promotion!');
+        console.log('White Pawn Promotion!');
         do_promotion = true;
       }
 
       // Black pawn promotion
       else if (this_move.to.charAt(1) === '1' && color_moved === this.BLACK) {
-        //alert('Black Pawn Promotion!');
+        console.log('Black Pawn Promotion!');
         do_promotion = true;
       }
     }
@@ -670,9 +670,7 @@ class ChessAI {
     if (do_promotion) {
       // Change the board
       this.current_board[this_move.to] = color_moved + promotion;
-      //alert('doing a promotion: ' + color_moved + promotion);
-
-      //TODO change the img used
+      console.log('doing a promotion: ' + color_moved + promotion);
     }
     return true;
   }
