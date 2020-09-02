@@ -585,19 +585,35 @@ class ChessAI {
       var s = "";
       for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+";"+q.score+"], ";}
       console.log('In check, moves allowed = ' + s);
-      return this.scrubMoves(allMoves);
+      return this.scrubMoves(allMoves, this.deepCopy(this.current_board), for_this_color);
     }
 
     // Do not keep any move that places our own King into Check
-    return this.scrubMoves(allMoves);
+    return this.scrubMoves(allMoves, this.deepCopy(this.current_board), for_this_color);
   }
 
-  scrubMoves(allMoves) {
+  scrubMoves(potentialMoves, currentMap, us) {
     // Scrub these potential moves to see if we're putting ourself into check ... if so, that isn't allowed
 
-    //TODO
     var okMoves = [];
-    okMoves = allMoves;
+
+	var them = this.WHITE;
+	if (for_this_color === this.WHITE) them = this.BLACK;
+
+    //TODO
+	/*
+	for (var m of potentialMoves) {
+		apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
+
+		now make all potential moves for our opponent
+
+		for(var opponentMove of opponentMoves) {
+			if this move does NOT put us in check,
+			okMoves.push(m);
+		}
+	}*/
+
+    okMoves = potentialMoves;
 
     return okMoves
   }
