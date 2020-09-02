@@ -592,7 +592,7 @@ class ChessAI {
     return this.scrubMoves(allMoves, this.deepCopy(this.current_board), for_this_color);
   }
 
-  scrubMoves(potentialMoves, currentMap, us) {
+  scrubMoves(potentialMoves, currentBoard, us) {
     // Scrub these potential moves to see if we're putting ourself into check ... if so, that isn't allowed
 
     var okMoves = [];
@@ -603,12 +603,15 @@ class ChessAI {
     //TODO
 	/*
 	for (var m of potentialMoves) {
-		apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
+		//apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
+		var newBoard = this.deepCopy(currentBoard);
+        newBoard[m.to] = newBoard[m.from];
+        newBoard[m.from] = null;
 
-		now make all potential moves for our opponent
+		//now make all potential moves for our opponent
 
 		for(var opponentMove of opponentMoves) {
-			if this move does NOT put us in check,
+			//if this move does NOT put us in check,
 			okMoves.push(m);
 		}
 	}*/
