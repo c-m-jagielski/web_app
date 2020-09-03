@@ -294,7 +294,7 @@ class ChessAI {
           }
         }
 
-		// Pawn en-passe
+		// Pawn En passant
 		var space = this.SQUARES[spot];
 		if ((color === this.WHITE && space>47 && space<56)) {
 			for (n of [1, -1]) {
@@ -303,13 +303,13 @@ class ChessAI {
 	
 				// Is there a pawn next to it?
 				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-					console.log('en-passe piece is '+blah)
+					console.log('En passant piece is '+blah)
 	
 					//TODO must also check if the opponent's pawn had made a double move
-					console.log('TODO! Candidate for Pawn en-passe move.' + spot);
+					console.log('TODO! Candidate for Pawn En passant move.' + spot);
 					
 					// Add the move behind it, which also negates the
-					//TODO should have an en-passe flag attached to the move...
+					//TODO should have an En passant flag attached to the move...
 					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
 				}
 			}
@@ -320,13 +320,13 @@ class ChessAI {
 	
 				// Is there a pawn next to it?
 				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-					console.log('en-passe piece is '+blah)
+					console.log('En passant piece is '+blah)
 	
 					//TODO must also check if the opponent's pawn had made a double move
-					console.log('TODO! Candidate for Pawn en-passe move.' + spot);
+					console.log('TODO! Candidate for Pawn En passant move.' + spot);
 					
 					// Add the move behind it, which also negates the
-					//TODO should have an en-passe flag attached to the move...
+					//TODO should have an En passant flag attached to the move...
 					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
 				}
 			}
