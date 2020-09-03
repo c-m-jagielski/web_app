@@ -294,10 +294,43 @@ class ChessAI {
           }
         }
 
-		//TODO en-passe
-		/*if () {
-			//TODO must 
-		}*/
+		// Pawn en-passe
+		var space = this.SQUARES[spot];
+		if ((color === this.WHITE && space>47 && space<56)) {
+			for (n of [1, -1]) {
+				var newSpace = space+n;
+				var blah = this.current_board[this.SQUARES2[newSpace]];
+	
+				// Is there a pawn next to it?
+				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+					console.log('en-passe piece is '+blah)
+	
+					//TODO must also check if the opponent's pawn had made a double move
+					console.log('TODO! Candidate for Pawn en-passe move.' + spot);
+					
+					// Add the move behind it, which also negates the
+					//TODO should have an en-passe flag attached to the move...
+					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
+				}
+			}
+		} else if ((color === this.BLACK && space>79 && space<88)) {
+			for (n of [1, -1]) {
+				var newSpace = space+n;
+				var blah = this.current_board[this.SQUARES2[newSpace]];
+	
+				// Is there a pawn next to it?
+				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+					console.log('en-passe piece is '+blah)
+	
+					//TODO must also check if the opponent's pawn had made a double move
+					console.log('TODO! Candidate for Pawn en-passe move.' + spot);
+					
+					// Add the move behind it, which also negates the
+					//TODO should have an en-passe flag attached to the move...
+					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
+				}
+			}
+		}
 
         var pawnScore;
         for (var mvmt of allowed_array) {
