@@ -294,6 +294,11 @@ class ChessAI {
           }
         }
 
+		//TODO en-passe
+		/*if () {
+			//TODO must 
+		}*/
+
         var pawnScore;
         for (var mvmt of allowed_array) {
           if (this.outOfBounds(mvmt*multiplier + value)) continue;
@@ -598,7 +603,7 @@ class ChessAI {
     var okMoves = [];
 
 	var them = this.WHITE;
-	if (for_this_color === this.WHITE) them = this.BLACK;
+	if (us === this.WHITE) them = this.BLACK;
 
     //TODO
 	/*
