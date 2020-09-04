@@ -14,6 +14,8 @@ class ChessAI {
   b_check_data = {};  // Set flag:'true' when BLACK is in Check
   human = 'w';  // Keep track of the human user's color
   compy_plays = true; // By default you're playing the computer
+  promotionPiece = 'Q';
+
   DEFAULT_BOARD = {
     a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
     a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP',
@@ -114,6 +116,10 @@ class ChessAI {
 
   game_over() {
     return this.game_is_over;
+  }
+
+  updatePromoPiece(piece) {
+	this.promotionPiece = piece;
   }
 
   is_check(all_moves_me, them, do_alert) {
@@ -695,7 +701,7 @@ class ChessAI {
     }
 
     // Check if Pawn needs promotion (assume to Queen)
-    var promotion = this.QUEEN;  //TODO Allow the user to choose the promotion piece
+    var promotion = this.promotionPiece;  //TODO Allow the user to choose the promotion piece
     var do_promotion = null;
     if (this.current_board[this_move.from].charAt(1) === this.PAWN) {
       // White pawn promotion
@@ -712,6 +718,8 @@ class ChessAI {
     }
 
     //TODO Check for castling
+
+	//TODO Check for Pawn En passant
 
     // Change the color
     this.update_turn()
