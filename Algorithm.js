@@ -680,7 +680,7 @@ class ChessAI {
       if (!this.SQUARES.hasOwnProperty(spot)) continue;
 
       // Check if there's something in this spot
-      var piece = this.current_board[spot];
+      var piece = newBoard[spot];
       if (piece === null) continue;
 
       // Color for this piece
@@ -692,6 +692,127 @@ class ChessAI {
 
       // Numeric index [0:119] for this spot
       var value = this.SQUARES[spot];
+
+      // Is it a pawn?
+      if (piece.search(this.PAWN) > 0) {
+        // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
+        var multiplier = 1;
+        if (color === this.WHITE) multiplier = -1;
+
+        var allowed_array = [];
+
+        // Only allow forward move if unoccupied
+        if (newBoard[this.SQUARES2[16*multiplier + value]] === null) {
+          allowed_array.push(16);
+
+          // Only allow +2 move if in opening positions (and that spot is unoccupied)
+          if (newBoard[this.SQUARES2[32*multiplier + value]] === null) {
+            if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
+              allowed_array.push(32);
+            } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
+              allowed_array.push(32);
+            }
+          }
+        }
+
+        // Only allow diagonal move if taking a piece of a different color
+        for (var mvmt of [15, 17]) {
+          var blah = newBoard[this.SQUARES2[mvmt*multiplier + value]];
+          if (blah !== null && typeof blah !== "undefined") {
+            if (color !== blah.charAt(0)) allowed_array.push(mvmt);
+          }
+        }
+        var pawnScore;
+        for (var mvmt of allowed_array) {
+          if (this.outOfBounds(mvmt*multiplier + value)) continue;
+          pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
+          myMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
+        }
+      }
+
+      // Is it a Knight?
+      else if (piece.search(this.KNIGHT) > 0) {
+        var new_value;
+        for (var mvmt of this.knightArray) {
+          new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+          myMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+
+          // Don't let Knight land on it's own color
+          if (newBoard[this.SQUARES2[new_value]] !== null) {
+            if (color === newBoard[this.SQUARES2[new_value]].charAt(0)) {myMoves.pop();}
+          }
+        }
+      }
+
+      // Is it a Bishop?
+      else if (piece.search(this.BISHOP) > 0) {
+        var new_value;
+        for (var array of this.bishopArray) {
+          for (var mvmt of array) {
+            new_value = mvmt + value;
+            if (this.outOfBounds(new_value)) break;
+            myMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+
+            // Stop once you find a piece here, can't "jump over" it
+            if (newBoard[this.SQUARES2[new_value]] !== null) {
+              if (color === newBoard[this.SQUARES2[new_value]].charAt(0)) {myMoves.pop();}
+              break;
+            }
+          }
+        }
+      }
+
+      // Is it a Rook?
+      else if (piece.search(this.ROOK) > 0) {
+        var new_value;
+        for (var array of this.rookArray) {
+          for (var mvmt of array) {
+            new_value = mvmt + value;
+            if (this.outOfBounds(new_value)) break;
+            myMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+
+            // Stop once you find a piece here, can't "jump over" it
+            if (newBoard[this.SQUARES2[new_value]] !== null) {
+              if (color === newBoard[this.SQUARES2[new_value]].charAt(0)) {myMoves.pop();}
+              break;
+            }
+          }
+        }
+      }
+
+      // Is it a Queen?
+      else if (piece.search(this.QUEEN) > 0) {
+        var new_value;
+        for (var array of this.queenArray) {
+          for (var mvmt of array) {
+            new_value = mvmt + value;
+            if (this.outOfBounds(new_value)) break;
+            myMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+
+            // Stop once you find a piece here, can't "jump over" it
+            if (newBoard[this.SQUARES2[new_value]] !== null) {
+              if (color === newBoard[this.SQUARES2[new_value]].charAt(0)) {myMoves.pop();}
+              break;
+            }
+          }
+        }
+      }
+
+      // Is it a King?
+      else if (piece.search(this.KING) > 0) {
+        // Allowed moves are +- 1, 15 16, 17
+        for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
+          var new_value = mvmt + value;
+          if (this.outOfBounds(new_value)) continue;
+
+          // If there's a piece here, it must be a different color for the King to move there
+          if (newBoard[this.SQUARES2[new_value]] !== null) {
+            if (color === newBoard[this.SQUARES2[new_value]].charAt(0)) continue;
+          }
+          myMoves.push({from:spot, to:this.SQUARES2[new_value], score:0.5})
+        }
+      }
     }
 
     return myMoves
