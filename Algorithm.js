@@ -119,7 +119,7 @@ class ChessAI {
   }
 
   updatePromoPiece(piece) {
-	this.promotionPiece = piece;
+    this.promotionPiece = piece;
   }
 
   is_check(all_moves_me, them, do_alert) {
@@ -300,43 +300,43 @@ class ChessAI {
           }
         }
 
-		// Pawn En passant
-		var space = this.SQUARES[spot];
-		if ((color === this.WHITE && space>47 && space<56)) {
-			for (n of [1, -1]) {
-				var newSpace = space+n;
-				var blah = this.current_board[this.SQUARES2[newSpace]];
-	
-				// Is there a pawn next to it?
-				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-					console.log('En passant piece is '+blah)
-	
-					//TODO must also check if the opponent's pawn had made a double move
-					console.log('TODO! Candidate for Pawn En passant move.' + spot);
-					
-					// Add the move behind it, which also negates the
-					//TODO should have an En passant flag attached to the move...
-					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
-				}
-			}
-		} else if ((color === this.BLACK && space>79 && space<88)) {
-			for (n of [1, -1]) {
-				var newSpace = space+n;
-				var blah = this.current_board[this.SQUARES2[newSpace]];
-	
-				// Is there a pawn next to it?
-				if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-					console.log('En passant piece is '+blah)
-	
-					//TODO must also check if the opponent's pawn had made a double move
-					console.log('TODO! Candidate for Pawn En passant move.' + spot);
-					
-					// Add the move behind it, which also negates the
-					//TODO should have an En passant flag attached to the move...
-					//allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
-				}
-			}
-		}
+        // Pawn En passant
+        var space = this.SQUARES[spot];
+        if ((color === this.WHITE && space>47 && space<56)) {
+            for (n of [1, -1]) {
+                var newSpace = space+n;
+                var blah = this.current_board[this.SQUARES2[newSpace]];
+    
+                // Is there a pawn next to it?
+                if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+                    console.log('En passant piece is '+blah)
+    
+                    //TODO must also check if the opponent's pawn had made a double move
+                    console.log('TODO! Candidate for Pawn En passant move.' + spot);
+                    
+                    // Add the move behind it, which also negates the
+                    //TODO should have an En passant flag attached to the move...
+                    //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
+                }
+            }
+        } else if ((color === this.BLACK && space>79 && space<88)) {
+            for (n of [1, -1]) {
+                var newSpace = space+n;
+                var blah = this.current_board[this.SQUARES2[newSpace]];
+    
+                // Is there a pawn next to it?
+                if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+                    console.log('En passant piece is '+blah)
+    
+                    //TODO must also check if the opponent's pawn had made a double move
+                    console.log('TODO! Candidate for Pawn En passant move.' + spot);
+                    
+                    // Add the move behind it, which also negates the
+                    //TODO should have an En passant flag attached to the move...
+                    //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
+                }
+            }
+        }
 
         var pawnScore;
         for (var mvmt of allowed_array) {
@@ -641,24 +641,24 @@ class ChessAI {
 
     var okMoves = [];
 
-	var them = this.WHITE;
-	if (us === this.WHITE) them = this.BLACK;
+    var them = this.WHITE;
+    if (us === this.WHITE) them = this.BLACK;
 
     //TODO
-	/*
-	for (var m of potentialMoves) {
-		//apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
-		var newBoard = this.deepCopy(currentBoard);
+    /*
+    for (var m of potentialMoves) {
+        //apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
+        var newBoard = this.deepCopy(currentBoard);
         newBoard[m.to] = newBoard[m.from];
         newBoard[m.from] = null;
 
-		//now make all potential moves for our opponent
+        //now make all potential moves for our opponent
 
-		for(var opponentMove of opponentMoves) {
-			//if this move does NOT put us in check,
-			okMoves.push(m);
-		}
-	}*/
+        for(var opponentMove of opponentMoves) {
+            //if this move does NOT put us in check,
+            okMoves.push(m);
+        }
+    }*/
 
     okMoves = potentialMoves;
 
@@ -719,7 +719,7 @@ class ChessAI {
 
     //TODO Check for castling
 
-	//TODO Check for Pawn En passant
+    //TODO Check for Pawn En passant
 
     // Change the color
     this.update_turn()
