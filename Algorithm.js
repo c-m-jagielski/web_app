@@ -645,24 +645,37 @@ class ChessAI {
     if (us === this.WHITE) them = this.BLACK;
 
     //TODO
-    /*
     for (var m of potentialMoves) {
         //apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
         var newBoard = this.deepCopy(currentBoard);
         newBoard[m.to] = newBoard[m.from];
         newBoard[m.from] = null;
 
-        //now make all potential moves for our opponent
+        // Now make all potential moves for our opponent, based on if we made this move
+        var opponentMoves = this.genOpponentMoves(newBoard, us, them);
 
-        for(var opponentMove of opponentMoves) {
-            //if this move does NOT put us in check,
-            okMoves.push(m);
-        }
-    }*/
+        /*for(var oMove of opponentMoves) {
+          // Make the move
+          var board3 = this.deepCopy(newBoard);
+          board3[oMove.to] = board3[oMove.from];
+          board3[oMove.from] = null;
+
+          //if this move does NOT put us in check,
+          okMoves.push(m);
+        }*/
+    }
 
     okMoves = potentialMoves;
 
     return okMoves
+  }
+
+  genOpponentMoves (newBoard, us, them) {
+    //TODO merge this function with `generate_moves()` using the `bypass_check_filter` flag
+
+    var myMoves = [];
+
+    return myMoves
   }
 
   move(this_move) {
