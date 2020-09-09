@@ -670,10 +670,29 @@ class ChessAI {
     return okMoves
   }
 
-  genOpponentMoves (newBoard, us, them) {
+  genOpponentMoves (newBoard, them, us) {
     //TODO merge this function with `generate_moves()` using the `bypass_check_filter` flag
 
     var myMoves = [];
+
+    for (var spot in this.SQUARES) {
+      // Filter out the built-in key-value pairs that have meta information
+      if (!this.SQUARES.hasOwnProperty(spot)) continue;
+
+      // Check if there's something in this spot
+      var piece = this.current_board[spot];
+      if (piece === null) continue;
+
+      // Color for this piece
+      var color = this.WHITE;
+      if (piece.search(this.WHITE) === -1) color = this.BLACK;
+
+      // Only generate moves for the correct turn
+      if (color !== us) continue;
+
+      // Numeric index [0:119] for this spot
+      var value = this.SQUARES[spot];
+    }
 
     return myMoves
   }
