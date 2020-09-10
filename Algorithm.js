@@ -741,8 +741,7 @@ class ChessAI {
         }
         for (var mvmt of allowed_array) {
           if (this.outOfBounds(mvmt*multiplier + value)) continue;
-          pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
-          myMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
+          myMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:1})
         }
       }
 
