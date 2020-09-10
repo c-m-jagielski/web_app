@@ -991,9 +991,18 @@ function rankMoves(possibleMoves) {
     }
   }
 
+  var tieMoves = [];
+  for (var m of possibleMoves) {
+    if (m.score === bestScore) {tieMoves.push(m);}
+  }
+
   if ((bestMove === null) || (bestScore === 1)) {
     // Just choose random if none are any better than the rest
     compyMove = randomMove(possibleMoves);
+  } else if (tieMoves.length > 1) {
+    // Choose randomly out of the tie
+    console.log('Tie for compy move at score ' + bestScore);
+    compyMove = randomMove(tieMoves);
   } else {
     compyMove = bestMove.from + ":" + bestMove.to + ";" + bestMove.score;
     game.move(bestMove);
