@@ -270,6 +270,7 @@ class ChessAI {
     var color = null;
     var value = null;
     var blah = null;
+    var tmp = null;
     var space = null;
     var newSpace = null;
     var pawnScore = null;
@@ -308,16 +309,17 @@ class ChessAI {
           }
 
           // Only allow +2 move if in opening positions (and that spot is unoccupied)
-          if (this.current_board[this.SQUARES2[32*multiplier + value]] === null) {
+          tmp = 32*multiplier + value;
+          if (this.current_board[this.SQUARES2[tmp]] === null) {
             if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-              if (! this.outOfBounds(32*multiplier + value)) {
-                pawnScore = ((32*multiplier+value < 8) || (32*multiplier+value > 111)) ? 6 : 1;
-                allMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:pawnScore})
+              if (! this.outOfBounds(tmp)) {
+                pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+                allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
               }
             } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-              if (! this.outOfBounds(32*multiplier + value)) {
-                pawnScore = ((32*multiplier+value < 8) || (32*multiplier+value > 111)) ? 6 : 1;
-                allMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:pawnScore})
+              if (! this.outOfBounds(tmp)) {
+                pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+                allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
               }
             }
           }
@@ -325,11 +327,12 @@ class ChessAI {
 
         // Only allow diagonal move if taking a piece of a different color
         for (var mvmt of [15, 17]) {
-          blah = this.current_board[this.SQUARES2[mvmt*multiplier + value]];
+          tmp = mvmt*multiplier + value;
+          blah = this.current_board[this.SQUARES2[tmp]];
           if (blah !== null && typeof blah !== "undefined") {
-            if (color !== blah.charAt(0) && !this.outOfBounds(mvmt*multiplier + value)) {
-              pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
-              allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
+            if (color !== blah.charAt(0) && !this.outOfBounds(tmp)) {
+              pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
             }
           }
         }
