@@ -282,7 +282,6 @@ class ChessAI {
         default:
           value = -6;
       }
-      console.log('value = ' + value)
       return value + 4.9;
     }
 
