@@ -257,6 +257,13 @@ class ChessAI {
     return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
   }
 
+  generateScore(myPiece) {
+    // Give a better score if we're taking a piece, even higher depending on the utility of said piece
+
+    if (myPiece === this.KING) return 0.5;
+    return 1;
+  }
+
   generate_moves(for_this_color, bypass_check_filter) {
     // for_this_color: optionally we can generate moves for a specific color, default to the current turn if null
     // bypass_check_filter: optionally we can bypass filtering our moves based on if we're in check or not
@@ -376,7 +383,7 @@ class ChessAI {
         for (var mvmt of this.knightArray) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.KNIGHT)})
 
           // Don't let Knight land on it's own color
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -391,7 +398,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.BISHOP)})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -408,7 +415,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.ROOK)})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -425,7 +432,7 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:1})
+            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.QUEEN)})
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -447,7 +454,7 @@ class ChessAI {
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
             if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
           }
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:0.5})
+          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.KING)})
         }
       }
     }
