@@ -637,7 +637,7 @@ class ChessAI {
       var s = "";
       for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+";"+q.score+"], ";}
       console.log('In check, moves allowed = ' + s);
-      return this.scrubMoves(allMoves, this.deepCopy(this.current_board), for_this_color);
+      return this.scrubMoves(checkMoves, this.deepCopy(this.current_board), for_this_color);
     }
 
     // Do not keep any move that places our own King into Check
