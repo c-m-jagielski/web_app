@@ -107,6 +107,16 @@ class ChessAI {
   debug_start(debug_board) {
     this.current_board = this.deepCopy(debug_board);
     this.current_turn = this.deepCopy(this.WHITE);
+
+    // Reset the defaults
+    this.move_count = 0;
+    this.game_is_over = false;
+    this.current_turn = 'w';
+    this.w_check_data = {};
+    this.b_check_data = {};
+    this.human = 'w';
+    this.compy_plays = true;
+    this.promotionPiece = 'Q';
   }
 
   set_orientation(orientation) {
