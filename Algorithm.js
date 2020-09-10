@@ -313,11 +313,9 @@ class ChessAI {
           tmp = 32*multiplier + value;
           if (this.current_board[this.SQUARES2[tmp]] === null && ! this.outOfBounds(tmp)) {
             if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-              pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
-              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:1.5})
             } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-              pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
-              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:1.5})
             }
           }
         }
