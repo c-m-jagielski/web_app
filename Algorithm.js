@@ -254,13 +254,15 @@ class ChessAI {
     var piece = null;
     var color = null;
     var value = null;
-    var multiplier = null;
     var allowed_array = null;
     var blah = null;
     var space = null;
     var newSpace = null;
     var pawnScore = null;
     var new_value = null;
+
+    var multiplier = 1;
+    if (for_this_color === this.WHITE) multiplier = -1;
 
     for (var spot in this.SQUARES) {
       // Filter out the built-in key-value pairs that have meta information
@@ -283,9 +285,6 @@ class ChessAI {
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
         // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
-        multiplier = 1;
-        if (color === this.WHITE) multiplier = -1;
-
         allowed_array = [];
 
         // Only allow forward move if unoccupied
@@ -686,11 +685,13 @@ class ChessAI {
     var piece = null;
     var color = null;
     var value = null;
-    var multiplier = null;
     var allowed_array = null;
     var blah = null;
     var pawnScore = null;
     var new_value = null;
+
+    var multiplier = 1;
+    if (us === this.WHITE) multiplier = -1;
 
     for (var spot in this.SQUARES) {
       // Filter out the built-in key-value pairs that have meta information
@@ -713,9 +714,6 @@ class ChessAI {
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
         // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
-        multiplier = 1;
-        if (color === this.WHITE) multiplier = -1;
-
         allowed_array = [];
 
         // Only allow forward move if unoccupied
