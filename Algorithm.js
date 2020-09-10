@@ -328,7 +328,7 @@ class ChessAI {
           if (blah !== null && typeof blah !== "undefined") {
             if (color !== blah.charAt(0) && !this.outOfBounds(tmp)) {
               pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
-              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:(pawnScore+1)})
             }
           }
         }
