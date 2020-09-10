@@ -310,17 +310,13 @@ class ChessAI {
 
           // Only allow +2 move if in opening positions (and that spot is unoccupied)
           tmp = 32*multiplier + value;
-          if (this.current_board[this.SQUARES2[tmp]] === null) {
+          if (this.current_board[this.SQUARES2[tmp]] === null && ! this.outOfBounds(tmp)) {
             if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-              if (! this.outOfBounds(tmp)) {
-                pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
-                allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
-              }
+              pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
             } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-              if (! this.outOfBounds(tmp)) {
-                pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
-                allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
-              }
+              pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+              allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
             }
           }
         }
