@@ -313,39 +313,39 @@ class ChessAI {
         // Pawn En passant
         space = this.SQUARES[spot];
         if ((color === this.WHITE && space>47 && space<56)) {
-            for (n of [1, -1]) {
-                newSpace = space+n;
-                blah = this.current_board[this.SQUARES2[newSpace]];
-    
-                // Is there a pawn next to it?
-                if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-                    console.log('En passant piece is '+blah)
-    
-                    //TODO must also check if the opponent's pawn had made a double move
-                    console.log('TODO! Candidate for Pawn En passant move.' + spot);
-                    
-                    // Add the move behind it, which also negates the
-                    //TODO should have an En passant flag attached to the move...
-                    //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
-                }
+          for (n of [1, -1]) {
+            newSpace = space+n;
+            blah = this.current_board[this.SQUARES2[newSpace]];
+
+            // Is there a pawn next to it?
+            if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+              console.log('En passant piece is '+blah)
+
+              //TODO must also check if the opponent's pawn had made a double move
+              console.log('TODO! Candidate for Pawn En passant move.' + spot);
+              
+              // Add the move behind it, which also negates the
+              //TODO should have an En passant flag attached to the move...
+              //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO 
             }
+          }
         } else if ((color === this.BLACK && space>79 && space<88)) {
-            for (n of [1, -1]) {
-                newSpace = space+n;
-                blah = this.current_board[this.SQUARES2[newSpace]];
-    
-                // Is there a pawn next to it?
-                if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
-                    console.log('En passant piece is '+blah)
-    
-                    //TODO must also check if the opponent's pawn had made a double move
-                    console.log('TODO! Candidate for Pawn En passant move.' + spot);
-                    
-                    // Add the move behind it, which also negates the
-                    //TODO should have an En passant flag attached to the move...
-                    //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
-                }
+          for (n of [1, -1]) {
+            newSpace = space+n;
+            blah = this.current_board[this.SQUARES2[newSpace]];
+
+            // Is there a pawn next to it?
+            if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+              console.log('En passant piece is '+blah)
+
+              //TODO must also check if the opponent's pawn had made a double move
+              console.log('TODO! Candidate for Pawn En passant move.' + spot);
+              
+              // Add the move behind it, which also negates the
+              //TODO should have an En passant flag attached to the move...
+              //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
             }
+          }
         }
 
         for (var mvmt of allowed_array) {
