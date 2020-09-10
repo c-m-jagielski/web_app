@@ -690,7 +690,7 @@ class ChessAI {
     var color = null;
     var value = null;
     var blah = null;
-    var pawnScore = null;
+    var tmp = null;
     var new_value = null;
 
     var multiplier = 1;
@@ -725,25 +725,23 @@ class ChessAI {
           }
 
           // Only allow +2 move if in opening positions (and that spot is unoccupied)
-          if (newBoard[this.SQUARES2[32*multiplier + value]] === null) {
+          tmp = 32*multiplier + value;
+          if (newBoard[this.SQUARES2[tmp]] === null && ! this.outOfBounds(tmp)) {
             if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-              if (! this.outOfBounds(32*multiplier + value)) {
-                myMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:1})
-              }
+              myMoves.push({from:spot, to:this.SQUARES2[tmp], score:1})
             } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-              if (! this.outOfBounds(32*multiplier + value)) {
-                myMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:1})
-              }
+              myMoves.push({from:spot, to:this.SQUARES2[tmp], score:1})
             }
           }
         }
 
         // Only allow diagonal move if taking a piece of a different color
         for (var mvmt of [15, 17]) {
-          blah = newBoard[this.SQUARES2[mvmt*multiplier + value]];
+          tmp = mvmt*multiplier + value;
+          blah = newBoard[this.SQUARES2[tmp]];
           if (blah !== null && typeof blah !== "undefined") {
-            if (color !== blah.charAt(0) && !this.outOfBounds(mvmt*multiplier + value)) {
-              myMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:1})
+            if (color !== blah.charAt(0) && !this.outOfBounds(tmp)) {
+              myMoves.push({from:spot, to:this.SQUARES2[tmp], score:1})
             }
           }
         }
