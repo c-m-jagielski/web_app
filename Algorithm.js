@@ -251,32 +251,42 @@ class ChessAI {
     console.log("Now generating moves for color " + for_this_color + "; bypass_check_filter=" + bypass_check_filter)
 
     var allMoves = [];
+    var piece = null;
+    var color = null;
+    var value = null;
+    var multiplier = null;
+    var allowed_array = null;
+    var blah = null;
+    var space = null;
+    var newSpace = null;
+    var pawnScore = null;
+    var new_value = null;
 
     for (var spot in this.SQUARES) {
       // Filter out the built-in key-value pairs that have meta information
       if (!this.SQUARES.hasOwnProperty(spot)) continue;
 
       // Check if there's something in this spot
-      var piece = this.current_board[spot];
+      piece = this.current_board[spot];
       if (piece === null) continue;
 
       // Color for this piece
-      var color = this.WHITE;
+      color = this.WHITE;
       if (piece.search(this.WHITE) === -1) color = this.BLACK;
 
       // Only generate moves for the correct turn
       if (color !== for_this_color) continue;
 
       // Numeric index [0:119] for this spot
-      var value = this.SQUARES[spot];
+      value = this.SQUARES[spot];
 
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
         // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
-        var multiplier = 1;
+        multiplier = 1;
         if (color === this.WHITE) multiplier = -1;
 
-        var allowed_array = [];
+        allowed_array = [];
 
         // Only allow forward move if unoccupied
         if (this.current_board[this.SQUARES2[16*multiplier + value]] === null) {
@@ -294,18 +304,18 @@ class ChessAI {
 
         // Only allow diagonal move if taking a piece of a different color
         for (var mvmt of [15, 17]) {
-          var blah = this.current_board[this.SQUARES2[mvmt*multiplier + value]];
+          blah = this.current_board[this.SQUARES2[mvmt*multiplier + value]];
           if (blah !== null && typeof blah !== "undefined") {
             if (color !== blah.charAt(0)) allowed_array.push(mvmt);
           }
         }
 
         // Pawn En passant
-        var space = this.SQUARES[spot];
+        space = this.SQUARES[spot];
         if ((color === this.WHITE && space>47 && space<56)) {
             for (n of [1, -1]) {
-                var newSpace = space+n;
-                var blah = this.current_board[this.SQUARES2[newSpace]];
+                newSpace = space+n;
+                blah = this.current_board[this.SQUARES2[newSpace]];
     
                 // Is there a pawn next to it?
                 if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
@@ -321,8 +331,8 @@ class ChessAI {
             }
         } else if ((color === this.BLACK && space>79 && space<88)) {
             for (n of [1, -1]) {
-                var newSpace = space+n;
-                var blah = this.current_board[this.SQUARES2[newSpace]];
+                newSpace = space+n;
+                blah = this.current_board[this.SQUARES2[newSpace]];
     
                 // Is there a pawn next to it?
                 if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
@@ -338,7 +348,6 @@ class ChessAI {
             }
         }
 
-        var pawnScore;
         for (var mvmt of allowed_array) {
           if (this.outOfBounds(mvmt*multiplier + value)) continue;
           pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
@@ -348,7 +357,6 @@ class ChessAI {
 
       // Is it a Knight?
       else if (piece.search(this.KNIGHT) > 0) {
-        var new_value;
         for (var mvmt of this.knightArray) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
@@ -363,7 +371,6 @@ class ChessAI {
 
       // Is it a Bishop?
       else if (piece.search(this.BISHOP) > 0) {
-        var new_value;
         for (var array of this.bishopArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -381,7 +388,6 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        var new_value;
         for (var array of this.rookArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -399,7 +405,6 @@ class ChessAI {
 
       // Is it a Queen?
       else if (piece.search(this.QUEEN) > 0) {
-        var new_value;
         for (var array of this.queenArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -419,7 +424,7 @@ class ChessAI {
       else if (piece.search(this.KING) > 0) {
         // Allowed moves are +- 1, 15 16, 17
         for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
-          var new_value = mvmt + value;
+          new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
 
           // If there's a piece here, it must be a different color for the King to move there
