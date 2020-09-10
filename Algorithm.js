@@ -254,7 +254,6 @@ class ChessAI {
     var piece = null;
     var color = null;
     var value = null;
-    var allowed_array = null;
     var blah = null;
     var space = null;
     var newSpace = null;
@@ -285,18 +284,29 @@ class ChessAI {
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
         // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
-        allowed_array = [];
 
         // Only allow forward move if unoccupied
         if (this.current_board[this.SQUARES2[16*multiplier + value]] === null) {
-          allowed_array.push(16);
+          if (! this.outOfBounds(16*multiplier + value)) {
+            //allowed_array.push(16);
+            pawnScore = ((16*multiplier+value < 8) || (16*multiplier+value > 111)) ? 6 : 1;
+            allMoves.push({from:spot, to:this.SQUARES2[16*multiplier + value], score:pawnScore})
+          }
 
           // Only allow +2 move if in opening positions (and that spot is unoccupied)
           if (this.current_board[this.SQUARES2[32*multiplier + value]] === null) {
             if (this.SQUARES2[value].search('2') !== -1 && color === this.WHITE) {
-              allowed_array.push(32);
+              if (! this.outOfBounds(32*multiplier + value)) {
+                //allowed_array.push(32);
+                pawnScore = ((32*multiplier+value < 8) || (32*multiplier+value > 111)) ? 6 : 1;
+                allMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:pawnScore})
+              }
             } else if (this.SQUARES2[value].search('7') !== -1 && color === this.BLACK) {
-              allowed_array.push(32);
+              if (! this.outOfBounds(32*multiplier + value)) {
+                //allowed_array.push(32);
+                pawnScore = ((32*multiplier+value < 8) || (32*multiplier+value > 111)) ? 6 : 1;
+                allMoves.push({from:spot, to:this.SQUARES2[32*multiplier + value], score:pawnScore})
+              }
             }
           }
         }
@@ -305,7 +315,11 @@ class ChessAI {
         for (var mvmt of [15, 17]) {
           blah = this.current_board[this.SQUARES2[mvmt*multiplier + value]];
           if (blah !== null && typeof blah !== "undefined") {
-            if (color !== blah.charAt(0)) allowed_array.push(mvmt);
+            if (color !== blah.charAt(0) && !this.outOfBounds(mvmt*multiplier + value)) {
+              //allowed_array.push(mvmt);
+              pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
+              allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
+            }
           }
         }
 
@@ -345,12 +359,6 @@ class ChessAI {
               //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
             }
           }
-        }
-
-        for (var mvmt of allowed_array) {
-          if (this.outOfBounds(mvmt*multiplier + value)) continue;
-          pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
-          allMoves.push({from:spot, to:this.SQUARES2[mvmt*multiplier + value], score:pawnScore})
         }
       }
 
