@@ -303,9 +303,10 @@ class ChessAI {
 
         // Only allow forward move if unoccupied
         if (this.current_board[this.SQUARES2[16*multiplier + value]] === null) {
-          if (! this.outOfBounds(16*multiplier + value)) {
-            pawnScore = ((16*multiplier+value < 8) || (16*multiplier+value > 111)) ? 6 : 1;
-            allMoves.push({from:spot, to:this.SQUARES2[16*multiplier + value], score:pawnScore})
+          tmp = 16*multiplier + value;
+          if (! this.outOfBounds(tmp)) {
+            pawnScore = ((tmp < 8) || (tmp > 111)) ? 6 : 1;
+            allMoves.push({from:spot, to:this.SQUARES2[tmp], score:pawnScore})
           }
 
           // Only allow +2 move if in opening positions (and that spot is unoccupied)
