@@ -646,13 +646,17 @@ class ChessAI {
 
     //TODO
     for (var m of potentialMoves) {
+        //var date0 = new Date;
         //apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
         var newBoard = this.deepCopy(currentBoard);
         newBoard[m.to] = newBoard[m.from];
         newBoard[m.from] = null;
 
         // Now make all potential moves for our opponent, based on if we made this move
+        //var date1 = new Date;
         var opponentMoves = this.genOpponentMoves(newBoard, us, them);
+        //var date2 = new Date;
+        //console.log('xyz ' + (date1.getTime() - date0.getTime()) + "  " + (date2.getTime() - date1.getTime()));
 
         /*for(var oMove of opponentMoves) {
           // Make the move
@@ -674,32 +678,40 @@ class ChessAI {
     //TODO merge this function with `generate_moves()` using the `bypass_check_filter` flag
 
     var myMoves = [];
+    var piece = null;
+    var color = null;
+    var value = null;
+    var multiplier = null;
+    var allowed_array = null;
+    var blah = null;
+    var pawnScore = null;
+    var new_value = null;
 
     for (var spot in this.SQUARES) {
       // Filter out the built-in key-value pairs that have meta information
       if (!this.SQUARES.hasOwnProperty(spot)) continue;
 
       // Check if there's something in this spot
-      var piece = newBoard[spot];
+      piece = newBoard[spot];
       if (piece === null) continue;
 
       // Color for this piece
-      var color = this.WHITE;
+      color = this.WHITE;
       if (piece.search(this.WHITE) === -1) color = this.BLACK;
 
       // Only generate moves for the correct turn
       if (color !== us) continue;
 
       // Numeric index [0:119] for this spot
-      var value = this.SQUARES[spot];
+      value = this.SQUARES[spot];
 
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
         // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
-        var multiplier = 1;
+        multiplier = 1;
         if (color === this.WHITE) multiplier = -1;
 
-        var allowed_array = [];
+        allowed_array = [];
 
         // Only allow forward move if unoccupied
         if (newBoard[this.SQUARES2[16*multiplier + value]] === null) {
@@ -717,12 +729,11 @@ class ChessAI {
 
         // Only allow diagonal move if taking a piece of a different color
         for (var mvmt of [15, 17]) {
-          var blah = newBoard[this.SQUARES2[mvmt*multiplier + value]];
+          blah = newBoard[this.SQUARES2[mvmt*multiplier + value]];
           if (blah !== null && typeof blah !== "undefined") {
             if (color !== blah.charAt(0)) allowed_array.push(mvmt);
           }
         }
-        var pawnScore;
         for (var mvmt of allowed_array) {
           if (this.outOfBounds(mvmt*multiplier + value)) continue;
           pawnScore = ((mvmt*multiplier+value < 8) || (mvmt*multiplier+value > 111)) ? 6 : 1;
@@ -732,7 +743,6 @@ class ChessAI {
 
       // Is it a Knight?
       else if (piece.search(this.KNIGHT) > 0) {
-        var new_value;
         for (var mvmt of this.knightArray) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
@@ -747,7 +757,6 @@ class ChessAI {
 
       // Is it a Bishop?
       else if (piece.search(this.BISHOP) > 0) {
-        var new_value;
         for (var array of this.bishopArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -765,7 +774,6 @@ class ChessAI {
 
       // Is it a Rook?
       else if (piece.search(this.ROOK) > 0) {
-        var new_value;
         for (var array of this.rookArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -783,7 +791,6 @@ class ChessAI {
 
       // Is it a Queen?
       else if (piece.search(this.QUEEN) > 0) {
-        var new_value;
         for (var array of this.queenArray) {
           for (var mvmt of array) {
             new_value = mvmt + value;
@@ -803,7 +810,7 @@ class ChessAI {
       else if (piece.search(this.KING) > 0) {
         // Allowed moves are +- 1, 15 16, 17
         for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
-          var new_value = mvmt + value;
+          new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
 
           // If there's a piece here, it must be a different color for the King to move there
