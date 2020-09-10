@@ -96,27 +96,32 @@ class ChessAI {
   }
 
   start() {
+    this.resetDefaults();
     this.current_board = this.deepCopy(this.DEFAULT_BOARD);
     this.current_turn = this.deepCopy(this.WHITE);
   }
 
   clear() {
     this.current_board = {};
+    this.resetDefaults();
   }
 
-  debug_start(debug_board) {
-    this.current_board = this.deepCopy(debug_board);
-    this.current_turn = this.deepCopy(this.WHITE);
-
+  resetDefaults() {
     // Reset the defaults
     this.move_count = 0;
     this.game_is_over = false;
-    this.current_turn = 'w';
+    this.current_turn = this.WHITE;
     this.w_check_data = {};
     this.b_check_data = {};
-    this.human = 'w';
+    this.human = this.WHITE;
     this.compy_plays = true;
-    this.promotionPiece = 'Q';
+    this.promotionPiece = this.QUEEN;
+  }
+
+  debug_start(debug_board) {
+    this.resetDefaults();
+    this.current_board = this.deepCopy(debug_board);
+    this.current_turn = this.deepCopy(this.WHITE);
   }
 
   set_orientation(orientation) {
