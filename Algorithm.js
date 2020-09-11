@@ -1144,11 +1144,12 @@ function updateStatus () {
 
   // Checkmate or Draw?
   var moveResult = game.is_checkmate_or_draw();
-  if (moveResult.who !== null && moveResult.who === this.BLACK) display = "Black";
   switch(moveResult.res) {
     case "checkmate":
       console.log('Checkmate status achieved')
-      status = 'Game over, ' + display + ' is in checkmate.';
+      var team = 'White';
+      if (moveResult.who !== null && moveResult.who === this.BLACK) team = "Black";
+      status = 'Game over, ' + team + ' is in checkmate.';
       break;
     case "draw":
       console.log('Draw status achieved')
