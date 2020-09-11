@@ -659,10 +659,11 @@ class ChessAI {
         }
 
         // Now include the potentials
+        var new_potential = null;
         for (var p of potentials) {
           if (this.outOfBounds(p)) continue;
 
-          var new_potential = this.SQUARES2[p];
+          new_potential = this.SQUARES2[p];
           //console.log('new_potential = ' + new_potential);
           for (var m of allMoves) {
             // Don't let the King intercept itself
