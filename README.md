@@ -22,5 +22,4 @@ If you find more please let me know.
 # To-do list
 * Add unit tests
 * Fix all bugs!
-* Incorporate database on host to store game historgy
-* Better AI than just random moves - score each possible move
+* Incorporate database on host to store game history
