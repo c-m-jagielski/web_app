@@ -663,7 +663,7 @@ class ChessAI {
           if (this.outOfBounds(p)) continue;
 
           var new_potential = this.SQUARES2[p];
-          console.log('new_potential = ' + new_potential);
+          //console.log('new_potential = ' + new_potential);
           for (var m of allMoves) {
             // Don't let the King intercept itself
             if (this.current_board[m.from].search(this.KING) > 0) continue;
