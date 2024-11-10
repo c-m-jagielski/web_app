@@ -1203,7 +1203,7 @@ function onDrop (source, target) {
     sleep(10000);
     //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error
     responseString = computerMove(1);
-    if(responseString) console.warn('Computer Response String: ' + responseString);
+    if(responseString) console.log('Computer Response String: ' + responseString);
   }
 }
 
