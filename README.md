@@ -19,6 +19,7 @@ It was my first web page, to learn the basics of javascript.
 * Does not work in Safari (I've been testing with Chrome)
 * The 'check' popup appears too early, before the piece is dropped so it's confusing
 * Game doesn't end after checkmate, let's you keep on playing
+* Does not prevent user from placing King in a takeaway spot; same for computer, too?
 
 If you find more please let me know.
 

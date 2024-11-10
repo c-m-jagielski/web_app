@@ -176,8 +176,8 @@ class ChessAI {
     // TODO it could be possible to have *multiple* moves put them in Check, we need to capture them all
     for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
-        if (do_alert) {alert('Check! ' + potentialMove.from + ":" + potentialMove.to);}
-        console.log('Check! ' + potentialMove.from + ":" + potentialMove.to);
+        if (do_alert) {alert('123 Check! ' + potentialMove.from + ":" + potentialMove.to);}
+        console.log('Check! ' + potentialMove.from + ":" + potentialMove.to + " color is... "+ them);
         return {flag:true, to:potentialMove.to, from:potentialMove.from}
       }
     }
@@ -1123,6 +1123,8 @@ function onDrop (source, target) {
   // Computer's turn...
   if (game.compy_plays) {
     var responseString = null;
+    //burnCycles();
+    sleep(10000);
     //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
     responseString = computerMove(1);
     if(responseString) console.warn('Computer Response String: ' + responseString);
@@ -1266,6 +1268,19 @@ function set_orientation (orientation) {
   if (orientation === 'white' || orientation === 'black') {
     board.orientation(orientation)
   }
+}
+
+function burnCycles() {
+  let iterations = 500;
+  let result = 0;
+  for (let i = 0; i < iterations; i++) {
+    result += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
+  }
+  return result;
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 var config = {
