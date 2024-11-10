@@ -8,7 +8,8 @@ My main web app is `chess01.html`. It uses the functionality in `Algorithm.js`.
 
 The code in `tmp.html` is an example I borrowed as a starting point.
 
-The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web page, to learn the basics of javascript.
+The file `MyHtml.html` uses the functions in `Hello.js`.
+It was my first web page, to learn the basics of javascript.
 
 # Known bugs
 * No castling
@@ -16,10 +17,12 @@ The file `MyHtml.html` uses the functions in `Hello.js`. It was my first web pag
 * AI doesn't correctly move to get out of Check
 * AI might put itself into Check with its move
 * Does not work in Safari (I've been testing with Chrome)
+* The 'check' popup appears too early, before the piece is dropped so it's confusing
+* Game doesn't end after checkmate, let's you keep on playing
 
 If you find more please let me know.
 
 # To-do list
-* Add unit tests
+* Add test boards to load in to make testing easier, so you don't have to play a full game
 * Fix all bugs!
 * Incorporate database on host to store game history
