@@ -943,9 +943,15 @@ class ChessAI {
   }
 
   move(this_move) {
-    console.log("Attempted move   " + this_move.from + " : " + this_move.to);
 
-    var color_moved = this.current_board[this_move.from].charAt(0);
+	var color_moved = this.current_board[this_move.from].charAt(0);
+
+	console.log(
+  		'<><><><><><><><><><><><><><><><><><><>\n' +
+  		'   This is the start of a new turn! \n' +
+  		'           for... ' + color_moved + '\n' +
+  		'<><><><><><><><><><><><><><><><><><><>')
+    console.log("Attempted move   " + this_move.from + " : " + this_move.to);
 
     // First check if this move is for the correct color
     if (this.current_turn !== color_moved) {
@@ -1059,6 +1065,8 @@ class ChessAI {
 }
 
 /*
+ * *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+ * *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
  * *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
  */
 
