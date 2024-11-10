@@ -619,7 +619,7 @@ class ChessAI {
               }
             }
           }
-          console.log('Bishop potentials: ' + potentials)
+          console.log('Bishop intercept potentials: ' + potentials)
         }
 
         // Intercept a Rook
@@ -657,7 +657,7 @@ class ChessAI {
               potentials.push(n);
             }
           } else { console.error("[Rook] This isn't possible!"); }
-          console.log('Rook potentials: ' + potentials)
+          console.log('Rook intercept potentials: ' + potentials)
         }
 
         // Intercept a Queen
@@ -717,7 +717,7 @@ class ChessAI {
               potentials.push(n);
             }
           } else {console.error("[Queen] This isn't possible!");}
-          console.log('Queen potentials: ' + potentials)
+          console.log('Queen intercept potentials: ' + potentials)
         }
 
         // Now include the potentials
@@ -734,7 +734,7 @@ class ChessAI {
             if (m.to === new_potential) {
               m.score = 19;
               checkMoves.push(m);
-              console.log('potential move: ' + m.from + ":" + m.to + ";" + m.score)
+              console.log('potential interception: ' + m.from + ":" + m.to + ";" + m.score)
             }
           }
         }
@@ -744,7 +744,7 @@ class ChessAI {
       // Do not keep any move that places our own King into Check
       var s = "";
       for (var q of checkMoves) {s = s + "["+q.from+":"+q.to+";"+q.score+"], ";}
-      console.log('In check, moves allowed = ' + s);
+      console.log('In check, these are the moves to assess:  ' + s);
       return this.scrubMoves(checkMoves, this.deepCopy(this.current_board), for_this_color);
     }
 
@@ -762,20 +762,15 @@ class ChessAI {
     if (us === this.WHITE) them = this.BLACK;
 
     //TODO
-    for (var m of potentialMoves) {
-        //var date0 = new Date;
+    for (var pMove of potentialMoves) {
         // apply this move to the current map (use a new variable, since we don't want it
         // to persist through every iteration of the for loop)
         var newBoard = this.deepCopy(currentBoard);
-        newBoard[m.to] = newBoard[m.from];
-        newBoard[m.from] = null;
+        newBoard[pMove.to] = newBoard[pMove.from];
+        newBoard[pMove.from] = null;
 
         // Now make all potential moves for our opponent, based on if we made this move
-        //var date1 = new Date;
         var opponentMoves = this.genOpponentMoves(newBoard, us, them);
-        //var date2 = new Date;
-        //console.log('xyz ' + (date1.getTime() - date0.getTime()) + "  " +
-    	//	(date2.getTime() - date1.getTime()));
 
         /*for(var oMove of opponentMoves) {
           // Make the move
