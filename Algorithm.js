@@ -755,36 +755,73 @@ class ChessAI {
   scrubMoves(potentialMoves, currentBoard, us) {
     // Scrub these potential moves to see if we're putting ourself into check ...
     // if so, that isn't allowed!
+    console.log('>>>Scrubbing moves. There are ' + potentialMoves.length + ' to assess.');
+
+	// First, skip this entire thing if we only have 1 potential move
+	if (potentialMoves.length < 2) {return potentialMoves;}
 
     var okMoves = [];
 
     var them = this.WHITE;
     if (us === this.WHITE) them = this.BLACK;
 
-    //TODO
     for (var pMove of potentialMoves) {
-        // apply this move to the current map (use a new variable, since we don't want it
+        // Apply this move to the current map (use a new variable, since we don't want it
         // to persist through every iteration of the for loop)
         var newBoard = this.deepCopy(currentBoard);
         newBoard[pMove.to] = newBoard[pMove.from];
         newBoard[pMove.from] = null;
 
-        // Now make all potential moves for our opponent, based on if we made this move
+        // Now make all potential moves for our opponent, based on if we made this
+        // specific potential move out of all the potential ones we could've done.
         var opponentMoves = this.genOpponentMoves(newBoard, us, them);
 
-        /*for(var oMove of opponentMoves) {
-          // Make the move
-          var board3 = this.deepCopy(newBoard);
-          board3[oMove.to] = board3[oMove.from];
-          board3[oMove.from] = null;
+		// Check if we are immediately in check or not
+		// This would mean that our opponent would be able to take our King
+		var weAreNowInCheck = false;
 
-          //if this move does NOT put us in check,
-          okMoves.push(m);
-        }*/
+		// Which space is my King in?
+		var king_location = null;
+    	for(var spot in this.SQUARES) {
+      		// Check if there's something in this spot
+      		var piece = newBoard[spot];
+      		if (piece === null) {
+        		continue;
+      		}
+
+			if (piece.search(this.KING) > 0) {
+        		// What color is this King that we just found?
+        		var kingColor = this.WHITE;
+        		if (piece.search(this.WHITE) === -1) {
+          			kingColor = this.BLACK;
+        		}
+        		// While simulating opponents moves, we need to look for my King (which
+        		// is their -theirs- King)
+        		if (kingColor !== us) { continue; }
+
+        		king_location = spot;
+        		console.log("   " + kingColor + " HYPOTHETICAL King location: " + king_location)
+        		break;
+			}
+		}
+
+		// If any opponent move lands on my King, they got me.
+		// So don't allow this potential move if so.
+        for (var oMove of opponentMoves) {
+        	if (oMove.to === king_location) {
+        		weAreNowInCheck = true;
+        		break;
+        	}
+        }
+
+        // Only keep this move if it does NOT put us in check
+        if (weAreNowInCheck) {
+        	// Do not keep this move
+        } else {
+        	okMoves.push(pMove);
+        }
     }
-
-    okMoves = potentialMoves;
-
+    console.log('>>>After the scrub, there are now ' + okMoves.length + " moves available.")
     return okMoves
   }
 
