@@ -1101,7 +1101,8 @@ function rankMoves(possibleMoves) {
     compyMove = randomMove(possibleMoves);
   } else if (tieMoves.length > 1) {
     // Choose randomly out of the tie
-    console.log('Tie for compy move at score ' + bestScore);
+    console.log('Tie for compy move with ' + tieMoves.length +
+    	' moves available all scored ' + bestScore + '.');
     compyMove = randomMove(tieMoves);
   } else {
     compyMove = bestMove.from + ":" + bestMove.to + ";" + bestMove.score;
@@ -1155,7 +1156,7 @@ function computerMove(difficulty) {
 
   updateStatus()
 
-  returnString = "#="+possibleMoves.length+"  "+compyMove;
+  returnString = "#=" + possibleMoves.length + "  " + compyMove;
   return returnString;
 }
 
@@ -1190,7 +1191,7 @@ function onDrop (source, target) {
   // Computer's turn...
   if (game.compy_plays) {
     var responseString = null;
-    //burnCycles();
+    burnCycles();
     sleep(10000);
     //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error
     responseString = computerMove(1);
@@ -1246,27 +1247,36 @@ function updateStatus () {
 }
 
 function do_start () {
-  console.log('User clicked Start vs Computer')
-  board.start()
-  game.start()
-  $status.html("White to move first. Good luck player 1!")
+	console.log(
+		'======================================\n' +
+  		'    User clicked Start vs Computer \n' +
+		'======================================')
+	board.start()
+	game.start()
+	$status.html("White to move first. Good luck player 1!")
 }
 function do_user_start () {
-  console.log('User clicked Start vs User')
-  board.start()
-  game.compy_plays = false;
-  game.start()
-  $status.html("White to move first.")
+	console.log(
+		'======================================\n' +
+		'      User clicked Start vs User \n' +
+		'======================================')
+	board.start()
+	game.compy_plays = false;
+	game.start()
+	$status.html("White to move first.")
 }
 function do_clear () {
-  console.log('User clicked Clear')
-  board.clear()
-  game.clear()
-  $status.html("Hit 'Start' to create a new game!")
+	console.log(
+		'======================================\n' +
+		'           User clicked Clear \n' +
+		'======================================')
+	board.clear()
+	game.clear()
+	$status.html("Hit 'Start' to create a new game!")
 }
 
 function do_debug1 () {
-  console.log('User clicked Debug1')
+  console.log('+++++++++++++++++++++++\n  User clicked Debug1 \n+++++++++++++++++++++++')
   var posi = {
     a7: 'wB',
     d3: 'wQ',
@@ -1298,7 +1308,7 @@ function do_debug1 () {
 }
 
 function do_debug2 () {
-  console.log('User clicked Debug2')
+  console.log('+++++++++++++++++++++++\n  User clicked Debug2 \n+++++++++++++++++++++++')
   var posi = {
     a2: 'wP',
     a5: 'bQ',
