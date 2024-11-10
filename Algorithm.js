@@ -1110,7 +1110,7 @@ function rankMoves(possibleMoves) {
   } else if (tieMoves.length > 1) {
     // Choose randomly out of the tie
     console.log('Tie for compy move with ' + tieMoves.length +
-    	' moves available all scored ' + bestScore + '.');
+    	' moves available, all are scored ' + bestScore + '.');
     compyMove = randomMove(tieMoves);
   } else {
     compyMove = bestMove.from + ":" + bestMove.to + ";" + bestMove.score;
@@ -1199,9 +1199,11 @@ function onDrop (source, target) {
   // Computer's turn...
   if (game.compy_plays) {
     var responseString = null;
+
+    // Try to wait a little so it doesn't go too fast, but not sure this actually works.
     burnCycles();
-    sleep(10000);
-    //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error
+    sleep(1000);
+
     responseString = computerMove(1);
     if(responseString) console.log('Computer Response String: ' + responseString);
   }
@@ -1346,6 +1348,38 @@ function do_debug2 () {
 
   game.debug_start(debug_board)
   $status.html("This is debug #2...")
+}
+
+function do_debug3 () {
+  console.log('+++++++++++++++++++++++\n  User clicked Debug3 \n+++++++++++++++++++++++')
+  var posi = {
+    a8: 'wR',
+    e5: 'bK',
+    e2: 'wK',
+    h6: 'bP'
+  };
+  var config3 = {
+    draggable: true,
+    position: posi,
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+  }
+  board = Chessboard("customBoard", config3)
+
+  var debug_board = {
+    a8: 'wR', b8: null, c8: null, d8: null, e8: null, f8: null, g8: null, h8: null,
+    a7: null, b7: null, c7: null, d7: null, e7: null, f7: null, g7: null, h7: null,
+    a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: 'bP',
+    a5: null, b5: null, c5: null, d5: null, e5: 'bK', f5: null, g5: null, h5: null,
+    a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
+    a3: null, b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
+    a2: null, b2: null, c2: null, d2: null, e2: 'wK', f2: null, g2: null, h2: null,
+    a1: null, b1: null, c1: null, d1: null, e1: null, f1: null, g1: null, h1: null
+  };
+
+  game.debug_start(debug_board)
+  $status.html("This is debug #3...")
 }
 
 function set_orientation (orientation) {
