@@ -173,11 +173,12 @@ class ChessAI {
     if (king_location === null) {return default_check}
 
     // Do any of my allowed moves END on their King?
-    // TODO it could be possible to have *multiple* moves put them in Check, we need to capture them all
+    // TODO it could be possible to have *multiple* moves put them in Check, we could
+    // find all of them and have a way to return a list of every check move.
     for (var potentialMove of all_moves_me) {
       if (potentialMove.to === king_location) {
         if (do_alert) {alert('123 Check! ' + potentialMove.from + ":" + potentialMove.to);}
-        console.log('Check! ' + potentialMove.from + ":" + potentialMove.to + " color is... "+ them);
+        console.log('Check! ' + potentialMove.from + ":" + potentialMove.to);
         return {flag:true, to:potentialMove.to, from:potentialMove.from}
       }
     }
@@ -196,7 +197,8 @@ class ChessAI {
     var all_moves_them = this.generate_moves(them, null);
     var num_moves_left_me = all_moves_me.length;
     var num_moves_left_them = all_moves_them.length;
-    console.log('# moves left me/them (' + me + '/' + them + ') = ' + num_moves_left_me + "/" + num_moves_left_them);
+    console.log('# moves left me/them (' + me + '/' + them + ') = ' +
+    	num_moves_left_me + "/" + num_moves_left_them);
 
     //TODO update these 'quiet' flags ...
     var check_me = this.is_check(all_moves_them, me, true); // am I in check?
@@ -254,12 +256,19 @@ class ChessAI {
   }
 
   outOfBounds(new_spot) {
-    return (new_spot < this.SQUARES.a8 || new_spot > this.SQUARES.h1 || (new_spot % 16) >= 8) ? true : false;
+    return (
+    	new_spot < this.SQUARES.a8 || 
+    	new_spot > this.SQUARES.h1 ||
+    	(new_spot % 16) >= 8) ? true : false;
   }
 
   generateScore(myPiece, opponent) {
-    // Give a better score if we're taking a piece, even higher depending on the utility of said piece
-    // Otherwise just give 0.5 for a King's movement, and 1.0 for any other piece's random movement
+    /*
+    	Give a better score if we're taking a piece, even higher depending on the utility
+    	of said piece.
+    	Otherwise just give 0.5 for a King's movement, and 1.0 for any other piece's
+    	random movement.
+    */
 
     if (opponent !== null) {
       var value;
@@ -290,12 +299,17 @@ class ChessAI {
   }
 
   generate_moves(for_this_color, bypass_check_filter) {
-    // for_this_color: optionally we can generate moves for a specific color, default to the current turn if null
-    // bypass_check_filter: optionally we can bypass filtering our moves based on if we're in check or not
+    /*
+    	for_this_color: 	 optionally we can generate moves for a specific color,
+    						 default to the current turn if null
+    	bypass_check_filter: optionally we can bypass filtering our moves based on if
+    						 we're in check or not
+    */
 
     if (for_this_color === null) {for_this_color = this.current_turn}
     if (bypass_check_filter === null) {bypass_check_filter = false}
-    console.log("Now generating moves for color " + for_this_color + "; bypass_check_filter=" + bypass_check_filter)
+    console.log("Now generating moves for color " + for_this_color +
+    	"; bypass_check_filter=" + bypass_check_filter)
 
     var allMoves = [];
     var piece = null;
@@ -331,7 +345,8 @@ class ChessAI {
 
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
-        // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
+        // Allowed moves are [15, 16, 17, 32] ...
+        // they're negative for WHITE & positive for BLACK
 
         // Only allow forward move if unoccupied
         if (this.current_board[this.SQUARES2[16*multiplier + value]] === null) {
@@ -372,7 +387,9 @@ class ChessAI {
             blah = this.current_board[this.SQUARES2[newSpace]];
 
             // Is there a pawn next to it?
-            if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+            if(!this.outOfBounds(newSpace) && blah !== null 
+            	&& typeof blah !== "undefined" && blah === 'bP')
+            {
               console.log('En passant piece is '+blah)
 
               //TODO must also check if the opponent's pawn had made a double move
@@ -389,7 +406,9 @@ class ChessAI {
             blah = this.current_board[this.SQUARES2[newSpace]];
 
             // Is there a pawn next to it?
-            if(!this.outOfBounds(newSpace) && blah !== null && typeof blah !== "undefined" && blah === 'bP') {
+            if(!this.outOfBounds(newSpace) && blah !== null && 
+            	typeof blah !== "undefined" && blah === 'bP')
+            {
               console.log('En passant piece is '+blah)
 
               //TODO must also check if the opponent's pawn had made a double move
@@ -408,7 +427,14 @@ class ChessAI {
         for (var mvmt of this.knightArray) {
           new_value = mvmt + value;
           if (this.outOfBounds(new_value)) continue;
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.KNIGHT, this.current_board[this.SQUARES2[new_value]])})
+          allMoves.push({
+          	from:spot,
+          	to:this.SQUARES2[new_value],
+          	score:this.generateScore(
+          		this.KNIGHT,
+          		this.current_board[this.SQUARES2[new_value]]
+          	)
+          })
 
           // Don't let Knight land on it's own color
           if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -423,7 +449,14 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.BISHOP, this.current_board[this.SQUARES2[new_value]])})
+            allMoves.push({
+            	from:spot,
+            	to:this.SQUARES2[new_value],
+            	score:this.generateScore(
+            		this.BISHOP,
+            		this.current_board[this.SQUARES2[new_value]]
+            	)
+            })
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -440,7 +473,14 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.ROOK, this.current_board[this.SQUARES2[new_value]])})
+            allMoves.push({
+            	from:spot,
+            	to:this.SQUARES2[new_value],
+            	score:this.generateScore(
+            		this.ROOK,
+            		this.current_board[this.SQUARES2[new_value]]
+            	)
+            })
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -457,7 +497,14 @@ class ChessAI {
           for (var mvmt of array) {
             new_value = mvmt + value;
             if (this.outOfBounds(new_value)) break;
-            allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.QUEEN, this.current_board[this.SQUARES2[new_value]])})
+            allMoves.push({
+            	from:spot,
+            	to:this.SQUARES2[new_value],
+            	score:this.generateScore(
+            		this.QUEEN,
+            		this.current_board[this.SQUARES2[new_value]]
+            	)
+            })
 
             // Stop once you find a piece here, can't "jump over" it
             if (this.current_board[this.SQUARES2[new_value]] !== null) {
@@ -470,16 +517,23 @@ class ChessAI {
 
       // Is it a King?
       else if (piece.search(this.KING) > 0) {
-        // Allowed moves are +- 1, 15 16, 17
-        for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
-          new_value = mvmt + value;
-          if (this.outOfBounds(new_value)) continue;
+		// Allowed moves are +- 1, 15 16, 17
+		for (var mvmt of [1, -1, 15, -15, 16, -16, 17, -17]) {
+			new_value = mvmt + value;
+			if (this.outOfBounds(new_value)) continue;
 
-          // If there's a piece here, it must be a different color for the King to move there
-          if (this.current_board[this.SQUARES2[new_value]] !== null) {
-            if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
-          }
-          allMoves.push({from:spot, to:this.SQUARES2[new_value], score:this.generateScore(this.KING, this.current_board[this.SQUARES2[new_value]])})
+    		// If there's a piece here, it must be a different color for the King to move there
+			if (this.current_board[this.SQUARES2[new_value]] !== null) {
+				if (color === this.current_board[this.SQUARES2[new_value]].charAt(0)) continue;
+        	}
+			allMoves.push({
+				from:spot,
+          		to:this.SQUARES2[new_value],
+          		score:this.generateScore(
+          	 		this.KING,
+					this.current_board[this.SQUARES2[new_value]]
+          		)
+			})
         }
       }
     }
@@ -488,7 +542,10 @@ class ChessAI {
     if (bypass_check_filter) {return allMoves;}
 
     // If I am in check, only keep the moves that protect me
-    if ((this.w_check_data.flag && (for_this_color === this.WHITE)) || (this.b_check_data.flag && (for_this_color === this.BLACK))) {
+    if(
+    	(this.w_check_data.flag && (for_this_color === this.WHITE)) || 
+    	(this.b_check_data.flag && (for_this_color === this.BLACK)))
+    {
       var checkMoves = [];
       var check_from = (for_this_color === this.WHITE) ? this.w_check_data.from : this.b_check_data.from;
       var check_to = (for_this_color === this.WHITE) ? this.w_check_data.to : this.b_check_data.to;
@@ -508,12 +565,17 @@ class ChessAI {
         }
       }
 
-      // Lasty, calculate any other spots between the from:to, *unless* the From is a Knight or Pawn, or the From is adjacent to the King
+      // Lasty, calculate any other spots between the from:to, *unless* the From is a
+      // Knight or Pawn, or the From is adjacent to the King
       var fromPiece = this.current_board[check_from];
       var delta = this.SQUARES[check_from] - this.SQUARES[check_to];
       var adjacentValues = [1, -1, 15, 16, 17, -15, -16, -17];
       console.log("Check;  fromPiece=" + fromPiece + " delta="+delta)
-      if (fromPiece !== null && ((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1)) && !adjacentValues.includes(delta)) {
+      if (
+      		fromPiece !== null &&
+      		((fromPiece.search(this.KNIGHT) === -1) || (fromPiece.search(this.PAWN) === -1))
+      		&& !adjacentValues.includes(delta))
+      	{
         console.log("Calculating intercept moves now...");
         var potentials = [];
 
@@ -691,7 +753,8 @@ class ChessAI {
   }
 
   scrubMoves(potentialMoves, currentBoard, us) {
-    // Scrub these potential moves to see if we're putting ourself into check ... if so, that isn't allowed
+    // Scrub these potential moves to see if we're putting ourself into check ...
+    // if so, that isn't allowed!
 
     var okMoves = [];
 
@@ -701,7 +764,8 @@ class ChessAI {
     //TODO
     for (var m of potentialMoves) {
         //var date0 = new Date;
-        //apply this move to the current map (use a new variable, since we don't want it to persist through every iteration of the for loop)
+        // apply this move to the current map (use a new variable, since we don't want it
+        // to persist through every iteration of the for loop)
         var newBoard = this.deepCopy(currentBoard);
         newBoard[m.to] = newBoard[m.from];
         newBoard[m.from] = null;
@@ -710,7 +774,8 @@ class ChessAI {
         //var date1 = new Date;
         var opponentMoves = this.genOpponentMoves(newBoard, us, them);
         //var date2 = new Date;
-        //console.log('xyz ' + (date1.getTime() - date0.getTime()) + "  " + (date2.getTime() - date1.getTime()));
+        //console.log('xyz ' + (date1.getTime() - date0.getTime()) + "  " +
+    	//	(date2.getTime() - date1.getTime()));
 
         /*for(var oMove of opponentMoves) {
           // Make the move
@@ -893,8 +958,9 @@ class ChessAI {
     }
 
     // Do not allow a move onto your own piece
-    if (this.current_board[this_move.to] !== null && this.current_board[this_move.to].charAt(0) === color_moved) {
-      return null;
+    if (this.current_board[this_move.to] !== null && 
+    	this.current_board[this_move.to].charAt(0) === color_moved) {
+		return null;
     }
 
     // A valid move will be included in the moves generated
@@ -1003,11 +1069,12 @@ var $status = $('#status')
 //var $pgn = $('#pgn')
 
 function randomMove(possibleMoves) {
-  console.log('Now choosing a random valid move.');
-  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-  game.move(possibleMoves[randomIdx])
-  var newMove = possibleMoves[randomIdx].from + ":" + possibleMoves[randomIdx].to + ";" + possibleMoves[randomIdx].score
-  return newMove
+	console.log('Now choosing a random valid move.');
+	var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+	game.move(possibleMoves[randomIdx])
+	var newMove = possibleMoves[randomIdx].from + ":" + 
+  		possibleMoves[randomIdx].to + ";" + possibleMoves[randomIdx].score
+	return newMove
 }
 
 function rankMoves(possibleMoves) {
@@ -1125,7 +1192,7 @@ function onDrop (source, target) {
     var responseString = null;
     //burnCycles();
     sleep(10000);
-    //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error in the console, not sure why
+    //window.setTimeout(responseString = computerMove(0), 250); //TODO this throws an error
     responseString = computerMove(1);
     if(responseString) console.warn('Computer Response String: ' + responseString);
   }
