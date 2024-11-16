@@ -262,17 +262,18 @@ class ChessAI {
     	(new_spot % 16) >= 8) ? true : false;
   }
 
-  generateScore(myPiece, opponent) {
+  generateScore(myPiece, opponentPiece) {
     /*
+    	Calculate the score of a given move that the computer could choose to make.
     	Give a better score if we're taking a piece, even higher depending on the utility
     	of said piece.
     	Otherwise just give 0.5 for a King's movement, and 1.0 for any other piece's
     	random movement.
     */
 
-    if (opponent !== null) {
+    if (opponentPiece !== null) {
       var value;
-      switch(opponent.charAt(1)) {
+      switch(opponentPiece.charAt(1)) {
         case this.PAWN:
           value = this.POINTS[this.PAWN];
           break;
@@ -859,7 +860,8 @@ class ChessAI {
 
       // Is it a pawn?
       if (piece.search(this.PAWN) > 0) {
-        // Allowed moves are [15, 16, 17, 32] ... they're negative for WHITE & positive for BLACK
+        // Allowed moves are [15, 16, 17, 32] ...
+        // and note they are negative for WHITE & positive for BLACK
 
         // Only allow forward move if unoccupied
         if (newBoard[this.SQUARES2[16*multiplier + value]] === null) {
@@ -1124,7 +1126,7 @@ function rankMoves(possibleMoves) {
   var compyMove = null;
 
   for (var m of possibleMoves) {
-    //console.log('possible move... ' + m.from + ":" + m.to + ";" + m.score)
+    console.log('possible move... ' + m.from + ":" + m.to + ";" + m.score)
     if (m.score >= bestScore) {
       bestMove = m;
       bestScore = m.score;
@@ -1230,6 +1232,8 @@ function onDrop (source, target) {
 
   // Computer's turn...
   if (game.compy_plays) {
+    console.log("^^^    Computer's turn now!    ^^^");
+
     var responseString = null;
 
     // Try to wait a little so it doesn't go too fast, but not sure this actually works.
@@ -1452,10 +1456,10 @@ function do_debug5 () {
   console.log('+++++++++++++++++++++++\n  User clicked Debug5 \n+++++++++++++++++++++++')
   var posi = {
     a3: 'bR',
+    b5: 'bR',
     c1: 'bQ',
-    e5: 'bK',
+    e6: 'bK',
     e2: 'wK',
-    g5: 'bR',
     h5: 'wP',
     h6: 'bP'
   };
@@ -1471,8 +1475,8 @@ function do_debug5 () {
   var debug_board = {
     a8: null, b8: null, c8: null, d8: null, e8: null, f8: null, g8: null, h8: null,
     a7: null, b7: null, c7: null, d7: null, e7: null, f7: null, g7: null, h7: null,
-    a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: 'bP',
-    a5: null, b5: null, c5: null, d5: null, e5: 'bK', f5: null, g5: 'bR', h5: 'wP',
+    a6: null, b6: null, c6: null, d6: null, e6: 'bK', f6: null, g6: null, h6: 'bP',
+    a5: null, b5: 'bR', c5: null, d5: null, e5: null, f5: null, g5: null, h5: 'wP',
     a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
     a3: 'bR', b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
     a2: null, b2: null, c2: null, d2: null, e2: 'wK', f2: null, g2: null, h2: null,
