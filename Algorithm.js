@@ -1263,9 +1263,9 @@ function updateStatus () {
   var moveResult = game.is_checkmate_or_draw();
   switch(moveResult.res) {
     case "checkmate":
-      console.log('Checkmate status achieved')
+      console.log('Checkmate status achieved ('+moveResult.who+') in checkmate.')
       var team = 'White';
-      if (moveResult.who !== null && moveResult.who === this.BLACK) team = "Black";
+      if (moveResult.who !== null && moveResult.who === game.BLACK) team = "Black";
       status = 'Game over, ' + team + ' is in checkmate.';
       break;
     case "draw":
@@ -1422,8 +1422,9 @@ function do_debug4 () {
   // In this one, white (user) is about to get black (computer) in Checkmate
   console.log('+++++++++++++++++++++++\n  User clicked Debug4 \n+++++++++++++++++++++++')
   var posi = {
-    a8: 'wR',
-    e5: 'bK',
+    a7: 'wR',
+    b5: 'wQ',
+    e8: 'bK',
     e2: 'wK',
     h6: 'bP'
   };
@@ -1437,10 +1438,10 @@ function do_debug4 () {
   board = Chessboard("customBoard", config4)
 
   var debug_board = {
-    a8: 'wR', b8: null, c8: null, d8: null, e8: null, f8: null, g8: null, h8: null,
-    a7: null, b7: null, c7: null, d7: null, e7: null, f7: null, g7: null, h7: null,
+    a8: null, b8: null, c8: null, d8: null, e8: 'bK', f8: null, g8: null, h8: null,
+    a7: 'wR', b7: null, c7: null, d7: null, e7: null, f7: null, g7: null, h7: null,
     a6: null, b6: null, c6: null, d6: null, e6: null, f6: null, g6: null, h6: 'bP',
-    a5: null, b5: null, c5: null, d5: null, e5: 'bK', f5: null, g5: null, h5: null,
+    a5: null, b5: 'wQ', c5: null, d5: null, e5: null, f5: null, g5: null, h5: null,
     a4: null, b4: null, c4: null, d4: null, e4: null, f4: null, g4: null, h4: null,
     a3: null, b3: null, c3: null, d3: null, e3: null, f3: null, g3: null, h3: null,
     a2: null, b2: null, c2: null, d2: null, e2: 'wK', f2: null, g2: null, h2: null,
