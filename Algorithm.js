@@ -1,4 +1,4 @@
-// Allow 2 players to play chess
+// Allow 2 players to play chess, or, a single player against the computer
 // Reference: chessboardjs.com/examples
 
 class ChessAI {
@@ -15,6 +15,7 @@ class ChessAI {
   human = 'w';  // Keep track of the human user's color
   compy_plays = true; // By default you're playing the computer
   promotionPiece = 'Q';
+  computerResigns = false;
 
   DEFAULT_BOARD = {
     a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
@@ -116,6 +117,7 @@ class ChessAI {
     this.human = this.WHITE;
     this.compy_plays = true;
     this.promotionPiece = this.QUEEN;
+    this.computerResigns = false;
   }
 
   debug_start(debug_board) {
@@ -192,6 +194,9 @@ class ChessAI {
       me = this.BLACK;
       them = this.WHITE;
     }
+
+    // Check if computer is resigning before calculating anything else
+    if (game.computerResigns) {return {res:"computer_resigns", who:"this.BLACK"}}
 
     var all_moves_me = this.generate_moves(me, null);
     var all_moves_them = this.generate_moves(them, null);
@@ -1168,11 +1173,31 @@ function computerMove(difficulty) {
   // Now that the compy has generated all of its possible moves, reset its Check flag
   game.resetCheckFlag()
 
-  // Game over
+  // Game over if computer has no possible moves
   if (possibleMoves.length === 0) {
     //TODO make sure this is handled & displayed to the user somehow
     returnString = 'Warning! No possible computer moves';
     return returnString
+  }
+
+  // Computer will resign when it only has one piece left (the King)
+  // So find out how many pieces the computer user has
+  var computerHasOnlyKingLeft = true;
+  for (var spot in game.SQUARES) {
+      // Check if there's something in this spot
+      var piece = game.current_board[spot];
+      if (piece === 'bP' || piece === 'bN' || piece === 'bB' ||
+          piece === 'bR' || piece === 'bQ')
+	  {
+          computerHasOnlyKingLeft = false;
+          //console.log('Found a non-King piece for Black!');
+          break;
+      }
+  }
+  if (computerHasOnlyKingLeft) {
+      game.computerResigns = true;
+      returnString = 'Computer resigns - only its King remains';
+      return returnString
   }
 
   var compyMove = "N/A";
@@ -1280,6 +1305,9 @@ function updateStatus () {
       }
       status = moveColor + ' to move, ' + checkColor + ' is in check.';
       break;
+    case "computer_resigns":
+      console.log('Computer resigns!\n');
+      status = "Computer resigns!"
     default:
       status = moveColor + ' to move';
       break;
