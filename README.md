@@ -25,5 +25,5 @@ If you find more please let me know.
 
 # To-do list
 * Add test boards to load in to make testing easier, so you don't have to play a full game
-* Fix all bugs!
+* Fix all bugs! ;)
 * Incorporate database on host to store game history
