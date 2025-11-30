@@ -195,7 +195,10 @@ class ChessAI {
     }
 
     // Check if computer is resigning before calculating anything else
-    if (game.computerResigns) {return {res:"computer_resigns", who:"this.BLACK"}}
+    if (game.computerResigns) {
+      console.log('Computer is resigning the game.');
+      return {res:"computer_resigns", who:"this.BLACK"}
+    }
 
     var all_moves_me = this.generate_moves(me, null);
     var all_moves_them = this.generate_moves(them, null);
@@ -418,7 +421,7 @@ class ChessAI {
 
               //TODO must also check if the opponent's pawn had made a double move
               console.log('TODO! Candidate for Pawn En passant move.' + spot);
-              
+
               // Add the move behind it, which also negates the
               //TODO should have an En passant flag attached to the move...
               //allMoves.push({from:spot, to:this.SQUARES2[newSpace+16], 2}) //TODO
@@ -762,8 +765,8 @@ class ChessAI {
     // if so, that isn't allowed!
     console.log('>>>Scrubbing moves. There are ' + potentialMoves.length + ' to assess.');
 
-	// First, skip this entire thing if we only have 1 potential move
-	if (potentialMoves.length < 2) {return potentialMoves;}
+    // First, skip this entire thing if we only have 1 potential move
+    if (potentialMoves.length < 2) {return potentialMoves;}
 
     var okMoves = [];
 
@@ -1185,13 +1188,14 @@ function computerMove(difficulty) {
       var piece = game.current_board[spot];
       if (piece === 'bP' || piece === 'bN' || piece === 'bB' ||
           piece === 'bR' || piece === 'bQ')
-	  {
+      {
           computerHasOnlyKingLeft = false;
           //console.log('Found a non-King piece for Black!');
           break;
       }
   }
   if (computerHasOnlyKingLeft) {
+      console.log('Computer is going to resign now - only its King remains.');
       game.computerResigns = true;
       returnString = 'Computer resigns - only its King remains';
       return returnString
