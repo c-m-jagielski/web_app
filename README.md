@@ -11,6 +11,11 @@ The code in `tmp.html` is an example I borrowed as a starting point.
 The file `MyHtml.html` uses the functions in `Hello.js`.
 It was my first web page, to learn the basics of javascript.
 
+# To run
+Simply open `chess01.html` locally in your favorite browser.
+
+Note that most of my testing is in Safari.
+
 # Known bugs
 * No castling
 * Checkmate doesn't work
@@ -26,4 +31,4 @@ If you find more please let me know.
 # To-do list
 * Add test boards to load in to make testing easier, so you don't have to play a full game
 * Fix all bugs! ;)
-* Incorporate database on host to store game history
+* Incorporate optional database on local drive to store game history, settings, etc.
