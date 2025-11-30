@@ -21,7 +21,6 @@ Note that most of my testing is in Safari.
 * Checkmate doesn't work
 * AI doesn't correctly move to get out of Check
 * AI might put itself into Check with its move
-* Does not work in Safari (I've been testing with Chrome)
 * The 'check' popup appears too early, before the piece is dropped so it's confusing
 * Game doesn't end after checkmate, let's you keep on playing
 * Does not prevent user from placing King in a takeaway spot; same for computer, too?
