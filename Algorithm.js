@@ -6,7 +6,6 @@ class ChessAI {
   WHITE = 'w';
   BLACK = 'b';
 
-  pgn = null;
   move_count = 0;
   game_is_over = false;
   current_turn = 'w';
@@ -1112,8 +1111,6 @@ class ChessAI {
 var board = null
 var game = new ChessAI()
 var $status = $('#status')
-//var $fen = $('#fen')
-//var $pgn = $('#pgn')
 
 function randomMove(possibleMoves) {
 	console.log('Now choosing a random valid move.');
@@ -1316,8 +1313,6 @@ function updateStatus () {
   console.log('Updating status for ' + moveColor + ': ' + status)
   var display = "Status: ";
   $status.html(display.bold() + status)
-  //$fen.html(game.fen())
-  //$pgn.html(game.pgn())
 }
 
 function do_start () {
